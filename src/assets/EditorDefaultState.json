@@ -1,0 +1,19 @@
+{
+    "/index.html": {
+      "name": "index.html",
+      "language": "html",
+      "value": "<!DOCTYPE html>\n\n<html lang=\"es\" data-bs-theme=\"dark\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>React App</title>\n  </head>\n\n  <body>\n    <h1>Hola Mundo</h1>\n  </body>\n</html>"
+    },
+  
+    "/style.css": {
+      "name": "style.css",
+      "language": "css",
+      "value": "h1 {\n  \tcolor: #2052d1;\n}"
+    },
+  
+    "/main.js": {
+      "name": "main.js",
+      "language": "javascript",
+      "value": "console.log(`Funciona !`)"
+    }
+}

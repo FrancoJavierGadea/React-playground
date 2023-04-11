@@ -14,6 +14,6 @@
     "/main.js": {
       "name": "main.js",
       "language": "javascript",
-      "value": "console.log(`Funciona !`)"
+      "value": "import React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\n\nconst root = document.getElementById('root');\n\nReactDOM.createRoot(root).render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>,\n);"
     }
 }

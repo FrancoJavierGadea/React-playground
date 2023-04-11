@@ -1,0 +1,22 @@
+[
+    {
+        "name": "/index.html",
+        "language": "html",
+        "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/index.html"
+    },
+    {
+        "name": "/style.css",
+        "language": "css",
+        "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/style.css"
+    },
+    {
+        "name": "/main.js",
+        "language": "javascript",
+        "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/main.js"
+    },
+    {
+        "name": "/App.js",
+        "language": "javascript",
+        "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/App.js"
+    }
+]

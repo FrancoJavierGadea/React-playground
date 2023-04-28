@@ -18,5 +18,10 @@
         "name": "/App.js",
         "language": "javascript",
         "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/App.js"
+    },
+    "/README.md": {
+        "name": "/README.md",
+        "language": "markdown",
+        "source": "https://raw.githubusercontent.com/FrancoJavierGadea/React-playground/main/examples/default/README.md"
     }
 }

@@ -13,12 +13,20 @@ const StyledEditor = styled.div`
     section {
         flex-grow: 1;
     }
+
+    .nav {
+        --bs-nav-link-color: #fff;
+        --bs-nav-link-hover-color: #777;
+    }
+    .nav-tabs {
+        --bs-nav-tabs-link-active-color: var(--bs-info);
+    }
 `;
 
 
 
 
-function CustomEditor({defaultState = {}, defaultFile = 'index.html', onChange = () => {}}) {
+function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange = () => {}}) {
 
     const editorRef = useRef(null);
 
@@ -30,13 +38,24 @@ function CustomEditor({defaultState = {}, defaultFile = 'index.html', onChange =
     }
 
 
+    const editorOptions = {
+        padding: {
+            top: "20px",
+            bottom: "10px"
+        },
+        minimap: {
+            enabled: false
+        },
+        scrollBeyondLastLine: false,
+    }
+
     const handlerChange = () => {
 
         const value = editorRef.current.getValue();
 
         const file = editorRef.current.getModel().uri.path;
 
-        console.log(value, file)
+        //console.log(value, file)
 
         onChange(value, file);
     }
@@ -68,11 +87,13 @@ function CustomEditor({defaultState = {}, defaultFile = 'index.html', onChange =
 
         <Editor height="50vh" theme="vs-dark"
 
-            language={defaultState[`/${file}`]?.language}
+            language={defaultState[file]?.language}
 
-            defaultValue={defaultState[`/${file}`]?.value}
+            defaultValue={defaultState[file]?.value}
 
-            path={defaultState[`/${file}`]?.name}
+            path={defaultState[file]?.name}
+
+            options={editorOptions}
 
         onMount={handleEditorDidMount} onChange={handlerChange} />
 

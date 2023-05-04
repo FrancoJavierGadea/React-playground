@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        />
+
+        <title>React App</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!--Visita: https://generator.jspm.io para agregar mas dependencias-->
+        <script type="importmap">
+            {
+                "imports": {
+                    "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
+                    "react-bootstrap": "https://ga.jspm.io/npm:react-bootstrap@1.6.7/cjs/index.js",
+                    "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
+                    "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js",
+                    "react/jsx-runtime": "https://ga.jspm.io/npm:react@18.2.0/jsx-runtime.js"
+                },
+                "scopes": {
+                    "https://ga.jspm.io/": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/extends.js",
+                        "@babel/runtime/helpers/inheritsLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/inheritsLoose.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/interopRequireDefault.js",
+                        "@babel/runtime/helpers/interopRequireWildcard": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/interopRequireWildcard.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useCallbackRef": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useCallbackRef.js",
+                        "@restart/hooks/useCommittedRef": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useCommittedRef.js",
+                        "@restart/hooks/useEventCallback": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useEventCallback.js",
+                        "@restart/hooks/useForceUpdate": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useForceUpdate.js",
+                        "@restart/hooks/useGlobalListener": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useGlobalListener.js",
+                        "@restart/hooks/useMergedRefs": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useMergedRefs.js",
+                        "@restart/hooks/useMounted": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useMounted.js",
+                        "@restart/hooks/usePrevious": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/usePrevious.js",
+                        "@restart/hooks/useSafeState": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useSafeState.js",
+                        "@restart/hooks/useTimeout": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useTimeout.js",
+                        "@restart/hooks/useUpdateEffect": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useUpdateEffect.js",
+                        "@restart/hooks/useWillUnmount": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/cjs/useWillUnmount.js",
+                        "classnames": "https://ga.jspm.io/npm:classnames@2.3.2/index.js",
+                        "dom-helpers/activeElement": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/activeElement.js",
+                        "dom-helpers/addClass": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/addClass.js",
+                        "dom-helpers/addEventListener": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/addEventListener.js",
+                        "dom-helpers/camelize": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/camelize.js",
+                        "dom-helpers/canUseDOM": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/canUseDOM.js",
+                        "dom-helpers/contains": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/contains.js",
+                        "dom-helpers/css": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/css.js",
+                        "dom-helpers/hasClass": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/hasClass.js",
+                        "dom-helpers/isWindow": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/isWindow.js",
+                        "dom-helpers/listen": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/listen.js",
+                        "dom-helpers/matches": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/matches.js",
+                        "dom-helpers/ownerDocument": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/ownerDocument.js",
+                        "dom-helpers/querySelectorAll": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/querySelectorAll.js",
+                        "dom-helpers/removeClass": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/removeClass.js",
+                        "dom-helpers/removeEventListener": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/removeEventListener.js",
+                        "dom-helpers/scrollbarSize": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/scrollbarSize.js",
+                        "dom-helpers/transitionEnd": "https://ga.jspm.io/npm:dom-helpers@5.2.0/cjs/transitionEnd.js",
+                        "invariant": "https://ga.jspm.io/npm:invariant@2.2.4/browser.js",
+                        "prop-types": "https://ga.jspm.io/npm:prop-types@15.8.1/index.js",
+                        "prop-types-extra/lib/all": "https://ga.jspm.io/npm:prop-types-extra@1.1.1/lib/all.js",
+                        "prop-types-extra/lib/isRequiredForA11y": "https://ga.jspm.io/npm:prop-types-extra@1.1.1/lib/isRequiredForA11y.js",
+                        "react-lifecycles-compat": "https://ga.jspm.io/npm:react-lifecycles-compat@3.0.4/react-lifecycles-compat.cjs.js",
+                        "react-overlays/Dropdown": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/Dropdown.js",
+                        "react-overlays/DropdownMenu": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/DropdownMenu.js",
+                        "react-overlays/DropdownToggle": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/DropdownToggle.js",
+                        "react-overlays/Modal": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/Modal.js",
+                        "react-overlays/ModalManager": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/ModalManager.js",
+                        "react-overlays/Overlay": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/Overlay.js",
+                        "react-overlays/safeFindDOMNode": "https://ga.jspm.io/npm:react-overlays@5.2.1/cjs/safeFindDOMNode.js",
+                        "react-transition-group/Transition": "https://ga.jspm.io/npm:react-transition-group@4.4.5/cjs/Transition.js",
+                        "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js",
+                        "uncontrollable": "https://ga.jspm.io/npm:uncontrollable@7.2.1/lib/cjs/index.js",
+                        "warning": "https://ga.jspm.io/npm:warning@4.0.3/warning.js"
+                    },
+                    "https://ga.jspm.io/npm:dom-helpers@5.2.0/_/b61c2855.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:dom-helpers@5.2.0/_/f75825a0.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/32b1ed16.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useEventCallback": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useEventCallback.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/4322f425.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useForceUpdate": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useForceUpdate.js",
+                        "@restart/hooks/useMergedRefs": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useMergedRefs.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/45423c34.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/620e29ad.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/8c4c205e.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useEventCallback": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useEventCallback.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/cbe7157b.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/cf9776ec.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/d090e604.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useEventCallback": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useEventCallback.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/e4afd7cb.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/ec2ef731.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@restart/hooks/useMergedRefs": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useMergedRefs.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/ed8cb64e.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-bootstrap@1.6.7/_/f441cd13.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js"
+                    },
+                    "https://ga.jspm.io/npm:react-overlays@5.2.1/_/26218df7.js": {
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    },
+                    "https://ga.jspm.io/npm:react-overlays@5.2.1/_/8bc776ea.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js",
+                        "@babel/runtime/helpers/objectWithoutPropertiesLoose": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/objectWithoutPropertiesLoose.js",
+                        "@restart/hooks/useSafeState": "https://ga.jspm.io/npm:@restart/hooks@0.4.9/esm/useSafeState.js"
+                    },
+                    "https://ga.jspm.io/npm:react-overlays@5.2.1/_/ffc6b29a.js": {
+                        "@babel/runtime/helpers/extends": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/extends.js",
+                        "@babel/runtime/helpers/interopRequireDefault": "https://ga.jspm.io/npm:@babel/runtime@7.21.5/helpers/esm/interopRequireDefault.js"
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

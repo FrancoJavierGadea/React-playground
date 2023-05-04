@@ -23,7 +23,7 @@ const StyledPlaygroundRender = styled.div`
         opacity: 1;
     }
     .controls > * {
-        margin: 0 5px;
+        margin: 5px;
     }
 
     iframe {
@@ -105,7 +105,7 @@ function PlaygroundRender({files = {}}) {
 
     useEffect(() => {
 
-        console.clear();
+        //console.clear();
 
         fetch('data:text/html;charset=UTF-8,' + encodeURIComponent(renderDocument))
         .then(res => res.blob())
@@ -153,17 +153,17 @@ function PlaygroundRender({files = {}}) {
     return (<StyledPlaygroundRender>
 
         <div className="controls p-3">
-            <Button className="border-0 fs-4" variant="outline-primary" onClick={changeMode}>
+            <Button className="border-0 fs-3 py-1" variant="outline-secondary" onClick={changeMode}>
                 { mode === MODES.RENDER && <i className="bi bi-filetype-html" title="Ver HTML"/> }
                 { mode === MODES.HTML && <i className="bi bi-filetype-js" title="Ver JavaScript"/> }
                 { mode === MODES.JS && <i className="bi bi-globe2" title="Ver Render"/> }
             </Button>
 
-            <Button className="border-0 fs-4" variant="outline-primary" href={url} target="_blank">
+            <Button className="border-0 fs-3 py-1" variant="outline-secondary" href={url} target="_blank">
                 <i className="bi bi-box-arrow-up-right" title="Abrir en nueva pestaña"/>
             </Button>
 
-            <Button className="border-0 fs-4" variant="outline-primary" href={url} download>
+            <Button className="border-0 fs-3 py-1" variant="outline-secondary" href={url} download>
                 <i className="bi bi-download" title="Descargar"/>
             </Button>
         </div>

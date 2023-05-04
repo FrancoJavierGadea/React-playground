@@ -4,9 +4,10 @@
 }
 
 .gutter {
-    background-color: #eee;
+    background-color: #8e8e8e;
     background-repeat: no-repeat;
     background-position: 50%;
+    z-index: 2000;
 }
 
 .gutter.gutter-horizontal {

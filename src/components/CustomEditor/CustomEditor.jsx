@@ -2,11 +2,12 @@ import { Editor } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
 import styled from "styled-components";
+import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
 
 
 const StyledEditor = styled.div`
 
-    height: 100vh;
+    height: calc(100vh - ${BAR_OPTIONS_HEIGHT});
     display: flex;
     flex-direction: column;
 
@@ -68,7 +69,6 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
         //editorRef.current.onMouseDown(handlerChange);
     }
 
-
     return (<StyledEditor className="">
 
         <Nav variant="tabs" activeKey={file} onSelect={handlerNavOnSelect}>
@@ -89,7 +89,7 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
 
             language={defaultState[file]?.language}
 
-            defaultValue={defaultState[file]?.value}
+            value={defaultState[file]?.value}
 
             path={defaultState[file]?.name}
 

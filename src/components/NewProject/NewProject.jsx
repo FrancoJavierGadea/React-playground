@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
+import { useProjects } from "../ProjectsContext/ProjectsContext";
 
 
 const StyledModal = styled(Modal)`
@@ -8,7 +9,9 @@ const StyledModal = styled(Modal)`
     z-index: 5000;
 `;
 
-function NewProject({projects = [], onSave = () => {}}) {
+function NewProject({onSave = () => {}}) {
+
+    const {projects} = useProjects();
 
     const [show, setShow] = useState(false);
 

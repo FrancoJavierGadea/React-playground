@@ -229,5 +229,36 @@ export function useDatabase(){
         });
     }
 
-    return {add, getAll, getAllKeys, update, get, name: DATABASE, stores: [STORE]};
+    const remove = (key) => {
+
+        return new Promise((resolve, reject) => {
+
+            openDatabase()
+            .then(database => {
+
+                const transaction = database.transaction(STORE, 'readwrite');
+    
+                const store = transaction.objectStore(STORE);
+    
+                const values = store.delete(key);
+    
+                transaction.oncomplete = () => {
+    
+                    resolve(values.result);
+                }
+    
+                transaction.onerror = () => {
+                    
+                    reject(new Error("Error to complete transaction"));
+                }
+            })
+            .catch(err => {
+
+                reject(err);
+            })
+
+        });
+    }
+
+    return {add, getAll, getAllKeys, update, get, remove, name: DATABASE, stores: [STORE]};
 }

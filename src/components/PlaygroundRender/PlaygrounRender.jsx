@@ -11,6 +11,7 @@ const StyledPlaygroundRender = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;   
+    z-index: 1500;
     
     .controls {
         position: absolute;

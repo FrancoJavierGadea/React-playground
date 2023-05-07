@@ -3,6 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
 import styled from "styled-components";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
+import { Emmet } from "../../utils/monaco/Emmet";
+import { reactSnippets } from "../../utils/monaco/ReactSnippets";
+import { javascriptSnippets } from "../../utils/monaco/JavascriptSnippets";
+import { JSXSyntaxHighlighter } from "../../utils/monaco/JSXHighlight";
 
 
 const StyledEditor = styled.div`
@@ -18,7 +22,28 @@ const StyledEditor = styled.div`
     .nav {
         --bs-nav-link-color: #fff;
         --bs-nav-link-hover-color: #777;
+        flex-wrap: nowrap;
+        overflow-y: hidden;
+        overflow-x: auto;
+
+        --sb-track-color: #232E33;
+        --sb-thumb-color: #6BAF8D;
+        --sb-size: 5px;
+    
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
     }
+    .nav::-webkit-scrollbar {
+        height: var(--sb-size) 
+    }
+    .nav::-webkit-scrollbar-track {
+        background: var(--sb-track-color);
+        border-radius: 1px;
+    }
+    .nav::-webkit-scrollbar-thumb {
+        background: var(--sb-thumb-color);
+        border-radius: 1px;   
+    }
+
     .nav-tabs {
         --bs-nav-tabs-link-active-color: var(--bs-info);
     }
@@ -37,7 +62,6 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
 
         setFile(value);
     }
-
 
     const editorOptions = {
         padding: {
@@ -65,24 +89,58 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
 
         editorRef.current = editor;
 
-        //editorRef.current.onKeyUp(handlerChange);
-        //editorRef.current.onMouseDown(handlerChange);
+        //Add Snippets
+        javascriptSnippets(monaco);
+        reactSnippets(monaco);
+
+        //Add Emmet
+        Emmet(monaco);
+
+        //Add JSX Highlight
+        JSXSyntaxHighlighter(monaco, editor);
     }
+
+
+    //* Nav Horizontal Scroll
+    const navRef = useRef();
+
+    useEffect(() => {
+
+        if(!navRef.current) return;
+
+        const horizontalScroll = (e) => {
+
+            e.preventDefault();
+
+            navRef.current.scrollBy({
+
+                left: e.deltaY < 0 ? -30 : 30,
+            });
+        }
+
+        navRef.current.addEventListener('wheel', horizontalScroll, { passive: false });
+
+        return () => {
+
+            navRef.current.removeEventListener('wheel', horizontalScroll, { passive: false });
+        }
+         
+    }, []);
+
+
+
 
     return (<StyledEditor className="">
 
-        <Nav variant="tabs" activeKey={file} onSelect={handlerNavOnSelect}>
-
+        <Nav variant="tabs" activeKey={file} onSelect={handlerNavOnSelect} ref={navRef}>
             {
-
                 Object.values(defaultState).map(({name}, i) => {
 
                     return <Nav.Item key={`file-${i}`}>
                         <Nav.Link eventKey={name}>{name}</Nav.Link>
                     </Nav.Item>
                 })
-            }
-           
+            } 
         </Nav>
 
         <Editor height="50vh" theme="vs-dark"
@@ -101,4 +159,3 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
 }
 
 export default CustomEditor;
-

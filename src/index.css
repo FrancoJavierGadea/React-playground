@@ -1,3 +1,5 @@
+
+/* React Split */
 .split {
     display: flex;
     flex-direction: row;
@@ -13,4 +15,27 @@
 .gutter.gutter-horizontal {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
     cursor: col-resize;
+}
+
+
+/* JSX Syntax Highligt */
+
+.JSXElement.JSXText.JSX-text {
+
+    color: #ffffff;
+}
+
+.JSXElement.JSXBracket.JSX-bracket{
+
+    color: #808080;
+}
+
+.JSXElement.JSXIdentifier.JSX-indentifier {
+ 
+    color: #569cd6;
+}
+
+.JSXElement.JSXAttribute.JSX-indentifier {
+
+    color: #9cdcfe;
 }

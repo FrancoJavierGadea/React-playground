@@ -115,15 +115,16 @@ function ProjectsList({onSelect = () => {}}) {
 
             <Offcanvas.Header closeButton>
 
-                <Offcanvas.Title>
-                    <img src={logo} /> React playground
+                <Offcanvas.Title className="d-flex align-items-center">
+                    <img src={logo} alt="React logo"/> 
+                    <h2 className="mx-2 my-1">React playground</h2>
                 </Offcanvas.Title>
 
             </Offcanvas.Header>
 
             <Offcanvas.Body>
 
-                <Offcanvas.Title>Ejemplos</Offcanvas.Title>
+                { examples.length > 0 && <Offcanvas.Title className="mt-3">Ejemplos</Offcanvas.Title> }
                 {
                     examples.map(({name, source}, i) => {
 
@@ -131,7 +132,7 @@ function ProjectsList({onSelect = () => {}}) {
                     })
                 }
 
-                <Offcanvas.Title className="mt-3">Templates</Offcanvas.Title>
+                { templates.length > 0 && <Offcanvas.Title className="mt-3">Templates</Offcanvas.Title> }
                 {
                     templates.map(({name, source}, i) => {
 

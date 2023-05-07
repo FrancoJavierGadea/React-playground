@@ -1,4 +1,4 @@
-@charset "UTF-8";.split{display:flex;flex-direction:row}.gutter{background-color:#eee;background-repeat:no-repeat;background-position:50%}.gutter.gutter-horizontal{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==);cursor:col-resize}/*!
+@charset "UTF-8";.split{display:flex;flex-direction:row}.gutter{background-color:#8e8e8e;background-repeat:no-repeat;background-position:50%;z-index:2000}.gutter.gutter-horizontal{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==);cursor:col-resize}.JSXElement.JSXText.JSX-text{color:#fff}.JSXElement.JSXBracket.JSX-bracket{color:gray}.JSXElement.JSXIdentifier.JSX-indentifier{color:#569cd6}.JSXElement.JSXAttribute.JSX-indentifier{color:#9cdcfe}/*!
  * Bootstrap  v5.3.0-alpha3 (https://getbootstrap.com/)
  * Copyright 2011-2023 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)

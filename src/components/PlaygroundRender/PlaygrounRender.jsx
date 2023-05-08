@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { transformJS } from "../../utils/transfromJS";
+import { createDocument, transformJS } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
 import { Button } from "react-bootstrap";
 
@@ -58,49 +58,11 @@ function PlaygroundRender({files = {}}) {
 
     useEffect(() => {
         
-        const {
-            "/index.html": html = {value: ''},
-            "/style.css": css = {value: ''},
-            "/main.js": mainjs = {value: ''},
-            "/App.js": appjs = {value: ''}
-        } = files;
+        const {document, javascript} = createDocument(files);
 
+        setJS(javascript);
 
-        const parser = new DOMParser();
-
-        const doc = parser.parseFromString(html.value, "text/html");
-
-        //Add css
-        const styles = doc.createElement('style');
-
-        styles.innerHTML = css.value;
-
-        doc.head.appendChild(styles);
-
-
-        //Add JS
-        try {
-            const script = doc.createElement('script');
-
-            script.setAttribute('type', 'module');
-
-
-            const filesJS = [appjs, mainjs].map(file => file.value);
-
-            const tranformCode = transformJS(filesJS);
-
-            setJS(tranformCode);
-
-            script.innerHTML = tranformCode;
-
-            doc.body.appendChild(script);
-        }
-        catch (error) {
-            
-        }
-        
-
-        setRenderDocument(doc.documentElement.outerHTML); 
+        setRenderDocument(document); 
     
     }, [files]);
 

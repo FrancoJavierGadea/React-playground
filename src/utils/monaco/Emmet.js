@@ -5,7 +5,7 @@ export function Emmet(monaco){
 
     const disposeHTML = emmetHTML(monaco, ['html']);
     const disposeCSS = emmetCSS(monaco, ['css']);
-    const disposeJSX = emmetJSX(monaco, ['javascript']);
+    const disposeJSX = emmetJSX(monaco, ['javascript', 'typescript']);
 
 
     return () => {

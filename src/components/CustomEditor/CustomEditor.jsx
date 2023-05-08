@@ -47,16 +47,23 @@ const StyledEditor = styled.div`
     .nav-tabs {
         --bs-nav-tabs-link-active-color: var(--bs-info);
     }
+
+    /* JSX Syntax Highlight */
+    .Editor .jsx-tag-angle-bracket { color: #808080; }
+    .Editor .jsx-expression-braces { color: #ee0a3f; }
+    .Editor .jsx-text { color: #ffffff; }
+    .Editor .jsx-tag-name { color: #569cd6; }
+    .Editor .jsx-tag-attribute-key { color: #9cdcfe; }
+    
 `;
 
 
 
-
-function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange = () => {}}) {
+function CustomEditor({defaultState = {}, defaultFile, onChange = () => {}}) {
 
     const editorRef = useRef(null);
 
-    const [file, setFile] = useState(defaultFile);
+    const [file, setFile] = useState(defaultFile || Object.keys(defaultState)[0]);
 
     const handlerNavOnSelect = (value) => {
 
@@ -97,7 +104,11 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
         Emmet(monaco);
 
         //Add JSX Highlight
-        JSXSyntaxHighlighter(monaco, editor);
+        JSXSyntaxHighlighter(monaco, editor)
+        .catch(err => {
+
+            console.log('no funciona: ', err);
+        });
     }
 
 
@@ -143,7 +154,7 @@ function CustomEditor({defaultState = {}, defaultFile = '/index.html', onChange 
             } 
         </Nav>
 
-        <Editor height="50vh" theme="vs-dark"
+        <Editor className="Editor" height="50vh" theme="vs-dark"
 
             language={defaultState[file]?.language}
 

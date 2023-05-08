@@ -104,7 +104,7 @@ const REACT_SNIPPETS = [
 
 export function reactSnippets(monaco){
 
-    monaco.languages.registerCompletionItemProvider('javascript', {
+    const completionItemProvider = {
 
         provideCompletionItems: () => {
 
@@ -123,5 +123,8 @@ export function reactSnippets(monaco){
                 })
             };
         }
-    });
+    };
+
+    monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
+    monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
 }

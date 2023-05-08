@@ -56,7 +56,7 @@ const JAVASCRIPT_SNIPPETS = [
 
 export function javascriptSnippets(monaco){
 
-    monaco.languages.registerCompletionItemProvider('javascript', {
+    const completionItemProvider = {
 
         provideCompletionItems: () => {
 
@@ -75,5 +75,8 @@ export function javascriptSnippets(monaco){
                 })
             };
         }
-    });
+    };
+
+    monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
+    monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
 }

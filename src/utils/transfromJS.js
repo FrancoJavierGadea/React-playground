@@ -43,3 +43,57 @@ export function transformJS(files = []){
 
     return transform(code, {presets: ['react']}).code;
 }
+
+
+
+export function createDocument(files = {}){
+
+    const html = files["/index.html"] || {value: ''};
+
+    const css = files["/style.css"] || {value: ''};
+
+    const mainjs = files["/main.js"] || files["/main.jsx"] || files["/main.ts"] || files["/main.tsx"] || {value: ''};
+
+    const appjs = files["/App.js"] || files["/App.jsx"] || files["/App.ts"] || files["/App.tsx"] || {value: ''};
+
+
+    //Create HTML document
+    const parser = new DOMParser();
+
+    const doc = parser.parseFromString(html.value, "text/html");
+
+
+    //Add css
+    const styles = doc.createElement('style');
+
+    styles.innerHTML = css.value;
+
+    doc.head.appendChild(styles);
+
+
+    //Add JS
+    let tranformCode = null;
+
+    try {
+        const script = doc.createElement('script');
+
+        script.setAttribute('type', 'module');
+
+
+        const filesJS = [appjs, mainjs].map(file => file.value);
+
+        tranformCode = transformJS(filesJS);
+
+        script.innerHTML = tranformCode;
+
+        doc.body.appendChild(script);
+    }
+    catch (error) {
+        
+    }
+
+    return {
+        document: doc.documentElement.outerHTML,
+        javascript: tranformCode
+    }
+}

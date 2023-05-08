@@ -55,7 +55,7 @@ function App() {
 
 		<Split className="split" sizes={[50, 50]} minSize={0} >
 
-			<CustomEditor defaultState={AppState} defaultFile="/App.js" onChange={handlerChange}/>
+			<CustomEditor defaultState={AppState} onChange={handlerChange}/>
 
 			<PlaygroundRender files={AppState} />
 

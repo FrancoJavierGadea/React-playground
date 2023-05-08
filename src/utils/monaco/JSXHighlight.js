@@ -1,33 +1,33 @@
 
+import { MonacoJsxSyntaxHighlight, getWorker } from 'monaco-jsx-syntax-highlight'
+
+
 export async function JSXSyntaxHighlighter(monaco, editor){
 
-    const { default: traverse } = await import("@babel/traverse");
+    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
 
-    const { parse } = await import("@babel/parser");
+        jsx: monaco.languages.typescript.JsxEmit.Preserve,
 
-    const { default: MonacoJSXHighlighter, JSXTypes } = await import("monaco-jsx-highlighter");
+        target: monaco.languages.typescript.ScriptTarget.ES2020,
+        
+        esModuleInterop: true,
+    });
+    
+    const controller = new MonacoJsxSyntaxHighlight(getWorker(), monaco);
 
+    const { highlighter, dispose } = controller.highlighterBuilder({editor});
 
-    const monacoJSXHighlighter = new MonacoJSXHighlighter(monaco, parse, traverse, editor);
+    highlighter();
 
+    editor.onDidChangeModelContent(() => {
 
-    let disposeJSXHighlighting = monacoJSXHighlighter.highlightOnDidChangeModelContent();
+        // content change, highlight
+        highlighter();
+    })
 
+    editor.onDidChangeModel(() => {
 
-    let disposeJSXCommenting = monacoJSXHighlighter.addJSXCommentCommand();
-
-
-    //* Custom Highlight colors 
-    JSXTypes.JSXText.options.inlineClassName = "JSXElement.JSXText.JSX-text";
-    JSXTypes.JSXBracket.options.inlineClassName = "JSXElement.JSXBracket.JSX-bracket";
-    JSXTypes.JSXIdentifier.options.inlineClassName = ".JSXElement.JSXIdentifier.JSX-indentifier";
-    JSXTypes.JSXAttribute.options.inlineClassName = ".JSXElement.JSXAttribute.JSX-indentifier";
-
-    //console.log(JSXTypes);
-
-    return () => {
-
-        disposeJSXHighlighting();
-        disposeJSXCommenting();
-    }
+        // content change, highlight
+        highlighter();
+    })
 }

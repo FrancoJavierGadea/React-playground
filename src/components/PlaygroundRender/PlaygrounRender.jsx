@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { createDocument, transformJS } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
 import { Button } from "react-bootstrap";
+import { useFiles } from "../FilesContext/FilesContext";
 
 
 const StyledPlaygroundRender = styled.div`
@@ -46,7 +47,9 @@ const MODES = {
 }
 
 
-function PlaygroundRender({files = {}}) {
+function PlaygroundRender({}) {
+
+    const {files} = useFiles();
 
     const [renderDocument, setRenderDocument] = useState('');
 

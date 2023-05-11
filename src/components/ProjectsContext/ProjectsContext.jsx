@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useDatabase } from "../../utils/database";
 
 
@@ -24,6 +24,10 @@ function ProjectProvider({children}) {
 
 
     const addProject = (name, project) => {
+
+        const exist = projects.includes(name);
+
+        if(exist) throw new Error('Ya existe un proyecto con ese nombre');
 
         database.add(project, name)
 		.then(() => {
@@ -59,6 +63,12 @@ function ProjectProvider({children}) {
         return database.get(name);
     }
 
+    const isProject = useMemo(() => {
+
+        return projects.includes(currentProject);
+
+    }, [currentProject]);
+
     const value = {
         projects,
         addProject,
@@ -66,7 +76,8 @@ function ProjectProvider({children}) {
         getProject,
         updateProject,
         currentProject,
-        setCurrentProject
+        setCurrentProject,
+        isProject
     };
 
     return (<ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>);

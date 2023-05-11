@@ -5,12 +5,17 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ProjectProvider from './components/ProjectsContext/ProjectsContext';
+import FilesProvider from './components/FilesContext/FilesContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
     <ProjectProvider>
-      <App />
+
+      <FilesProvider>
+        <App />
+      </FilesProvider>
+
     </ProjectProvider>
     
   </React.StrictMode>,

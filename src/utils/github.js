@@ -1,3 +1,4 @@
+import { getFileLanguage } from "./files";
 
 const USER = 'FrancoJavierGadea';
 
@@ -7,28 +8,22 @@ const EXAMPLES = `https://api.github.com/repos/${USER}/${REPO}/contents/examples
 
 const TEMPLATES = `https://api.github.com/repos/${USER}/${REPO}/contents/templates`;
 
+const token = import.meta.env['VITE_GITHUB_TOKEN'];
 
-function getLanguage(fileName = ''){
 
-    const [ext] = fileName.match(/\.[\w]*$/g);
 
-    const languagesByExtension = {
-        '.css': 'css',
-        '.html': 'html',
-        '.js': 'javascript',
-        '.jsx': 'javascript',
-        '.md': 'markdown'
-    }
 
-    return languagesByExtension[ext];
-}
 
 
 async function getList(URL){
 
     try {
         
-        const response = await fetch(URL);
+        const response = await fetch(URL, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
     
         const value = await response.json();
     
@@ -49,7 +44,11 @@ async function download(URL, name = 'default'){
 
     try {
         
-        const response = await fetch(`${URL}/${name}`);
+        const response = await fetch(`${URL}/${name}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
     
         const value = await response.json();
     
@@ -63,7 +62,7 @@ async function download(URL, name = 'default'){
     
             return {
                 name: `/${name}`,
-                language: getLanguage(name),
+                language: getFileLanguage(name),
                 value
             }
         }));

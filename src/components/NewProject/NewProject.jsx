@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
+import { useFiles } from "../FilesContext/FilesContext";
 
 
 const StyledModal = styled(Modal)`
@@ -9,9 +10,11 @@ const StyledModal = styled(Modal)`
     z-index: 5000;
 `;
 
-function NewProject({onSave = () => {}}) {
+function NewProject({}) {
 
-    const {projects} = useProjects();
+    const {addProject} = useProjects();
+
+    const {files} = useFiles();
 
     const [show, setShow] = useState(false);
 
@@ -31,16 +34,16 @@ function NewProject({onSave = () => {}}) {
 
     const save = () => {
 
-        if(projects.includes(name)){
+        try {
+            
+            addProject(name, files);
 
-            setWarning('Ya existe un proyecto con ese nombre');
-        }
-        else {
-
-            onSave(name);
             reset();
         }
+        catch (error) {
 
+            setWarning(error.message);
+        }
     }
 
     return (<>
@@ -65,7 +68,7 @@ function NewProject({onSave = () => {}}) {
 
         </StyledModal>
     
-        <Button className="border-0 rounded-0" size="sm" variant="outline-light" position="left" title="Nuevo proyecto" onClick={open}>Nuevo proyecto</Button>
+        <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Nuevo proyecto" onClick={open}>Nuevo proyecto</Button>
     </>);
 }
 

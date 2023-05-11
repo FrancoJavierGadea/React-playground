@@ -13,61 +13,29 @@ import { Button } from "react-bootstrap";
 import ProjectsList from "./components/ProjectsList/ProjectsList";
 import NewProject from "./components/NewProject/NewProject";
 import { useProjects } from "./components/ProjectsContext/ProjectsContext";
+import SaveProject from "./components/SaveProject/SaveProject";
 
 
 function App() {
 
-	const [AppState, setAppState] = useState(EditorDefaultState);
-
-	const {addProject, updateProject, currentProject} = useProjects();
-	
-	
-	const handlerChange = (value, file) => {
-
-		setAppState(old => {
-
-			const aux = {...old};
-
-			aux[file].value = value;
-
-			return aux;
-		});
-	}
-
-	const changeProject = (name, project) => {
-
-		console.log({name, project});
-
-		setAppState(project);
-	}
-
-	const saveProject = () => {
-
-		updateProject(currentProject, AppState);
-	}
-
-	const newProject = (name) => {
-
-		addProject(name, AppState);
-	}
 
 	return (<div className="App">
 
 		<Split className="split" sizes={[50, 50]} minSize={0} >
 
-			<CustomEditor defaultState={AppState} onChange={handlerChange}/>
+			<CustomEditor />
 
-			<PlaygroundRender files={AppState} />
+			<PlaygroundRender />
 
 		</Split>
 
 		<OptionsBar>
 
-			<NewProject position="left" onSave={newProject} />
+			<NewProject position="left" />
 
-			<Button className="border-0 rounded-0" size="sm" variant="outline-light" position="left" title="Guardar" onClick={saveProject}>Guardar</Button>
+			<SaveProject position="left" />
 
-			<ProjectsList position="right" onSelect={changeProject}/>
+			<ProjectsList position="right" />
 
 		</OptionsBar>
 	</div>);

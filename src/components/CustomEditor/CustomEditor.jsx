@@ -7,6 +7,9 @@ import { Emmet } from "../../utils/monaco/Emmet";
 import { reactSnippets } from "../../utils/monaco/ReactSnippets";
 import { javascriptSnippets } from "../../utils/monaco/JavascriptSnippets";
 import { JSXSyntaxHighlighter } from "../../utils/monaco/JSXHighlight";
+import FilesNav from "./FilesNav";
+import { getFileLanguage } from "../../utils/files";
+import { useFiles } from "../FilesContext/FilesContext";
 
 
 const StyledEditor = styled.div`
@@ -19,35 +22,7 @@ const StyledEditor = styled.div`
         flex-grow: 1;
     }
 
-    .nav {
-        --bs-nav-link-color: #fff;
-        --bs-nav-link-hover-color: #777;
-        flex-wrap: nowrap;
-        overflow-y: hidden;
-        overflow-x: auto;
-
-        --sb-track-color: #232E33;
-        --sb-thumb-color: #6BAF8D;
-        --sb-size: 5px;
     
-        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-    }
-    .nav::-webkit-scrollbar {
-        height: var(--sb-size) 
-    }
-    .nav::-webkit-scrollbar-track {
-        background: var(--sb-track-color);
-        border-radius: 1px;
-    }
-    .nav::-webkit-scrollbar-thumb {
-        background: var(--sb-thumb-color);
-        border-radius: 1px;   
-    }
-
-    .nav-tabs {
-        --bs-nav-tabs-link-active-color: var(--bs-info);
-    }
-
     /* JSX Syntax Highlight */
     .Editor .jsx-tag-angle-bracket { color: #808080; }
     .Editor .jsx-expression-braces { color: #ee0a3f; }
@@ -59,16 +34,11 @@ const StyledEditor = styled.div`
 
 
 
-function CustomEditor({defaultState = {}, defaultFile, onChange = () => {}}) {
+function CustomEditor() {
 
     const editorRef = useRef(null);
 
-    const [file, setFile] = useState(defaultFile || Object.keys(defaultState)[0]);
-
-    const handlerNavOnSelect = (value) => {
-
-        setFile(value);
-    }
+    const {files, currentFile, setCurrentFile, updateFile} = useFiles();
 
     const editorOptions = {
         padding: {
@@ -79,17 +49,6 @@ function CustomEditor({defaultState = {}, defaultFile, onChange = () => {}}) {
             enabled: false
         },
         scrollBeyondLastLine: false,
-    }
-
-    const handlerChange = () => {
-
-        const value = editorRef.current.getValue();
-
-        const file = editorRef.current.getModel().uri.path;
-
-        //console.log(value, file)
-
-        onChange(value, file);
     }
 
     const handleEditorDidMount = (editor, monaco) => {
@@ -111,56 +70,26 @@ function CustomEditor({defaultState = {}, defaultFile, onChange = () => {}}) {
         });
     }
 
+    const handlerChange = () => {
 
-    //* Nav Horizontal Scroll
-    const navRef = useRef();
+        const value = editorRef.current.getValue();
 
-    useEffect(() => {
+        const fileName = editorRef.current.getModel().uri.path;
 
-        if(!navRef.current) return;
-
-        const horizontalScroll = (e) => {
-
-            e.preventDefault();
-
-            navRef.current.scrollBy({
-
-                left: e.deltaY < 0 ? -30 : 30,
-            });
-        }
-
-        navRef.current.addEventListener('wheel', horizontalScroll, { passive: false });
-
-        return () => {
-
-            navRef.current.removeEventListener('wheel', horizontalScroll, { passive: false });
-        }
-         
-    }, []);
-
-
-
+        updateFile(fileName, value);
+    }
 
     return (<StyledEditor className="">
 
-        <Nav variant="tabs" activeKey={file} onSelect={handlerNavOnSelect} ref={navRef}>
-            {
-                Object.values(defaultState).map(({name}, i) => {
-
-                    return <Nav.Item key={`file-${i}`}>
-                        <Nav.Link eventKey={name}>{name}</Nav.Link>
-                    </Nav.Item>
-                })
-            } 
-        </Nav>
+        <FilesNav />
 
         <Editor className="Editor" height="50vh" theme="vs-dark"
 
-            language={defaultState[file]?.language}
+            language={files[currentFile]?.language}
 
-            value={defaultState[file]?.value}
+            value={files[currentFile]?.value}
 
-            path={defaultState[file]?.name}
+            path={files[currentFile]?.name}
 
             options={editorOptions}
 

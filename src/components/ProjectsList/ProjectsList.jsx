@@ -5,6 +5,7 @@ import logo from "../../assets/react.svg";
 import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
 import ListItem from "./ListItem";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
+import { useFiles } from "../FilesContext/FilesContext";
 
 const StyledOffcanvas = styled(Offcanvas)`
 
@@ -36,7 +37,9 @@ const StyledOffcanvas = styled(Offcanvas)`
 
 
 
-function ProjectsList({onSelect = () => {}}) {
+function ProjectsList({}) {
+
+    const {changeFiles} = useFiles();
 
     const [show, setShow] = useState(true);
 
@@ -55,7 +58,7 @@ function ProjectsList({onSelect = () => {}}) {
 		.then(project => {
 
             setCurrentProject(name);
-            onSelect(name, project);
+            changeFiles(project);
 		});
     }
 
@@ -80,7 +83,7 @@ function ProjectsList({onSelect = () => {}}) {
         .then(template => {
 
             setCurrentProject(name);
-            onSelect(name, template);
+            changeFiles(template);
         });
     }
 
@@ -105,7 +108,7 @@ function ProjectsList({onSelect = () => {}}) {
         .then(example => {
 
             setCurrentProject(name);
-            onSelect(name, example);
+            changeFiles(example);
         });
     }
 

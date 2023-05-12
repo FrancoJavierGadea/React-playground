@@ -1,60 +1,74 @@
-import { transform } from "@babel/standalone";
+import { transform, availablePresets, availablePlugins } from "@babel/standalone";
+import { getFileExtension, getFileName } from "./files";
+import { generateImportsMap, getImports, removeImports, simplifyImports } from "./importsSimplifier";
 
+console.log(availablePresets, availablePlugins)
 
-export function getImports(js = ''){
+export function transformJS(filesJS = []){
 
-    const result = [];
+    const files =  filesJS.map(file => file.value);
     
-    const imports = js.matchAll(/import .* from .*/g);
-
-    for (const value of imports ) {
-
-        
-        result.push(value[0]);
-    }
-
-    return result;
-}
-
-export function removeImports(js = ''){
-
-
-    return js.replaceAll(/import .* from .*/g, '');
-}
-
-
-export function transformJS(files = []){
-
     let code = '';
-
-    const imports = new Set();
-
+    
+    const imports = [];
+    
     for (const js of files) {
-
-        for (const imp of getImports(js)) {
-            
-            imports.add(imp);
-        }
-
+        
+        imports.push(...getImports(js));
+        
         code += `${removeImports(js)}\n\n`;
     }
+    
+    code = `${ simplifyImports(imports) }\n\n${code}`;
 
-    code = [...imports].join('\n') + `\n${code}` ;
+    
+    const isTS = filesJS.some(file => file.language === 'typescript');
 
-    return transform(code, {presets: ['react']}).code;
+    if(isTS){
+
+        return transform(code, {filename: 'bundle.tsx', presets: ['react', 'typescript']}).code;
+    }
+    else {
+
+        return transform(code, {filename: 'bundle.jsx', presets: ['react']}).code;
+    }
 }
 
 
-
-export function createDocument(files = {}){
-
-    const html = files["/index.html"] || {value: ''};
-
-    const css = files["/style.css"] || {value: ''};
+function getJsFiles(files = {}){
 
     const mainjs = files["/main.js"] || files["/main.jsx"] || files["/main.ts"] || files["/main.tsx"] || {value: ''};
 
     const appjs = files["/App.js"] || files["/App.jsx"] || files["/App.ts"] || files["/App.tsx"] || {value: ''};
+
+
+    const JSFiles = Object.values(files).filter(file => {
+
+        const acceptLanguages = ['javascript', 'typescript'];
+
+        const omitFileNames = ['App', 'main'];
+
+        return acceptLanguages.includes(file.language) && !omitFileNames.includes(getFileName(file.name));
+    });
+
+    return [...JSFiles, appjs, mainjs];
+}
+
+function getCssFiles(files = {}){
+
+    const CSSFiles = Object.values(files).filter(file => {
+
+        return file.language === 'css';
+    });
+
+    return CSSFiles;
+}
+
+export function createDocument(files = {}){
+
+    const html = files["/index.html"];
+
+    if(!html) throw new Error('No existe /index.html');
 
 
     //Create HTML document
@@ -66,13 +80,20 @@ export function createDocument(files = {}){
     //Add css
     const styles = doc.createElement('style');
 
-    styles.innerHTML = css.value;
+    let css = '';
+
+    getCssFiles(files).forEach(file => {
+
+        css += `${file.value}\n\n`
+    });
+
+    styles.innerHTML = css;
 
     doc.head.appendChild(styles);
 
 
     //Add JS
-    let tranformCode = null;
+    let tranformCode = '';
 
     try {
         const script = doc.createElement('script');
@@ -80,9 +101,10 @@ export function createDocument(files = {}){
         script.setAttribute('type', 'module');
 
 
-        const filesJS = [appjs, mainjs].map(file => file.value);
+        const filesJS = getJsFiles(files);
 
         tranformCode = transformJS(filesJS);
+
 
         script.innerHTML = tranformCode;
 
@@ -90,10 +112,12 @@ export function createDocument(files = {}){
     }
     catch (error) {
         
+        //console.log(error);
     }
 
     return {
-        document: doc.documentElement.outerHTML,
-        javascript: tranformCode
+        html: doc.documentElement.outerHTML,
+        javascript: tranformCode,
+        css
     }
 }

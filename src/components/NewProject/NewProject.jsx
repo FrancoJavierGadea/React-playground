@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
@@ -46,6 +46,14 @@ function NewProject({}) {
         }
     }
 
+    const handlerKeyUp = ({key}) => {
+
+        if(key === 'Enter'){
+
+            save();
+        }
+    }
+
     return (<>
         <StyledModal show={show} onHide={close}>
 
@@ -58,7 +66,7 @@ function NewProject({}) {
                 { warning && <Alert variant="warning">{warning}</Alert> }
 
                 <Form.Label>Ingresa un nombre</Form.Label>
-                <Form.Control type="text" value={name} onChange={({target}) => setName(target.value)} />
+                <Form.Control type="text" value={name} onChange={({target}) => setName(target.value)} onKeyUp={handlerKeyUp} />
 
             </Modal.Body>
 

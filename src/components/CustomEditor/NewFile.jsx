@@ -10,7 +10,7 @@ const StyledModal = styled(Modal)`
 `;
 
 
-const ACCEPTED_FILES = ['.js', '.jsx', '.ts', '.tsx', '.md', '.txt'];
+const ACCEPTED_FILES = ['.js', '.jsx', '.ts', '.tsx', '.html', '.css', '.md', '.txt'];
 
 function NewFile({}) {
 
@@ -82,7 +82,7 @@ function NewFile({}) {
                         ACCEPTED_FILES.map((ext, i) => {
 
                             return <Nav.Item key={`ext-${i}`}>
-                                <Nav.Link as="button" eventKey={ext}>{ext}</Nav.Link>
+                                <Nav.Link as="button" eventKey={ext} title={getFileLanguage(ext)}>{ext}</Nav.Link>
                             </Nav.Item>
                         })
                     }

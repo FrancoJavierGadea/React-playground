@@ -24,7 +24,7 @@ const StyledDiv = styled.div`
 
 function EditFile({fileName}) {
 
-    const {files} = useFiles();
+    const {updateFileName} = useFiles();
 
     const [show, setShow] = useState(false);
 
@@ -44,12 +44,16 @@ function EditFile({fileName}) {
 
     const save = () => {
 
-        console.log(`/${name}${getFileExtension(fileName)}`);
+        const newName = `/${name}${getFileExtension(fileName)}`;
+
+        updateFileName(fileName, newName);
+
+        reset();
     }
 
     return (<StyledDiv>
 
-        <Modal show={show} onHide={close}>
+        <Modal show={show} onHide={close} style={{zIndex: 5000}}>
 
             <Modal.Header closeButton>
                 <Modal.Title>Cambiar nombre</Modal.Title>
@@ -70,7 +74,7 @@ function EditFile({fileName}) {
 
         </Modal>
 
-        <Button className="m-0 p-0" onClick={open} title={`Cambiar nombre de ${fileName}`}><i class="bi bi-pencil" /></Button>
+        <Button className="m-0 p-0" onClick={open} title={`Cambiar nombre de ${fileName}`}><i className="bi bi-pencil" /></Button>
 
     </StyledDiv>);
 }

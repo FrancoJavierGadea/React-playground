@@ -25,11 +25,11 @@ const StyledDiv = styled.div`
 
 function DeleteFile({fileName}) {
 
-    const {files} = useFiles();
+    const {removeFile} = useFiles();
 
     const remove = () => {
 
-
+        removeFile(fileName);
     }
 
     return (<StyledDiv>

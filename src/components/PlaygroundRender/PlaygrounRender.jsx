@@ -1,22 +1,28 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { createDocument, transformJS } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { useFiles } from "../FilesContext/FilesContext";
 
 
 const StyledPlaygroundRender = styled.div`
 
+    width: 100%;
     position: relative;
+
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     z-index: 1500;
+    overflow: auto;
     
     .controls {
         position: absolute;
-        top: 0;
+        bottom: 0;
         right: 0;
         z-index: 2000;
         opacity: 0;
@@ -26,6 +32,10 @@ const StyledPlaygroundRender = styled.div`
     }
     .controls > * {
         margin: 5px;
+    }
+
+    .alert {
+        width: fit-content;
     }
 
     iframe {
@@ -41,9 +51,10 @@ const StyledPlaygroundRender = styled.div`
 
 
 const MODES = {
-    RENDER: Symbol(),
-    HTML: Symbol(),
-    JS: Symbol(),
+    RENDER: 'render',
+    HTML: 'html',
+    CSS: 'css',
+    JS: 'javascript',
 }
 
 
@@ -51,21 +62,37 @@ function PlaygroundRender({}) {
 
     const {files} = useFiles();
 
-    const [renderDocument, setRenderDocument] = useState('');
+    const [renderDocument, setRenderDocument] = useState({html: '', javascript: '', css: ''});
 
     const [mode, setMode] = useState(MODES.RENDER);
 
-    const [JS, setJS] = useState('');
-
     const [url, setUrl] = useState('');
 
+    const [warning, setWarning] = useState(null);
+
     useEffect(() => {
+
+        const timeoutID = setTimeout(() => {
+
+            try {
+                
+                const {html, javascript, css} = createDocument(files);
         
-        const {document, javascript} = createDocument(files);
+                setRenderDocument({html, javascript, css});
 
-        setJS(javascript);
+                setWarning(null); 
+            }
+            catch (error) {
+                
+                setWarning(error.message);
+            }
 
-        setRenderDocument(document); 
+        }, 300);
+
+        return () => {
+
+            clearTimeout(timeoutID);
+        }        
     
     }, [files]);
 
@@ -73,7 +100,7 @@ function PlaygroundRender({}) {
 
         //console.clear();
 
-        fetch('data:text/html;charset=UTF-8,' + encodeURIComponent(renderDocument))
+        fetch('data:text/html;charset=UTF-8,' + encodeURIComponent(renderDocument.html))
         .then(res => res.blob())
         .then(value => {
             
@@ -97,7 +124,9 @@ function PlaygroundRender({}) {
             
             if(old === MODES.HTML) return MODES.JS;
 
-            if(old === MODES.JS) return MODES.RENDER;
+            if(old === MODES.JS) return MODES.CSS;
+
+            if(old === MODES.CSS) return MODES.RENDER;
         });
     }
 
@@ -122,7 +151,8 @@ function PlaygroundRender({}) {
             <Button className="border-0 fs-3 py-1" variant="outline-secondary" onClick={changeMode}>
                 { mode === MODES.RENDER && <i className="bi bi-filetype-html" title="Ver HTML"/> }
                 { mode === MODES.HTML && <i className="bi bi-filetype-js" title="Ver JavaScript"/> }
-                { mode === MODES.JS && <i className="bi bi-globe2" title="Ver Render"/> }
+                { mode === MODES.JS && <i className="bi bi-filetype-css" title="Ver CSS"/> }
+                { mode === MODES.CSS && <i className="bi bi-globe2" title="Ver Render"/> }
             </Button>
 
             <Button className="border-0 fs-3 py-1" variant="outline-secondary" href={url} target="_blank">
@@ -134,11 +164,20 @@ function PlaygroundRender({}) {
             </Button>
         </div>
 
-        { mode === MODES.RENDER && <iframe srcDoc={renderDocument} /> }
+        {
+            warning ? 
+                <Alert variant="warning">{warning}</Alert>
+            : <>
+                { mode === MODES.RENDER ? 
+                
+                    <iframe srcDoc={renderDocument.html} />
 
-        { mode === MODES.HTML && <Editor height="50vh" theme="vs-dark" value={renderDocument} language="html" options={editorOptions} /> }
+                    :
 
-        { mode === MODES.JS && <Editor height="50vh" theme="vs-dark" value={JS} language="javascript" options={editorOptions} /> }
+                    <Editor height="50vh" theme="vs-dark" value={renderDocument[mode]} language={mode} path={`/${mode}`} options={editorOptions} />
+                }    
+            </>    
+        }
 
     </StyledPlaygroundRender>);
 }

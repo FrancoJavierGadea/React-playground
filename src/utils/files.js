@@ -26,6 +26,8 @@ export function getFileLanguage(fileName = ''){
         '.html': 'html',
         '.js': 'javascript',
         '.jsx': 'javascript',
+        '.ts': 'typescript',
+        '.tsx': 'typescript',
         '.md': 'markdown',
         '.txt': 'plaintext'
     }

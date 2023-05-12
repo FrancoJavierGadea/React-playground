@@ -1,12 +1,14 @@
 import { getFileLanguage } from "./files";
 
-const USER = 'FrancoJavierGadea';
+export const USER = 'FrancoJavierGadea';
 
-const REPO = 'React-playground';
+export const REPO = 'React-playground';
 
-const EXAMPLES = `https://api.github.com/repos/${USER}/${REPO}/contents/examples`;
+export const REPO_URL = 'https://github.com/FrancoJavierGadea/React-playground';
 
-const TEMPLATES = `https://api.github.com/repos/${USER}/${REPO}/contents/templates`;
+export const EXAMPLES = `https://api.github.com/repos/${USER}/${REPO}/contents/examples`;
+
+export const TEMPLATES = `https://api.github.com/repos/${USER}/${REPO}/contents/templates`;
 
 const token = import.meta.env['VITE_GITHUB_TOKEN'];
 
@@ -19,11 +21,7 @@ async function getList(URL){
 
     try {
         
-        const response = await fetch(URL, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
+        const response = await fetch(URL);
     
         const value = await response.json();
     
@@ -44,11 +42,7 @@ async function download(URL, name = 'default'){
 
     try {
         
-        const response = await fetch(`${URL}/${name}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
+        const response = await fetch(`${URL}/${name}`);
     
         const value = await response.json();
     

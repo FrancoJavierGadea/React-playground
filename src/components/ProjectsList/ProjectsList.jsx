@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Offcanvas } from "react-bootstrap";
+import { Button, NavLink, Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
 import logo from "../../assets/react.svg";
 import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
 import ListItem from "./ListItem";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
 import { useFiles } from "../FilesContext/FilesContext";
+import Footer from "./Fotter";
 
 const StyledOffcanvas = styled(Offcanvas)`
 
@@ -127,7 +128,7 @@ function ProjectsList({}) {
 
             <Offcanvas.Body>
 
-                { examples.length > 0 && <Offcanvas.Title className="mt-3">Ejemplos</Offcanvas.Title> }
+                { examples.length > 0 && <Offcanvas.Title className="mt-0">Ejemplos</Offcanvas.Title> }
                 {
                     examples.map(({name, source}, i) => {
 
@@ -154,6 +155,9 @@ function ProjectsList({}) {
                 }
 
             </Offcanvas.Body>
+
+            <Footer />
+
         </StyledOffcanvas>
     
         <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Cambiar de proyecto" onClick={open}>{currentProject}</Button>

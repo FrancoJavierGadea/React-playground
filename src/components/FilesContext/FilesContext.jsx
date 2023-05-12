@@ -61,6 +61,30 @@ function FilesProvider({children}){
 
     const removeFile = (fileName) => {
 
+        setFiles(old => {
+
+			const aux = {...old};
+
+			delete aux[fileName];
+
+			return aux;
+		});
+    }
+
+    const updateFileName = (fileName, newName) => {
+
+        setFiles(old => {
+
+			const aux = {...old};
+
+            aux[newName] = aux[fileName];
+
+            aux[newName].name = newName;
+
+			delete aux[fileName];
+
+			return aux;
+		});
     }
 
     const value = {
@@ -68,6 +92,7 @@ function FilesProvider({children}){
         filesRef,
         currentFile,
         setCurrentFile,
+        updateFileName,
         addFile,
         removeFile,
         changeFiles,

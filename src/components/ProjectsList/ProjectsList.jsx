@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button, NavLink, Offcanvas } from "react-bootstrap";
+import { useEffect, useMemo, useState } from "react";
+import { Accordion, Button, NavLink, Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
 import logo from "../../assets/react.svg";
 import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
@@ -34,6 +34,13 @@ const StyledOffcanvas = styled(Offcanvas)`
         background: var(--sb-thumb-color);
         border-radius: 1px;   
     }
+
+    .offcanvas-body .accordion {
+        --bs-accordion-border-radius: 0;
+        --bs-accordion-border-width: 0;
+        --bs-accordion-active-bg: transparent;
+        --bs-accordion-btn-focus-box-shadow: transparent;
+    }
 `;
 
 
@@ -48,6 +55,13 @@ function ProjectsList({}) {
 
     const open = () => setShow(true);
 
+
+    const [accordionOpenItems, setAccordionOpenItems] = useState([]);
+
+    const accordionHandlerSelect = (openItems) => {
+
+        setAccordionOpenItems(openItems);
+    }
 
 	const {projects, currentProject, setCurrentProject, getProject, removeProject} = useProjects();
 
@@ -72,6 +86,7 @@ function ProjectsList({}) {
         .then(templates => {
 
             setTemplates(templates);
+            setAccordionOpenItems(old => [...old, 'examples']);
         });
 
     }, []);
@@ -97,6 +112,7 @@ function ProjectsList({}) {
         .then(examples => {
 
             setExamples(examples);
+            setAccordionOpenItems(old => [...old, 'templates']);
         });
 
     }, []);
@@ -126,33 +142,49 @@ function ProjectsList({}) {
 
             </Offcanvas.Header>
 
-            <Offcanvas.Body>
+            <Offcanvas.Body className="p-0">
 
-                { examples.length > 0 && <Offcanvas.Title className="mt-0">Ejemplos</Offcanvas.Title> }
-                {
-                    examples.map(({name, source}, i) => {
+                <Accordion activeKey={accordionOpenItems} onSelect={accordionHandlerSelect} alwaysOpen>
 
-                        return <ListItem name={name} onClick={() => selectExample(name)} key={`example-${i}`} github={source}/>
-                    })
-                }
+                    <Accordion.Item className="mb-2" eventKey="examples">
+                        <Accordion.Header className="">Ejemplos</Accordion.Header>
+                        <Accordion.Body className="pt-0 pb-3 px-3">
+                        {
+                            examples.map(({name, source}, i) => {
 
-                { templates.length > 0 && <Offcanvas.Title className="mt-3">Templates</Offcanvas.Title> }
-                {
-                    templates.map(({name, source}, i) => {
+                                return <ListItem name={name} onClick={() => selectExample(name)} key={`example-${i}`} github={source}/>
+                            })
+                        }
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    
+                    <Accordion.Item className="mb-2" eventKey="templates">
+                        <Accordion.Header className="">Templates</Accordion.Header>
+                        <Accordion.Body className="pt-0 pb-3 px-3">
+                        {
+                            templates.map(({name, source}, i) => {
 
-                        return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`} github={source}/>
-                    })
-                }
+                                return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`} github={source}/>
+                            })
+                        }
+                        </Accordion.Body>
+                    </Accordion.Item>
 
-                <Offcanvas.Title className="mt-3">Guardados</Offcanvas.Title>
-                {
-                    projects.map((name, i) => {
+                    <Accordion.Item className="mb-2" eventKey="projects">
+                        <Accordion.Header className="">Guardados</Accordion.Header>
+                        <Accordion.Body className="pt-0 pb-3 px-3">
+                        {
+                            projects.map((name, i) => {
 
-                        return <ListItem name={name} onClick={() => selectProject(name)} key={`project-${i}`} 
-                            del onDelete={() => removeProject(name)}
-                        />
-                    })
-                }
+                                return <ListItem name={name} onClick={() => selectProject(name)} key={`project-${i}`} 
+                                    del onDelete={() => removeProject(name)}
+                                />
+                            })
+                        }
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                </Accordion>
 
             </Offcanvas.Body>
 

@@ -55,7 +55,7 @@ function NewProject({}) {
     }
 
     return (<>
-        <StyledModal show={show} onHide={close}>
+        <StyledModal show={show} onHide={reset}>
 
             <Modal.Header closeButton>
                 <Modal.Title>Nuevo Proyecto</Modal.Title>

@@ -35,7 +35,7 @@ async function getList(URL){
         
     }
 
-    return [];
+    return Promise.reject();
 }
 
 async function download(URL, name = 'default'){
@@ -72,7 +72,7 @@ async function download(URL, name = 'default'){
 
     }
 
-    return {};
+    return Promise.reject();
 }
 
 

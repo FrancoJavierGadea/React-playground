@@ -24,6 +24,8 @@ function ProjectProvider({children}) {
 
 
     const addProject = (name, project) => {
+ 
+        if(!name) throw new Error('Ingresa un nombre valido');
 
         const exist = projects.includes(name);
 

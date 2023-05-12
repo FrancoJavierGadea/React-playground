@@ -1,8 +1,8 @@
-import { transform, availablePresets, availablePlugins } from "@babel/standalone";
+import { transform, } from "@babel/standalone";
 import { getFileExtension, getFileName } from "./files";
 import { generateImportsMap, getImports, removeImports, simplifyImports } from "./importsSimplifier";
 
-console.log(availablePresets, availablePlugins)
+
 
 export function transformJS(filesJS = []){
 

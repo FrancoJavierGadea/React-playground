@@ -1,15 +1,25 @@
 
+import Split from "react-split";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { createDocument, transformJS } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
 import { Alert, Button } from "react-bootstrap";
 import { useFiles } from "../FilesContext/FilesContext";
+import Controls from "./Controls";
+import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
 
+export const MODES = {
+    RENDER: 'render',
+    HTML: 'html',
+    CSS: 'css',
+    JS: 'javascript',
+}
 
 const StyledPlaygroundRender = styled.div`
 
-    width: 100%;
+    height: calc(100svh - ${BAR_OPTIONS_HEIGHT});
+    height: 100%svh;
     position: relative;
 
     display: flex;
@@ -20,20 +30,7 @@ const StyledPlaygroundRender = styled.div`
     z-index: 1500;
     overflow: auto;
     
-    .controls {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        z-index: 2000;
-        opacity: 0;
-    }
-    .controls:hover {
-        opacity: 1;
-    }
-    .controls > * {
-        margin: 5px;
-    }
-
+    
     .alert {
         width: fit-content;
     }
@@ -41,21 +38,17 @@ const StyledPlaygroundRender = styled.div`
     iframe {
         width: 100%;
         height: 100%;
-        display: flow-root;
+        display: ${props => props.mode === MODES.RENDER ? 'flow-root' : 'none'};
     }
 
     section {
         flex-grow: 1;
+        display: ${props => props.mode !== MODES.RENDER ? 'flex' : 'none'} !important;
     }
 `;
 
 
-const MODES = {
-    RENDER: 'render',
-    HTML: 'html',
-    CSS: 'css',
-    JS: 'javascript',
-}
+
 
 
 function PlaygroundRender({}) {
@@ -143,41 +136,48 @@ function PlaygroundRender({}) {
         readOnly: true
     }
 
-    
+    const editorCode = useMemo(() => {
 
-    return (<StyledPlaygroundRender>
+        if(mode === MODES.RENDER || mode === MODES.HTML){
 
-        <div className="controls p-3">
-            <Button className="border-0 fs-3 py-1" variant="outline-secondary" onClick={changeMode}>
-                { mode === MODES.RENDER && <i className="bi bi-filetype-html" title="Ver HTML"/> }
-                { mode === MODES.HTML && <i className="bi bi-filetype-js" title="Ver JavaScript"/> }
-                { mode === MODES.JS && <i className="bi bi-filetype-css" title="Ver CSS"/> }
-                { mode === MODES.CSS && <i className="bi bi-globe2" title="Ver Render"/> }
-            </Button>
+            return { value: renderDocument.html, language: 'html', path: '/html' };
+        }
 
-            <Button className="border-0 fs-3 py-1" variant="outline-secondary" href={url} target="_blank">
-                <i className="bi bi-box-arrow-up-right" title="Abrir en nueva pestaña"/>
-            </Button>
+        if(mode === MODES.JS){
 
-            <Button className="border-0 fs-3 py-1" variant="outline-secondary" href={url} download>
-                <i className="bi bi-download" title="Descargar"/>
-            </Button>
-        </div>
+            return { value: renderDocument.javascript, language: 'javascript', path: '/javascript' };
+        }
+
+        if(mode === MODES.CSS){
+
+            return { value: renderDocument.css, language: 'css', path: '/css' };
+        }
+
+    }, [renderDocument, mode]);
+
+    return (<StyledPlaygroundRender mode={mode}>
 
         {
             warning ? 
+            
                 <Alert variant="warning">{warning}</Alert>
-            : <>
-                { mode === MODES.RENDER ? 
+            : 
+            <>
+                <iframe srcDoc={renderDocument.html} />
                 
-                    <iframe srcDoc={renderDocument.html} />
+                <Editor height="100%" theme="vs-dark" 
 
-                    :
+                    value={editorCode.value} 
 
-                    <Editor height="50vh" theme="vs-dark" value={renderDocument[mode]} language={mode} path={`/${mode}`} options={editorOptions} />
-                }    
-            </>    
+                    language={editorCode.language}
+
+                    path={editorCode.path} 
+                
+                options={editorOptions} />
+            </>
         }
+
+        <Controls mode={mode} onChangeMode={changeMode} url={url} />
 
     </StyledPlaygroundRender>);
 }

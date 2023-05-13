@@ -40,7 +40,6 @@ function getDestructedDeps(imp = ''){
           .map(d => d.trim())
           .filter(d => d);
       
-        console.log(deps)
         return deps;
     }
 

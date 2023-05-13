@@ -10,11 +10,15 @@ import { JSXSyntaxHighlighter } from "../../utils/monaco/JSXHighlight";
 import FilesNav from "./FilesNav";
 import { getFileLanguage } from "../../utils/files";
 import { useFiles } from "../FilesContext/FilesContext";
+import Controls from "./Controls";
+import { addCustomShortcuts } from "../../utils/monaco/Shortcuts";
 
 
 const StyledEditor = styled.div`
 
-    height: calc(100vh - ${BAR_OPTIONS_HEIGHT});
+    position: relative;
+
+    height: calc(100svh - ${BAR_OPTIONS_HEIGHT});
     display: flex;
     flex-direction: column;
 
@@ -55,6 +59,8 @@ function CustomEditor() {
 
         editorRef.current = editor;
 
+        addCustomShortcuts(monaco);
+
         //Add Snippets
         javascriptSnippets(monaco);
         reactSnippets(monaco);
@@ -94,6 +100,8 @@ function CustomEditor() {
             options={editorOptions}
 
         onMount={handleEditorDidMount} onChange={handlerChange} />
+
+        <Controls />
 
     </StyledEditor>);
 }

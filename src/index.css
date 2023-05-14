@@ -1,4 +1,13 @@
 
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+* {
+    --bs-body-font-family: 'Rubik', sans-serif;
+}
+
+
+
 /* React Split */
 .split {
     display: flex;

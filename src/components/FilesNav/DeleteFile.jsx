@@ -8,9 +8,6 @@ import { useState } from "react";
 const StyledDiv = styled.div`
 
     .btn {
-        font-size: 12px;
-        position: absolute;
-        bottom: 0;
         --bs-btn-bg: transparent;
         --bs-btn-hover-bg: transparent;
         --bs-btn-active-bg: transparent;
@@ -23,7 +20,7 @@ const StyledDiv = styled.div`
 `;
 
 
-function DeleteFile({fileName}) {
+function DeleteFile({fileName, className}) {
 
     const {removeFile} = useFiles();
 
@@ -32,9 +29,8 @@ function DeleteFile({fileName}) {
         removeFile(fileName);
     }
 
-    return (<StyledDiv>
+    return (<StyledDiv className={className}>
 
-        
         <Button className="m-0 p-0" onClick={remove} title={`Borrar ${fileName}`}><i className="bi bi-trash"/></Button>
 
     </StyledDiv>);

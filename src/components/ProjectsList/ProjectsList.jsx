@@ -1,15 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { Accordion, Button, NavLink, Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
-import logo from "../../assets/react.svg";
 import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
 import ListItem from "./ListItem";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
 import { useFiles } from "../FilesContext/FilesContext";
 import Footer from "./Fotter";
+import logo from "../../assets/icons/react.svg";
+
 
 const StyledOffcanvas = styled(Offcanvas)`
 
+    @media (max-width: 576px) {
+     
+        --bs-offcanvas-width: 100%; 
+    }
+    
     z-index: 5000;
 
     .offcanvas-body {

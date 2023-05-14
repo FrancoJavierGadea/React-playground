@@ -8,9 +8,6 @@ import { getFileExtension, getFileName } from "../../utils/files";
 const StyledDiv = styled.div`
 
     .btn {
-        font-size: 12px;
-        position: absolute;
-        top: 0;
         --bs-btn-bg: transparent;
         --bs-btn-hover-bg: transparent;
         --bs-btn-active-bg: transparent;
@@ -22,7 +19,7 @@ const StyledDiv = styled.div`
     }
 `;
 
-function EditFile({fileName}) {
+function EditFile({fileName, className}) {
 
     const {updateFileName} = useFiles();
 
@@ -51,7 +48,7 @@ function EditFile({fileName}) {
         reset();
     }
 
-    return (<StyledDiv>
+    return (<StyledDiv className={className}>
 
         <Modal show={show} onHide={close} style={{zIndex: 5000}}>
 

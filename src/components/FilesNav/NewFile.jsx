@@ -1,12 +1,39 @@
 import { useState } from "react";
-import { Alert, Button, Form, Modal, Nav } from "react-bootstrap";
+import { Alert, Button, ButtonGroup, Form, Modal, Nav, ToggleButton } from "react-bootstrap";
 import styled from "styled-components";
-import { getFileLanguage } from "../../utils/files";
+import { FILES_ICONS, getFileExtension, getFileLanguage } from "../../utils/files";
 import { useFiles } from "../FilesContext/FilesContext";
 
 const StyledModal = styled(Modal)`
 
     z-index: 5000;
+
+    @media (max-height: 450px) {
+
+        --bs-modal-width: 100vw;
+        --bs-modal-margin: 0;
+    }
+
+    .btn-group {
+        width: 100%;
+        max-width: 700px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .btn-group .btn {
+        --bs-btn-active-bg: transparent;
+        --bs-btn-border-width: 2px;
+        
+        border-radius: var(--bs-btn-border-radius) !important;
+        margin: 10px !important;
+        flex-grow: 0;
+    }
+    .btn-group .btn img {
+        width: 20px;
+        height: 100%;
+    }
 `;
 
 
@@ -77,21 +104,26 @@ function NewFile({}) {
 
                 <Form.Label className="mt-3">Eligue el tipo de archivo</Form.Label>
 
-                <Nav fill variant="pills" activeKey={extension} onSelect={(ext) => setExtension(ext)}>
+                <ButtonGroup>
                     {
                         ACCEPTED_FILES.map((ext, i) => {
 
-                            return <Nav.Item key={`ext-${i}`}>
-                                <Nav.Link as="button" eventKey={ext} title={getFileLanguage(ext)}>{ext}</Nav.Link>
-                            </Nav.Item>
+                            return <ToggleButton key={`ext-${i}`} id={`radio-${i}`} name="radio" type="radio" variant={extension === ext ? 'primary' : ''}
+                            
+                                value={ext} checked={extension === ext} onChange={(e) => setExtension(e.currentTarget.value)}
+
+                                title={getFileLanguage(ext)}
+                            >
+                                <img className="mx-1" src={FILES_ICONS[ext]} alt="File language icon" /> {ext}
+                            </ToggleButton>
                         })
                     }
-                </Nav>
+                </ButtonGroup>
 
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={save}>Guardar</Button>
+                <Button variant="primary" onClick={save}>Crear</Button>
             </Modal.Footer>
 
         </StyledModal>

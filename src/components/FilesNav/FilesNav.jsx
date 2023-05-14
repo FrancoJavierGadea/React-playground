@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Button, Nav } from "react-bootstrap";
 import styled from "styled-components";
+import { FILES_ICONS, getFileExtension, getFileName } from "../../utils/files";
 import NewFile from "./NewFile";
-import { getFileName } from "../../utils/files";
 import { useFiles } from "../FilesContext/FilesContext";
 import DeleteFile from "./DeleteFile";
 import EditFile from "./EditFile";
+import FileControls from "./FileControls";
 
 const StyledNav = styled.div`
 
@@ -60,20 +61,28 @@ const StyledNav = styled.div`
     }
 
     
-    /*Controls*/
     .nav-item {
         position: relative;
-    }
-    .file-controls {
+    }  
+    .nav-item img {
         width: 20px;
         height: 100%;
-        position: absolute;
-        right: 7px;
+        pointer-events: none;
+    }
+    .nav-item span {
+        pointer-events: none;
+    }
+
+
+    .file-controls {
         visibility: hidden;
     }
     .nav-item:hover .file-controls {
         visibility: visible;
-    } 
+    }
+    .disable-over .file-controls {
+        visibility: hidden !important; 
+    }
 `;
 
 
@@ -92,8 +101,6 @@ function FilesNav({}) {
     //? Nav Horizontal Scroll
     useEffect(() => {
 
-        if(!navRef.current) return;
-
         const horizontalScroll = (e) => {
 
             e.preventDefault();
@@ -104,7 +111,7 @@ function FilesNav({}) {
             });
         }
 
-        navRef.current.addEventListener('wheel', horizontalScroll, { passive: false });
+        navRef.current?.addEventListener('wheel', horizontalScroll, { passive: false });
 
         return () => {
 
@@ -151,7 +158,7 @@ function FilesNav({}) {
 
     const dragEnter = (e) => {
 
-        const item = e.target.parentElement;
+        const item = e.currentTarget;
 
         hoverItemRef.current = item;
 
@@ -166,23 +173,20 @@ function FilesNav({}) {
 
     const dragLeave = (e) => {
         
-        const item = e.target.parentElement;
+        const item = e.currentTarget;
 
         item.classList.remove('drag-over');
     }
 
 
-    //!
-    const handlerSelect = (value) => {
-
-        setCurrentFile(value);
-    }
-
+    //? Change file
+    const handlerSelect = (value) => { setCurrentFile(value); }
 
     return (<StyledNav>
 
-        <Nav fill variant="tabs" activeKey={currentFile} onSelect={handlerSelect} ref={navRef}>
+        <NewFile /> 
 
+        <Nav fill={true} variant="tabs" activeKey={currentFile} onSelect={handlerSelect} ref={navRef}>
             {
                 items.map(({name}, i) => {
 
@@ -193,22 +197,19 @@ function FilesNav({}) {
                         onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragOver}
                     >
 
-                        <Nav.Link as="button" eventKey={name}>{name}</Nav.Link>
+                        <Nav.Link className="d-flex justify-content-center align-items-center" as="button" eventKey={name}>
 
-                        <div className="file-controls">
+                            <img className="mx-2" src={FILES_ICONS[getFileExtension(name)]} alt="File language icon" />
 
-                            <EditFile fileName={name} />
+                            <span>{name}</span>
+                        </Nav.Link>
 
-                            <DeleteFile fileName={name} />
-                        </div>
+                        <FileControls className="file-controls" fileName={name} />
 
                     </Nav.Item>
                 })
             } 
-
         </Nav>
-
-        <NewFile />    
         
     </StyledNav>);
 }

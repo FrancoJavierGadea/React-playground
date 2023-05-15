@@ -13,6 +13,7 @@ import Controls from "./Controls";
 import { addCustomShortcuts } from "../../utils/monaco/Shortcuts";
 import ShowMarkdown from "../ShowMarkdown/ShowMarkdown";
 import { markdownSnippets } from "../../utils/monaco/MarkdownSnippets";
+import { reactUtilWords } from "../../utils/monaco/ReactUtilWords";
 
 
 const StyledEditor = styled.div`
@@ -58,12 +59,16 @@ function CustomEditor() {
 
     const handleEditorWillMount = useCallback((monaco) => {
 
+        //shortcuts
         addCustomShortcuts(monaco);
 
         //Add Snippets
         javascriptSnippets(monaco);
         reactSnippets(monaco);
         markdownSnippets(monaco);
+
+        //Util words
+        reactUtilWords(monaco);
 
         //Add Emmet
         Emmet(monaco);

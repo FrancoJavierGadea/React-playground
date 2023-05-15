@@ -5,29 +5,29 @@ const REACT_SNIPPETS = [
     {
         name: 'ffc',
         description: 'Create a new React Function Component',
-        text: "function ${1:App}(){\n    \n    return (<div>\n\n    </div>);\n}"
+        text: "export function ${1:App}(){\n    \n    return (<${2:div}>\n\n    </${2:div}>);\n}"
     },
 
     {
-        name: 'useState snippet',
+        name: 'useState Snippet',
         description: 'Declare a new state variable',
         text: "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:null});"
     },
 
     {
-        name: 'useEffect snippet',
+        name: 'useEffect Snippet',
         description: 'Declare a new effect',
         text: "useEffect(() => {\n    \n\n    \n    return () => {\n\n    }\n\n}, [${1}]);"
     },
 
     {
-        name: 'useCallback snippet',
+        name: 'useCallback Snippet',
         description: 'Declare a new memoized function',
         text: "useCallback(() => {\n\n\n\n}, [${1}]);"
     },
 
     {
-        name: 'useMemo snippet',
+        name: 'useMemo Snippet',
         description: 'Declare a new memoized value',
         text: "useMemo(() => {\n    \n\n    \n    return ${1:value}\n\n}, [${2}]);"
     },
@@ -59,7 +59,7 @@ const REACT_SNIPPETS = [
     {
         name: 'ccc',
         description: 'Create a new React Class Component',
-        text: "class ${1:App} extends Component {\n\n    constructor(props){\n        super(props);\n\n        this.state = { };\n    }\n\n    render(){\n\n        return (<div>\n\n        </div>);\n    }\n}"
+        text: "export class ${1:App} extends Component {\n\n    constructor(props){\n        super(props);\n\n        this.state = { };\n    }\n\n    render(){\n\n        return (<${2:div}>\n\n        </${2:div}>);\n    }\n}"
     },
 
     {

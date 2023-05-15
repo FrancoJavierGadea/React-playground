@@ -1,5 +1,5 @@
 import { Editor } from "@monaco-editor/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
 import styled from "styled-components";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
@@ -11,6 +11,8 @@ import FilesNav from "../FilesNav/FilesNav";
 import { useFiles } from "../FilesContext/FilesContext";
 import Controls from "./Controls";
 import { addCustomShortcuts } from "../../utils/monaco/Shortcuts";
+import ShowMarkdown from "../ShowMarkdown/ShowMarkdown";
+import { markdownSnippets } from "../../utils/monaco/MarkdownSnippets";
 
 
 const StyledEditor = styled.div`
@@ -41,7 +43,7 @@ function CustomEditor() {
 
     const editorRef = useRef(null);
 
-    const {files, currentFile, setCurrentFile, updateFile} = useFiles();
+    const {files, currentFile, updateFile} = useFiles();
 
     const editorOptions = {
         padding: {
@@ -54,26 +56,30 @@ function CustomEditor() {
         scrollBeyondLastLine: false,
     }
 
-    const handleEditorDidMount = (editor, monaco) => {
-
-        editorRef.current = editor;
+    const handleEditorWillMount = useCallback((monaco) => {
 
         addCustomShortcuts(monaco);
 
         //Add Snippets
         javascriptSnippets(monaco);
         reactSnippets(monaco);
+        markdownSnippets(monaco);
 
         //Add Emmet
         Emmet(monaco);
 
-        //Add JSX Highlight
-        JSXSyntaxHighlighter(monaco, editor)
-        .catch(err => {
+    }, []);
 
-            console.log('no funciona: ', err);
-        });
-    }
+    const handleEditorDidMount = useCallback((editor, monaco) => {
+
+        editorRef.current = editor;
+
+        
+
+        //Add JSX Highlight
+        //JSXSyntaxHighlighter(monaco, editor);
+
+    }, []);
 
     const handlerChange = () => {
 
@@ -88,7 +94,7 @@ function CustomEditor() {
 
         <FilesNav />
 
-        <Editor className="Editor" height="50vh" theme="vs-dark"
+        <Editor id="MainEditor" className="Editor" height="50vh" theme="vs-dark"
 
             language={files[currentFile]?.language}
 
@@ -98,9 +104,11 @@ function CustomEditor() {
 
             options={editorOptions}
 
-        onMount={handleEditorDidMount} onChange={handlerChange} />
+        beforeMount={handleEditorWillMount} onMount={handleEditorDidMount} onChange={handlerChange} />
 
         <Controls />
+
+        { files[currentFile]?.language === 'markdown' && <ShowMarkdown file={files[currentFile]} /> }
 
     </StyledEditor>);
 }

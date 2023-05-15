@@ -5,97 +5,109 @@ const REACT_SNIPPETS = [
     {
         name: 'ffc',
         description: 'Create a new React Function Component',
-        text: `function App(){\n    \n    return (<div>\n\n    </div>);\n}`
+        text: "function ${1:App}(){\n    \n    return (<div>\n\n    </div>);\n}"
     },
 
     {
-        name: 'useState',
+        name: 'useState snippet',
         description: 'Declare a new state variable',
-        text: `const [state, setState] = useState(null);`
+        text: "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:null});"
     },
 
     {
-        name: 'useEffect',
+        name: 'useEffect snippet',
         description: 'Declare a new effect',
-        text: `useEffect(() => {\n    \n\n    \n    return () => {\n\n    }\n\n}, []);`
+        text: "useEffect(() => {\n    \n\n    \n    return () => {\n\n    }\n\n}, [${1}]);"
+    },
+
+    {
+        name: 'useCallback snippet',
+        description: 'Declare a new memoized function',
+        text: "useCallback(() => {\n\n\n\n}, [${1}]);"
+    },
+
+    {
+        name: 'useMemo snippet',
+        description: 'Declare a new memoized value',
+        text: "useMemo(() => {\n    \n\n    \n    return ${1:value}\n\n}, [${2}]);"
+    },
+
+    {
+        name: 'imr',
+        description: 'import from React',
+        text: 'import { ${1} } from "react";'
     },
 
     {
         name: 'ims',
         description: 'import useState',
-        text: `import { useState } from "react";`
+        text: 'import { useState, ${1} } from "react";'
     },
 
     {
         name: 'ime',
         description: 'import useEffect',
-        text: `import { useEffect } from "react";`
+        text: 'import { useEffect, ${1} } from "react";'
     },
 
     {
         name: 'imse',
         description: 'import useState and useEffect',
-        text: `import { useState, useEffect } from "react";`
-    },
-
-    {
-        name: 'imc',
-        description: 'import Component',
-        text: `import { Component } from "react";`
+        text: 'import { useState, useEffect, ${1} } from "react";'
     },
 
     {
         name: 'ccc',
         description: 'Create a new React Class Component',
-        text: "class App extends Component {\n\n    constructor(props){\n        super(props);\n\n        this.state = { };\n    }\n\n    render(){\n\n        return (<div>\n\n        </div>);\n    }\n}"
+        text: "class ${1:App} extends Component {\n\n    constructor(props){\n        super(props);\n\n        this.state = { };\n    }\n\n    render(){\n\n        return (<div>\n\n        </div>);\n    }\n}"
     },
 
     {
         name: 'className',
         description: 'class attribute',
-        text: `className=""`
+        text: 'className="${1}"'
     },
 
     {
         name: 'style',
         description: 'style property',
-        text: `style={{}}`
+        text: 'style={{${1}}}'
     },
 
     {
         name: 'htmlFor',
         description: 'for attribute',
-        text: `htmlFor=""`
+        text: 'htmlFor="${1}"'
     },
 
     {
         name: 'ref',
         description: 'ref property',
-        text: `ref={}`
+        text: 'ref={${1}}'
     },
 
     {
         name: 'value',
         description: 'value property',
-        text: `value={}`
+        text: 'value={${1}}'
     },
 
     {
         name: 'defaultValue',
         description: 'defaultValue property',
-        text: `defaultValue={}`
+        text: 'defaultValue={${1}}'
     },
 
     {
         name: 'onChange',
         description: 'React change event',
-        text: `onChange={}`
+        text: 'onChange={${1:(e) => }}'
     },
 
     {
         name: 'onClick',
         description: 'React click event',
-        text: `onClick={}`
+        text: 'onClick={${1:(e) => }}'
     },
 ];
 
@@ -106,7 +118,16 @@ export function reactSnippets(monaco){
 
     const completionItemProvider = {
 
-        provideCompletionItems: () => {
+        provideCompletionItems: (model, position) => {
+
+            let word = model.getWordUntilPosition(position);
+
+            let range = {
+                startLineNumber: position.lineNumber,
+                endLineNumber: position.lineNumber,
+                startColumn: word.startColumn,
+                endColumn: word.endColumn,
+            };
 
             return {
                 suggestions: REACT_SNIPPETS.map(snippet => {
@@ -114,11 +135,14 @@ export function reactSnippets(monaco){
                     const {name, text, description} = snippet;
 
                     return {
-                        kind: monaco.languages.CompletionItemKind.Snippet,
                         label: name,
                         insertText: text,
                         documentation: `${description}\n\n${text}`,
-                        detail: description
+                        detail: description,
+
+                        kind: monaco.languages.CompletionItemKind.Snippet,
+                        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                        range
                     }
                 })
             };

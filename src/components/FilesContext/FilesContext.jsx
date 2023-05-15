@@ -1,27 +1,24 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import EditorDefaultState from "../../assets/EditorDefaultState.json";
+import EditorDefaultState from "../../assets/EditorDefaultState2.json";
 import { getFileName } from "../../utils/files";
 
 const FilesContext = createContext();
 
+const defaultFile = ['/readme.md', '/App.js', '/App.jsx', '/App.ts', '/App.tsx', '/index.html'];
+
 function FilesProvider({children}){
 
-    const filesRef = useRef(EditorDefaultState);
-
+    
     const [files, setFiles] = useState(EditorDefaultState);
 
-    const [currentFile, setCurrentFile] = useState('/App.js');
-
-    useEffect(() => {
-
-        filesRef.current = files;
-        
-    }, [files]);
+    const [currentFile, setCurrentFile] = useState( defaultFile.find(fileName => EditorDefaultState[fileName]?.name) );
 
 
     const changeFiles = (files) => {
 
         setFiles(files);
+
+        setCurrentFile( defaultFile.find(fileName => files[fileName]?.name) )
     }
 
     const updateFile = (fileName, value) => {
@@ -38,6 +35,8 @@ function FilesProvider({children}){
 
     const addFile = (fileName, file) => {
 
+        if(!getFileName(fileName)) throw new Error('Ingresa un nombre valido');
+
         const exist = Object.keys(files).some(key => {
 
             const name = getFileName(key);
@@ -47,7 +46,7 @@ function FilesProvider({children}){
             return name === newFileName;
         });
 
-        if(exist) throw new Error('Ya existe una archivo con ese nombre');
+        if(exist) throw new Error('Ya existe un archivo con ese nombre');
 
         setFiles(old => {
 
@@ -89,7 +88,6 @@ function FilesProvider({children}){
 
     const value = {
         files,
-        filesRef,
         currentFile,
         setCurrentFile,
         updateFileName,

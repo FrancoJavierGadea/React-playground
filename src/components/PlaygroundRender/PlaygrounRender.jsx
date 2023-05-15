@@ -1,5 +1,4 @@
 
-import Split from "react-split";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { createDocument, transformJS } from "../../utils/transfromJS";

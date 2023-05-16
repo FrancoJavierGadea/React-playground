@@ -79,10 +79,7 @@ function CustomEditor() {
 
         editorRef.current = editor;
 
-        
-
-        //Add JSX Highlight
-        //JSXSyntaxHighlighter(monaco, editor);
+        JSXSyntaxHighlighter(monaco, editor);
 
     }, []);
 

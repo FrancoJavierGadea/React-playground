@@ -1,70 +1,6 @@
 
 import { MonacoJsxSyntaxHighlight, getWorker } from 'monaco-jsx-syntax-highlight'
 
-function getHighlighter(monaco) {
-
-    if(typeof getHighlighter.instance === 'object'){
-
-        return getHighlighter.instance;
-    }
-
-    console.log('Esto se ejecuta 1 vez');
-
-
-    //typescript config
-    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-
-        jsx: monaco.languages.typescript.JsxEmit.React,
-
-        target: monaco.languages.typescript.ScriptTarget.ES2020,
-        
-        esModuleInterop: true,
-    });
-
-
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-
-        noSemanticValidation: true,
-        
-        noSyntaxValidation: true,
-    });
-    
-
-
-    const highlighter = new MonacoJsxSyntaxHighlight(getWorker(), monaco);
-
-    getHighlighter.instance = highlighter;
-
-    return highlighter;
-}
-
-
-
-/* export function JSXSyntaxHighlighter(monaco, editor){
-
-    const controller = getHighlighter(monaco);
-
-    const { highlighter, dispose } = controller.highlighterBuilder({editor});
-
-
-    highlighter();
-
-    editor.onDidChangeModelContent(() => {
-
-        // content change, highlight
-        highlighter();
-    })
-
-    editor.onDidChangeModel(() => {
-
-        // content change, highlight
-        highlighter();
-    })
-
-    return { highlighter, dispose };
-} */
-
-
 
 export function JSXSyntaxHighlighter(monaco, editor){
 
@@ -92,19 +28,35 @@ export function JSXSyntaxHighlighter(monaco, editor){
     const { highlighter, dispose } = controller.highlighterBuilder({editor});
 
 
-    highlighter();
 
-    editor.onDidChangeModelContent(() => {
+    const highlight = () => {
 
-        // content change, highlight
-        highlighter();
+        const lang = editor.getModel().getLanguageId();
+
+        if(lang === 'javascript' || lang === 'typescript'){
+
+            console.log('highlight');
+            highlighter();
+        }
+    }
+
+    highlight();
+
+
+    editor.onDidChangeModelContent((e) => {
+
+        highlight();
     })
 
-    editor.onDidChangeModel(() => {
+    editor.onDidChangeModel((e) => {
 
-        // content change, highlight
-        highlighter();
+        highlight();
     })
 
     return { highlighter, dispose };
 }
+
+/*//! Issues
+
+    Si el archivo por defecto no es .js .jsx .tsx no funciona
+*/

@@ -4,7 +4,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import styled from "styled-components";
 import CustomCodeBlock from "./CustomCodeBlock";
 import remarkGfm from 'remark-gfm';
-import "github-markdown-css/github-markdown-dark.css";
+import "./github-markdown.css";
 
 const StyledDiv = styled.div`
 
@@ -29,13 +29,13 @@ function ShowMarkdown({file = {}}) {
 
     return (<StyledDiv>
     
-        <Modal className="Markdown-modal" show={show} onHide={close} size="xl" scrollable style={{zIndex: 5000}}>
+        <Modal className="Markdown-modal" show={show} onHide={close} size="xl" fullscreen="xl-down" scrollable style={{zIndex: 5000, '--bs-modal-margin': '20px'}}>
 
             <Modal.Header closeButton>
                 <Modal.Title>{file?.name}</Modal.Title>
             </Modal.Header>
 
-            <Modal.Body>
+            <Modal.Body className="py-3 px-5">
 
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={{code: CustomCodeBlock}}>
                     {file?.value}

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import EditorDefaultState from "../../assets/EditorDefaultState2.json";
+import EditorDefaultState from "../../assets/EditorDefaultState.json";
 import { getFileName } from "../../utils/files";
 
 const FilesContext = createContext();

@@ -1,4 +1,5 @@
 import { Editor } from "@monaco-editor/react";
+import { useMemo } from "react";
 
 
 const LANGUAGES = {
@@ -24,11 +25,22 @@ function CodeBlockEditor({value, lang}) {
         scrollBeyondLastLine: false,
         readOnly: true,
         contextmenu: false,
+        scrollbar: {
+            handleMouseWheel: false
+        }
     }
 
-    return (<Editor theme="vs-dark" height="300px" 
+    const height = useMemo(() => {
 
-        value={value} language={LANGUAGES[lang]} path={`/code-block.${lang}`}
+        const height = value.split('\n').length * 21;
+
+        return height < 450 ? height : 450;
+
+    }, []);
+
+    return (<Editor theme="vs-dark" height={`${height}px`} 
+
+        value={value} language={LANGUAGES[lang]}
         
         options={editorOptions}
     />);

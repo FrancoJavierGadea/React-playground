@@ -75,11 +75,22 @@ function CustomEditor() {
 
     }, []);
 
+    const HighlighterRef = useRef(null);
+
     const handleEditorDidMount = useCallback((editor, monaco) => {
 
         editorRef.current = editor;
 
-        JSXSyntaxHighlighter(monaco, editor);
+        HighlighterRef.current = JSXSyntaxHighlighter(monaco, editor);
+
+    }, []);
+
+    useEffect(() => {
+        
+        return () => {
+
+            HighlighterRef.current?.dispose();
+        }
 
     }, []);
 

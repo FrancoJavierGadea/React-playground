@@ -17,7 +17,6 @@
     "bootstrap": "^5.3.0-alpha3",
     "bootstrap-icons": "^1.10.4",
     "emmet-monaco-es": "^5.3.0",
-    "github-markdown-css": "^5.2.0",
     "jszip": "^3.10.1",
     "monaco-jsx-syntax-highlight": "^1.2.0",
     "react": "^18.2.0",

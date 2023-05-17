@@ -40,13 +40,13 @@ const StyledControls = styled.div`
 
         filter: drop-shadow(1px 1px .7px #b2b2b2d7);
     }
-    .btn .bi:hover {
+    .btn:hover .bi {
 
         filter: initial;
     }
 `;
 
-function Controls({mode, onChangeMode, url}) {
+function Controls({mode, onChangeMode, url, onReload}) {
 
     return (<StyledControls>
 
@@ -65,6 +65,10 @@ function Controls({mode, onChangeMode, url}) {
 
         <Button className="border-0 fs-3 py-1" variant="outline-success" href={url} download>
             <i className="bi bi-download" title="Descargar"/>
+        </Button>
+
+        <Button className="border-0 fs-3 py-1" variant="outline-secondary" onClick={onReload}>
+            <i className="bi bi-arrow-counterclockwise d-block" style={{rotate: '-60deg'}} title="Recargar"/>
         </Button>
 
     </StyledControls>);

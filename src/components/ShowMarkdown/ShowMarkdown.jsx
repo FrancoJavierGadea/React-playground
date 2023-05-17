@@ -15,6 +15,9 @@ const StyledDiv = styled.div`
         --bs-btn-hover-bg: transparent;
         --bs-btn-active-bg: transparent;
         --bs-btn-border-width: 0;
+
+        --bs-btn-hover-color: ${props => props.theme.isDark ? '#fff' : '#000'};
+        --bs-btn-active-color: ${props => props.theme.isDark ? '#fff' : '#000'};
     }
 `;
 

@@ -1,9 +1,9 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import { createDocument, transformJS } from "../../utils/transfromJS";
+import { createDocument } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
-import { Alert, Button } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import { useFiles } from "../FilesContext/FilesContext";
 import Controls from "./Controls";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
@@ -45,9 +45,6 @@ const StyledPlaygroundRender = styled.div`
         display: ${props => props.mode !== MODES.RENDER ? 'flex' : 'none'} !important;
     }
 `;
-
-
-
 
 
 function PlaygroundRender({}) {
@@ -107,21 +104,24 @@ function PlaygroundRender({}) {
     }, [renderDocument]);
 
     
-
     const changeMode = () => {
 
         setMode(old => {
             
             if(old === MODES.RENDER) return MODES.HTML;
-            
             if(old === MODES.HTML) return MODES.JS;
-
             if(old === MODES.JS) return MODES.CSS;
-
             if(old === MODES.CSS) return MODES.RENDER;
         });
     }
 
+    //Reload iframe
+    const iframeRef = useRef();
+
+    const reload = () => {
+
+        iframeRef.current?.contentWindow.location.reload();
+    }
 
     const editorOptions = {
         padding: {
@@ -154,6 +154,8 @@ function PlaygroundRender({}) {
 
     }, [renderDocument, mode]);
 
+
+    
     return (<StyledPlaygroundRender mode={mode}>
 
         {
@@ -162,7 +164,7 @@ function PlaygroundRender({}) {
                 <Alert variant="warning">{warning}</Alert>
             : 
             <>
-                <iframe srcDoc={renderDocument.html} />
+                <iframe srcDoc={renderDocument.html} ref={iframeRef} />
                 
                 <Editor height="100%" theme="vs-dark" 
 
@@ -173,10 +175,11 @@ function PlaygroundRender({}) {
                     path={editorCode.path} 
                 
                 options={editorOptions} />
+
+                <Controls mode={mode} onChangeMode={changeMode} url={url} onReload={reload}/>
             </>
         }
 
-        <Controls mode={mode} onChangeMode={changeMode} url={url} />
 
     </StyledPlaygroundRender>);
 }

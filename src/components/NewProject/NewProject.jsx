@@ -3,6 +3,7 @@ import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
 import { useFiles } from "../FilesContext/FilesContext";
+import useBreakPoints, { MAX_WIDTH } from "../../hooks/useBreakpoints";
 
 
 const StyledModal = styled(Modal)`
@@ -54,6 +55,8 @@ function NewProject({}) {
         }
     }
 
+    const [isMD] = useBreakPoints(MAX_WIDTH.md);
+
     return (<>
         <StyledModal show={show} onHide={reset}>
 
@@ -76,7 +79,10 @@ function NewProject({}) {
 
         </StyledModal>
     
-        <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Nuevo proyecto" onClick={open}>Nuevo proyecto</Button>
+        <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Nuevo proyecto" onClick={open}>
+
+            <i className="bi bi-folder-plus mx-1" /> { !isMD && 'Nuevo proyecto' }
+        </Button>
     </>);
 }
 

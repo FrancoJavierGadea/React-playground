@@ -2,6 +2,7 @@ import { Button, ToggleButton } from "react-bootstrap";
 import { useFiles } from "../FilesContext/FilesContext";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
 import { useEffect, useRef, useState } from "react";
+import useBreakPoints, { MAX_WIDTH } from "../../hooks/useBreakpoints";
 
 
 function SaveProject({}) {
@@ -38,12 +39,16 @@ function SaveProject({}) {
         updateProject(currentProject, files);
     }
 
+    const [isMD] = useBreakPoints(MAX_WIDTH.md);
+
     return (<>
 
         {
-            isProject && <>
+            !isProject && <>
             
-                <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Guardar" onClick={save}>Guardar</Button>
+                <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Guardar" onClick={save}>    
+                    <i className="bi bi-archive mx-1" /> {!isMD && 'Guardar'}
+                </Button>
         
                 <Button className="border-0 rounded-0" size="sm" 
         
@@ -51,7 +56,9 @@ function SaveProject({}) {
         
                     onClick={() => setAutoSave(old => !old)}
         
-                >Auto guardado</Button>
+                >
+                    <i className="bi bi-stopwatch mx-1" /> {!isMD && 'Auto guardado'}
+                </Button>
             </>
         }
 

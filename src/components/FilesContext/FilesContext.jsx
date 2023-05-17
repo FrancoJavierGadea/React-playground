@@ -8,11 +8,17 @@ const defaultFile = ['/reame.md', '/App.js', '/App.jsx', '/App.ts', '/App.tsx', 
 
 function FilesProvider({children}){
 
+    const filesRef = useRef();
     
     const [files, setFiles] = useState(EditorDefaultState);
 
     const [currentFile, setCurrentFile] = useState( defaultFile.find(fileName => EditorDefaultState[fileName]?.name) );
 
+    useEffect(() => {
+        
+        filesRef.current = files;
+
+    }, [files]);
 
     const changeFiles = (files) => {
 
@@ -89,6 +95,7 @@ function FilesProvider({children}){
     const value = {
         files,
         currentFile,
+        filesRef,
         setCurrentFile,
         updateFileName,
         addFile,

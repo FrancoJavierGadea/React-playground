@@ -32,15 +32,15 @@ function OptionsBar({children}) {
 
     return (<StyledBar>
 
-        <div className="d-flex justify-content-start">
+        <div className="d-flex justify-content-start align-items-center">
             {left}
         </div>
 
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center align-items-center">
             {center}
         </div>
 
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end align-items-center">
             {right}
         </div>
 

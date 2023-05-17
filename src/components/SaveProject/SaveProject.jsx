@@ -30,7 +30,7 @@ function SaveProject({}) {
             if(intervalId) clearInterval(intervalId);
         }
 
-    }, [autoSave]);
+    }, [autoSave, currentProject]);
 
 
     const save = () => {

@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 
 const StyledListItem = styled.div`
@@ -20,10 +20,15 @@ const StyledListItem = styled.div`
 
 function ListItem({name = '', onClick = () => {}, del = false, onDelete = () => {}, github}) {
 
+    const {isDark} = useTheme();
 
     return (<StyledListItem>
 
-        <Button className="main-btn border-bottom" variant="outline-light" title={`Cambiar a ${name}`} onClick={onClick}>{name}</Button>
+        <Button className="main-btn border-bottom" variant={isDark ? 'outline-light' : 'outline-dark'} 
+        
+            title={`Cambiar a ${name}`} onClick={onClick}
+            
+        >{name}</Button>
 
         {
             del &&

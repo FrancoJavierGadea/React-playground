@@ -13,6 +13,10 @@ const StyledFooter = styled.footer`
         --bs-btn-border-width: 0;
         --bs-btn-hover-bg: transparent;
         --bs-btn-active-bg: transparent;
+
+        
+        --bs-btn-hover-color: ${props => props.theme.isDark ? '#fff' : '#000'};
+        --bs-btn-active-color: ${props => props.theme.isDark ? '#fff' : '#000'};
     }
 `;
 

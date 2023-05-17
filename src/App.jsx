@@ -4,38 +4,44 @@ import Split from "react-split";
 import CustomEditor from "./components/CustomEditor/CustomEditor";
 import PlaygroundRender from "./components/PlaygroundRender/PlaygrounRender";
 
-
-import EditorDefaultState from "./assets/EditorDefaultState.json";
-import { useEffect, useState } from "react";
-import { useDatabase } from "./utils/database";
 import OptionsBar from "./components/OptionsBar/OptionsBar";
 import ProjectsList from "./components/ProjectsList/ProjectsList";
 import NewProject from "./components/NewProject/NewProject";
 import SaveProject from "./components/SaveProject/SaveProject";
+import ThemeSwitch from "./components/ThemeSwitch/ThemeSwitch";
+import ThemeProvider from "./components/ThemeContext/ThemeContext";
+
 
 
 function App() {
 
-
 	return (<div className="App">
 
-		<Split className="split" sizes={[50, 50]} minSize={0} gutterSize={12}>
+		<ThemeProvider>
 
-			<CustomEditor />
+			<Split className="split" sizes={[50, 50]} minSize={0} gutterSize={12}>
 
-			<PlaygroundRender />
+				<CustomEditor />
 
-		</Split>
+				<PlaygroundRender />
 
-		<OptionsBar>
+			</Split>
 
-			<NewProject position="left" />
+			<OptionsBar>
 
-			<SaveProject position="left" />
 
-			<ProjectsList position="right" />
+				<NewProject position="left" />
 
-		</OptionsBar>
+				<SaveProject position="left" />
+
+				<ProjectsList position="right" />
+
+				<ThemeSwitch position="right" />
+
+			</OptionsBar>
+
+		</ThemeProvider>
+
 	</div>);
 }
 

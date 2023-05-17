@@ -25,6 +25,7 @@ const StyledModal = styled(Modal)`
     .btn-group .btn {
         --bs-btn-active-bg: transparent;
         --bs-btn-border-width: 2px;
+        --bs-btn-active-color: ${props => props.theme.isDark ? '#fff' : '#000'};
         
         border-radius: var(--bs-btn-border-radius) !important;
         margin: 10px !important;

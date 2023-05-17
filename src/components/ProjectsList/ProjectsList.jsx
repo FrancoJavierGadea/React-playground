@@ -20,9 +20,9 @@ const StyledOffcanvas = styled(Offcanvas)`
 
     .offcanvas-body {
 
-        --sb-track-color: #232E33;
-        --sb-thumb-color: #6BAF8D;
-        --sb-size: 7px;
+        --sb-track-color: ${props => props.theme.isDark ? '#232E33' : '#8e8989'};
+        --sb-thumb-color: ${props => props.theme.isDark ? '#6BAF8D' : '#4a4a4b'};
+        --sb-size: 10px;
     
         scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
     }
@@ -182,7 +182,8 @@ function ProjectsList({}) {
                         {
                             projects.map((name, i) => {
 
-                                return <ListItem name={name} onClick={() => selectProject(name)} key={`project-${i}`} 
+                                return <ListItem name={name} onClick={() => selectProject(name)} key={name} 
+
                                     del onDelete={() => removeProject(name)}
                                 />
                             })

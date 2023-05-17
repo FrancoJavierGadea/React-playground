@@ -35,7 +35,7 @@ export function JSXSyntaxHighlighter(monaco, editor){
 
         if(lang === 'javascript' || lang === 'typescript'){
 
-            console.log('highlight');
+            //console.log('highlight');
             highlighter();
         }
     }

@@ -14,7 +14,7 @@ const StyledDiv = styled.div`
         --bs-btn-border-radius: 0;
         --bs-btn-border-width: 0;
         --bs-btn-color: var(--bs-secondary-color);
-        --bs-btn-hover-color: var(--bs-info);
+        --bs-btn-hover-color: var(--bs-warning);
         --bs-btn-active-color: var(--bs-danger);
     }
 `;

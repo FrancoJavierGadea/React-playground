@@ -11,9 +11,10 @@ import FileControls from "./FileControls";
 const StyledNav = styled.div`
 
     display: flex;
+    background-color: ${props => props.theme.isDark ? '#1a1919' : '#b0b0b0'};
 
     .nav {
-        --bs-nav-link-color: #fff;
+        --bs-nav-link-color: ${props => props.theme.isDark ? '#fff' : '#000'};
         --bs-nav-link-hover-color: #777;
 
         flex-wrap: nowrap;
@@ -21,8 +22,8 @@ const StyledNav = styled.div`
         overflow-y: hidden;
         overflow-x: auto;
 
-        --sb-track-color: #232E33;
-        --sb-thumb-color: #6BAF8D;
+        --sb-track-color: ${props => props.theme.isDark ? '#232E33' : '#8e8989'};
+        --sb-thumb-color: ${props => props.theme.isDark ? '#6BAF8D' : '#4a4a4b'};
         --sb-size: 5px;
     
         scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
@@ -40,7 +41,7 @@ const StyledNav = styled.div`
     }
 
     .nav-tabs {
-        --bs-nav-tabs-link-active-color: var(--bs-info);
+        --bs-nav-tabs-link-active-color: ${props => props.theme.isDark ? 'var(--bs-info)' : 'var(--bs-primary)'};
         --bs-nav-tabs-border-radius: 0;
 
 	    user-select: none;
@@ -190,7 +191,7 @@ function FilesNav({}) {
             {
                 items.map(({name}, i) => {
 
-                    return <Nav.Item className="d-flex" key={`file-${i}`} style={{order: i}}
+                    return <Nav.Item className="d-flex" key={name} style={{order: i}}
                     
                         draggable="true" onDragStart={dragStart} onDragEnd={dragEnd}
 

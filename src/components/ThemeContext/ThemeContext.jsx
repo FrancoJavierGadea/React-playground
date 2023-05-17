@@ -16,9 +16,7 @@ function ThemeProvider({children}) {
 
         const query = window.matchMedia('(prefers-color-scheme: dark)');
 
-
-        setTheme(query.matches ? THEMES.DARK : THEMES.LIGHT);
-
+        //setTheme(query.matches ? THEMES.DARK : THEMES.LIGHT);
 
         const listener = (e) => {
 

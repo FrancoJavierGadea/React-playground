@@ -32,7 +32,7 @@ const StyledModal = styled(Modal)`
         flex-grow: 0;
     }
     .btn-group .btn img {
-        width: 20px;
+        width: 25px;
         height: 100%;
     }
 `;

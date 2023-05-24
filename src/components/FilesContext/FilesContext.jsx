@@ -92,6 +92,31 @@ function FilesProvider({children}){
 		});
     }
 
+    const changeFileOrder = (fileA, fileB) => {
+
+        setFiles(old => {
+
+			const aux = {...old};
+
+            if(fileA.order === fileB.order){
+
+                if(fileA.index > fileB.index){
+
+                    fileA.order++;
+                }
+                else {
+
+                    fileB.order++;
+                }
+            }
+
+			aux[fileA.name].order = fileB.order;
+            aux[fileB.name].order = fileA.order;
+
+			return aux;
+		});
+    }
+
     const value = {
         files,
         currentFile,
@@ -101,7 +126,8 @@ function FilesProvider({children}){
         addFile,
         removeFile,
         changeFiles,
-        updateFile
+        updateFile,
+        changeFileOrder
     }
 
     return (<FilesContext.Provider value={value}>{children}</FilesContext.Provider>);

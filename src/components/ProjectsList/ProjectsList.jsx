@@ -18,6 +18,10 @@ const StyledOffcanvas = styled(Offcanvas)`
     
     z-index: 5000;
 
+    .offcanvas-header img {
+        width: 50px;
+    }
+
     .offcanvas-body {
 
         --sb-track-color: ${props => props.theme.isDark ? '#232E33' : '#8e8989'};

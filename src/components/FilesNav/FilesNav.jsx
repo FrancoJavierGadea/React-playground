@@ -1,17 +1,14 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Button, Nav } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import styled from "styled-components";
-import { FILES_ICONS, getFileExtension, getFileName } from "../../utils/files";
 import NewFile from "./NewFile";
 import { useFiles } from "../FilesContext/FilesContext";
-import DeleteFile from "./DeleteFile";
-import EditFile from "./EditFile";
-import FileControls from "./FileControls";
+import FilesNavItem from "./FilesNavItem";
 
 const StyledNav = styled.div`
 
     display: flex;
-    background-color: ${props => props.theme.isDark ? '#1a1919' : '#b0b0b0'};
+    background-color: ${props => props.theme.isDark ? '#1a1919' : '#c9c9c9'};
 
     .nav {
         --bs-nav-link-color: ${props => props.theme.isDark ? '#fff' : '#000'};
@@ -47,10 +44,6 @@ const StyledNav = styled.div`
 	    user-select: none;
     }
 
-    .nav-link {
-        --bs-nav-link-padding-x: 1.4rem;
-        white-space: nowrap;
-    }
 
     .disable-over {
         --bs-nav-link-hover-color: var(--bs-nav-link-color);
@@ -60,28 +53,8 @@ const StyledNav = styled.div`
         opacity: 0.5;
         background-color: #777;
     }
+    .disable-over .controls {
 
-    
-    .nav-item {
-        position: relative;
-    }  
-    .nav-item img {
-        width: 20px;
-        height: 100%;
-        pointer-events: none;
-    }
-    .nav-item span {
-        pointer-events: none;
-    }
-
-
-    .file-controls {
-        visibility: hidden;
-    }
-    .nav-item:hover .file-controls {
-        visibility: visible;
-    }
-    .disable-over .file-controls {
         visibility: hidden !important; 
     }
 `;
@@ -89,7 +62,7 @@ const StyledNav = styled.div`
 
 function FilesNav({}) {
 
-    const {files, currentFile, setCurrentFile} = useFiles();
+    const {files, currentFile, setCurrentFile, changeFileOrder} = useFiles();
 
     const navRef = useRef(null);
 
@@ -108,7 +81,7 @@ function FilesNav({}) {
 
             navRef.current.scrollBy({
 
-                left: e.deltaY < 0 ? -30 : 30,
+                left: e.deltaY < 0 ? -40 : 40,
             });
         }
 
@@ -135,19 +108,35 @@ function FilesNav({}) {
 
     const dragEnd = (e) => {
 
-        const item = e.target;
+        const item = e.currentTarget;
 
         const hoverItem = hoverItemRef.current;
 
-        //Change order items
-        const itemPosition = item.style.order;
+        const fileA = {
+            name: item.getAttribute('data-file-name'),
+            index: +item.getAttribute('data-file-index'),
+            order: +item.style.order
+        };
 
-        item.style.order = hoverItem.style.order;
+        const fileB = {
+            name: hoverItem.getAttribute('data-file-name'),
+            index: +hoverItem.getAttribute('data-file-index'),
+            order: +hoverItem.style.order
+        }
 
-        hoverItem.style.order = itemPosition;
-
+               
+        if(fileA.name !== fileB.name){
+            
+            changeFileOrder(fileA, fileB);  
+        }
+        
         //quit focus
         item.querySelector('button').blur();
+
+        //Solucion trucha para :hover involuntarios
+        document.body.style.pointerEvents = 'none';
+
+        setTimeout(() => document.body.style.pointerEvents = '', 70);
 
         //Remove css class
         for (const item of navRef.current.children) {
@@ -189,25 +178,20 @@ function FilesNav({}) {
 
         <Nav fill={true} variant="tabs" activeKey={currentFile} onSelect={handlerSelect} ref={navRef}>
             {
-                items.map(({name}, i) => {
+                items.map(({name, order}, i) => {
 
-                    return <Nav.Item className="d-flex" key={name} style={{order: i}}
+                    return <FilesNavItem name={name} key={name}
                     
-                        draggable="true" onDragStart={dragStart} onDragEnd={dragEnd}
+                        data-file-name={name} data-file-index={i + 1} 
+                        
+                        style={{order: order || i + 1}} 
+                
+                        onDragStart={dragStart} onDragEnd={dragEnd}
 
                         onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragOver}
-                    >
 
-                        <Nav.Link className="d-flex justify-content-center align-items-center" as="button" eventKey={name}>
-
-                            <img className="mx-2" src={FILES_ICONS[getFileExtension(name)]} alt="File language icon" />
-
-                            <span>{name}</span>
-                        </Nav.Link>
-
-                        <FileControls className="file-controls" fileName={name} />
-
-                    </Nav.Item>
+                        title={name}
+                    />
                 })
             } 
         </Nav>

@@ -70,8 +70,8 @@ function CustomEditor() {
         scrollBeyondLastLine: false,
         mouseWheelZoom: true,
 
-        wordWrap: 'wordWrapColumn',
-        wordWrapColumn: 200
+        //wordWrap: 'wordWrapColumn',
+        //wordWrapColumn: 200
     }
 
     const handleEditorWillMount = useCallback((monaco) => {

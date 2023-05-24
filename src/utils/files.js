@@ -1,8 +1,8 @@
 
 import cssIcon from '../assets/icons/css.svg';
 import htmlIcon from '../assets/icons/html.svg';
-import jsIcon from '../assets/icons/js.svg';
-import tsIcon from '../assets/icons/ts.svg';
+import jsIcon from '../assets/icons/js.png';
+import tsIcon from '../assets/icons/ts.png';
 import reactIcon from '../assets/icons/react.svg';
 import reactIconTs from '../assets/icons/react_ts.svg';
 import markdownIcon from '../assets/icons/markdown.svg';

@@ -44,7 +44,7 @@ function SaveProject({}) {
     return (<>
 
         {
-            !isProject && <>
+            isProject && <>
             
                 <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Guardar" onClick={save}>    
                     <i className="bi bi-archive mx-1" /> {!isMD && 'Guardar'}

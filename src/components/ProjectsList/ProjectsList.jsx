@@ -59,7 +59,7 @@ function ProjectsList({}) {
 
     const {changeFiles} = useFiles();
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
 
     const close = () => setShow(false);
 

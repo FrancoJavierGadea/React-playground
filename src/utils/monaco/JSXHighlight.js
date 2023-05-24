@@ -15,14 +15,6 @@ export function JSXSyntaxHighlighter(monaco, editor){
     });
 
 
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-
-        noSemanticValidation: true,
-        
-        noSyntaxValidation: true,
-    });
-    
-
     const controller = new MonacoJsxSyntaxHighlight(getWorker(), monaco);
 
     const { highlighter, dispose } = controller.highlighterBuilder({editor});

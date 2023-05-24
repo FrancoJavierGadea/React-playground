@@ -10,10 +10,6 @@ export const EXAMPLES = `https://api.github.com/repos/${USER}/${REPO}/contents/e
 
 export const TEMPLATES = `https://api.github.com/repos/${USER}/${REPO}/contents/templates`;
 
-const token = import.meta.env['VITE_GITHUB_TOKEN'];
-
-
-
 
 
 

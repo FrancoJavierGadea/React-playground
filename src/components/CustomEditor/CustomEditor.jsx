@@ -14,6 +14,8 @@ import { addCustomShortcuts } from "../../utils/monaco/Shortcuts";
 import ShowMarkdown from "../ShowMarkdown/ShowMarkdown";
 import { markdownSnippets } from "../../utils/monaco/MarkdownSnippets";
 import { reactUtilWords } from "../../utils/monaco/ReactUtilWords";
+import { typescriptDiagnostic } from "../../utils/monaco/Typescript";
+import TypescriptChecking from "./TypescriptChecking";
 
 
 const StyledEditor = styled.div`
@@ -57,7 +59,11 @@ function CustomEditor() {
 
     const editorRef = useRef(null);
 
+    const monacoRef = useRef(null);
+
     const {files, currentFile, updateFile} = useFiles();
+
+    const [typescriptCheck, setTypescriptCheck] = useState(false);
 
     const editorOptions = {
         padding: {
@@ -69,9 +75,6 @@ function CustomEditor() {
         },
         scrollBeyondLastLine: false,
         mouseWheelZoom: true,
-
-        //wordWrap: 'wordWrapColumn',
-        //wordWrapColumn: 200
     }
 
     const handleEditorWillMount = useCallback((monaco) => {
@@ -90,6 +93,9 @@ function CustomEditor() {
         //Add Emmet
         Emmet(monaco);
 
+        //Typescript Diagnostic
+        typescriptDiagnostic(monaco).disabled();
+
     }, []);
 
     const HighlighterRef = useRef(null);
@@ -97,6 +103,8 @@ function CustomEditor() {
     const handleEditorDidMount = useCallback((editor, monaco) => {
 
         editorRef.current = editor;
+
+        monacoRef.current = monaco;
 
         HighlighterRef.current = JSXSyntaxHighlighter(monaco, editor);
 
@@ -120,6 +128,21 @@ function CustomEditor() {
         updateFile(fileName, value);
     }
 
+
+    const toggleTypescriptDiagnostic = () => {
+
+        if(typescriptCheck){
+
+            typescriptDiagnostic(monacoRef.current).disabled();
+        }
+        else {
+
+            typescriptDiagnostic(monacoRef.current).activate();
+        }
+
+        setTypescriptCheck(old => !old);
+    } 
+
     return (<StyledEditor className="">
 
         <FilesNav />
@@ -139,6 +162,8 @@ function CustomEditor() {
         <Controls />
 
         { files[currentFile]?.language === 'markdown' && <ShowMarkdown file={files[currentFile]} /> }
+
+        { files[currentFile]?.language === 'typescript' && <TypescriptChecking check={typescriptCheck} onClick={toggleTypescriptDiagnostic} /> }
 
     </StyledEditor>);
 }

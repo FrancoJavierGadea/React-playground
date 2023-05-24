@@ -1,0 +1,21 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: black;
+}
+
+.main-canvas {
+	display: block;
+	border: 1px dashed gray;
+	margin: 20px auto;
+}
+
+.controls > * {
+	text-align: center;
+	color: white;
+	display: block;	
+	margin: 20px auto;
+}

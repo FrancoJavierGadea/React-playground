@@ -1,0 +1,13 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	overflow: hidden;
+}
+
+canvas {
+	display: block;
+  	background-color: #1a1a1a;
+}

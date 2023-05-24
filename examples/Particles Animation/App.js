@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 
 function App(){
-
+    
     const canvasRef = useRef(null); 
 
     const [width, setWidth] = useState(0);
@@ -31,25 +31,37 @@ function App(){
 
     const animation = useMemo(() => {
 
-        return MatrixAnimation(width, 16);
+        return Amination(width, height);
 
-    }, [width]);
-
+    }, [width, height]);
 
     useEffect(() => {
 
-        if(!canvasRef.current) return;
+        if(!animation) return;
         
         let ID = null;
 
         const canvas = canvasRef.current;
 
+        const ctx = canvas.getContext('2d');
+
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, 'red');
+        gradient.addColorStop(0.5, 'green');
+        gradient.addColorStop(1, 'blue');
+
         const draw = () => {
 
             stats.begin();
 
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            animation.draw(canvas, '#0f0');
+
+            animation.connectParticles(ctx, 150, '#6b6b6b', true);//<---
+
+            let color = true ? '#fff' : gradient;
+
+            animation.draw(ctx, color = undefined);//<---
 
 
             stats.end();
@@ -64,7 +76,7 @@ function App(){
             cancelAnimationFrame(ID);
         }
     
-    }, [animation]);
+    }, [animation, stats]);
     
     return (<div>
 

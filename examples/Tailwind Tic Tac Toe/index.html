@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <title>React App</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!--Visita: https://generator.jspm.io para agregar mas dependencias-->
+        <script type="importmap">
+            {
+                "imports": {
+                    "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
+                    "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
+                    "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js",
+                    "react-rough-notation": "https://ga.jspm.io/npm:react-rough-notation@1.0.3/dist/main.js",
+                    "react/jsx-runtime": "https://ga.jspm.io/npm:react@18.2.0/jsx-runtime.js"
+                },
+                "scopes": {
+                    "https://ga.jspm.io/": {
+                    "rough-notation": "https://ga.jspm.io/npm:rough-notation@0.5.1/lib/rough-notation.cjs.js",
+                    "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js"
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

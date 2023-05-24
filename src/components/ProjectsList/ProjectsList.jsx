@@ -57,7 +57,7 @@ const StyledOffcanvas = styled(Offcanvas)`
 
 function ProjectsList({}) {
 
-    const {changeFiles} = useFiles();
+    const {changeFiles, reset} = useFiles();
 
     const [show, setShow] = useState(true);
 
@@ -171,12 +171,15 @@ function ProjectsList({}) {
                     <Accordion.Item className="mb-2" eventKey="templates">
                         <Accordion.Header className="">Templates</Accordion.Header>
                         <Accordion.Body className="pt-0 pb-3 px-3">
-                        {
-                            templates.map(({name, source}, i) => {
 
-                                return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`} github={source}/>
-                            })
-                        }
+                            <ListItem name="Default" onClick={() => {close(); reset();}} />
+
+                            {
+                                templates.map(({name, source}, i) => {
+
+                                    return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`} github={source}/>
+                                })
+                            }
                         </Accordion.Body>
                     </Accordion.Item>
 

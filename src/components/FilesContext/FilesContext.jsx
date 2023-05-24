@@ -20,6 +20,13 @@ function FilesProvider({children}){
 
     }, [files]);
 
+
+    const reset = () => {
+
+        setFiles(EditorDefaultState);
+        setCurrentFile( defaultFile.find(fileName => EditorDefaultState[fileName]?.name) );
+    }
+
     const changeFiles = (files) => {
 
         setFiles(files);
@@ -127,7 +134,8 @@ function FilesProvider({children}){
         removeFile,
         changeFiles,
         updateFile,
-        changeFileOrder
+        changeFileOrder,
+        reset
     }
 
     return (<FilesContext.Provider value={value}>{children}</FilesContext.Provider>);

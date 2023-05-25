@@ -4,8 +4,8 @@ import App from './App'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import ProjectProvider from './components/ProjectsContext/ProjectsContext';
-import FilesProvider from './components/FilesContext/FilesContext';
+import ProjectProvider from './context/ProjectsContext/ProjectsContext';
+import FilesProvider from './context/FilesContext/FilesContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

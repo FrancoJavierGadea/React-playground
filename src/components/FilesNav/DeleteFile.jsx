@@ -1,7 +1,7 @@
 
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import { useState } from "react";
 
 

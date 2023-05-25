@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
-import { useProjects } from "../ProjectsContext/ProjectsContext";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import useBreakPoints, { MAX_WIDTH } from "../../hooks/useBreakpoints";
 
 

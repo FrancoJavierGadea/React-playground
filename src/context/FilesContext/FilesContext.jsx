@@ -4,7 +4,7 @@ import { getFileName } from "../../utils/files";
 
 const FilesContext = createContext();
 
-const defaultFile = ['/reame.md', '/App.js', '/App.jsx', '/App.ts', '/App.tsx', '/index.html'];
+const defaultFile = ['/App.js', '/App.jsx', '/App.ts', '/App.tsx', '/index.html', '/readme.md'];
 
 function FilesProvider({children}){
 

@@ -3,8 +3,8 @@ import { Accordion, Button, NavLink, Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
 import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
 import ListItem from "./ListItem";
-import { useProjects } from "../ProjectsContext/ProjectsContext";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import Footer from "./Fotter";
 import logo from "../../assets/icons/react.svg";
 

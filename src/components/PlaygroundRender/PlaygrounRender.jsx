@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { createDocument } from "../../utils/transfromJS";
 import { Editor } from "@monaco-editor/react";
 import { Alert } from "react-bootstrap";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import Controls from "./Controls";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
 

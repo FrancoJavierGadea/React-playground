@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { useDatabase } from "../../utils/database";
+import { STORES, useDatabase } from "../../utils/database";
 
 
 const ProjectContext = createContext();
@@ -10,7 +10,7 @@ function ProjectProvider({children}) {
 
     const [currentProject, setCurrentProject] = useState('default');
 
-    const database = useDatabase();
+    const database = useDatabase(STORES.PROJECTS);
 
     useEffect(() => {
 		

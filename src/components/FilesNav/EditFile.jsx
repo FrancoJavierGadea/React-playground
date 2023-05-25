@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import { getFileExtension, getFileName } from "../../utils/files";
 
 

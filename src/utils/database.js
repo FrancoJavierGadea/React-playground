@@ -5,7 +5,11 @@ export const DATABASE = "react-playground";
 
 export const STORE = "projects";
 
-export function initDatabase(){
+export const STORES = {
+    PROJECTS: "projects"
+}
+
+export function initDatabase(storeName){
 
     return new Promise((resolve, reject) => {
 
@@ -15,11 +19,11 @@ export function initDatabase(){
 
             const db = request.result;
 
-            if(!db.objectStoreNames.contains(STORE)){
+            if(!db.objectStoreNames.contains(storeName)){
 
                 console.log('Creating Store');
 
-                db.createObjectStore(STORE, { autoIncrement: true });
+                db.createObjectStore(storeName, { autoIncrement: true });
             }
         }
 
@@ -58,11 +62,13 @@ export function openDatabase(){
 }
 
 
-export function useDatabase(){
+export function useDatabase(storeName){
+
+    if(!storeName) throw new Error('store name not exist');
 
     useEffect(() => {
         
-        initDatabase()
+        initDatabase(storeName)
         .then(db => {
 
 
@@ -82,9 +88,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 store.add(value, key);
 
@@ -112,9 +118,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 store.put(value, key);
 
@@ -143,9 +149,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 const values = store.getAll();
     
@@ -174,9 +180,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 const values = store.getAllKeys();
     
@@ -205,9 +211,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 const values = store.get(key);
     
@@ -236,9 +242,9 @@ export function useDatabase(){
             openDatabase()
             .then(database => {
 
-                const transaction = database.transaction(STORE, 'readwrite');
+                const transaction = database.transaction(storeName, 'readwrite');
     
-                const store = transaction.objectStore(STORE);
+                const store = transaction.objectStore(storeName);
     
                 const values = store.delete(key);
     

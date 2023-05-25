@@ -8,7 +8,7 @@ import { reactSnippets } from "../../utils/monaco/ReactSnippets";
 import { javascriptSnippets } from "../../utils/monaco/JavascriptSnippets";
 import { JSXSyntaxHighlighter } from "../../utils/monaco/JSXHighlight";
 import FilesNav from "../FilesNav/FilesNav";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import Controls from "./Controls";
 import { addCustomShortcuts } from "../../utils/monaco/Shortcuts";
 import ShowMarkdown from "../ShowMarkdown/ShowMarkdown";

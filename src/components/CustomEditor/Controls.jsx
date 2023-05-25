@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import { downloadZip } from "../../utils/downloadZip";
-import { useProjects } from "../ProjectsContext/ProjectsContext";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 
 const StyledControls = styled.div`
 

@@ -1,6 +1,6 @@
 import { Button, ToggleButton } from "react-bootstrap";
-import { useFiles } from "../FilesContext/FilesContext";
-import { useProjects } from "../ProjectsContext/ProjectsContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 import { useEffect, useRef, useState } from "react";
 import useBreakPoints, { MAX_WIDTH } from "../../hooks/useBreakpoints";
 

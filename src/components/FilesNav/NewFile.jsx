@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert, Button, ButtonGroup, Form, Modal, Nav, ToggleButton } from "react-bootstrap";
 import styled from "styled-components";
 import { FILES_ICONS, getFileExtension, getFileLanguage } from "../../utils/files";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 
 const StyledModal = styled(Modal)`
 

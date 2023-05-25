@@ -9,7 +9,7 @@ import ProjectsList from "./components/ProjectsList/ProjectsList";
 import NewProject from "./components/NewProject/NewProject";
 import SaveProject from "./components/SaveProject/SaveProject";
 import ThemeSwitch from "./components/ThemeSwitch/ThemeSwitch";
-import ThemeProvider from "./components/ThemeContext/ThemeContext";
+import ThemeProvider from "./context/ThemeContext/ThemeContext";
 
 
 

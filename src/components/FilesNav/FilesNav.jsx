@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Nav } from "react-bootstrap";
 import styled from "styled-components";
 import NewFile from "./NewFile";
-import { useFiles } from "../FilesContext/FilesContext";
+import { useFiles } from "../../context/FilesContext/FilesContext";
 import FilesNavItem from "./FilesNavItem";
 
 const StyledNav = styled.div`

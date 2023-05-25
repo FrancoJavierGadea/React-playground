@@ -5,6 +5,7 @@ import styled from "styled-components";
 import CustomCodeBlock from "./CustomCodeBlock";
 import remarkGfm from 'remark-gfm';
 import "./github-markdown.css";
+import CustomLink from "./CustomLink";
 
 const StyledDiv = styled.div`
 
@@ -38,9 +39,9 @@ function ShowMarkdown({file = {}}) {
                 <Modal.Title>{file?.name}</Modal.Title>
             </Modal.Header>
 
-            <Modal.Body className="py-3 px-5">
+            <Modal.Body className="markdown-body py-3 px-5">
 
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={{code: CustomCodeBlock}}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={{code: CustomCodeBlock, a: CustomLink}}>
                     {file?.value}
                 </ReactMarkdown>
                 

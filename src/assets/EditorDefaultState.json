@@ -22,6 +22,6 @@
   "/readme.md": {
     "name": "/readme.md",
     "language": "markdown",
-    "value": "# Markdown"
+    "value": "# React playground\n\nAprende y experimenta **React**.\nPrueba diferentes funcionalidades y componentes en tiempo real.\nExplora y crea asombrosos ejemplos.\n\n## Proyectos\n\nPuedes crear un nuevo proyecto a partir de un `ejemplo` o `template` disponible, incluso de otro `proyecto guardado`\n\n![preview](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview.gif)\n\n* **Usa nombre unicos para cada proyecto**\n\n* Todos los proyectos se guardan de manera local con `indexedDB`\n\n\n## Agregar dependencias:\n\nPara gestionar las dependencias se usa [`import maps`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap)\n\nPara agregar mas dependencias actualiza el `json` dentro de `<script type=\"importmap\">` en el `index.html`\n\n![Como agregar dependencias con JSPM](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview-jspm.gif)\n\nEntra en [https://generator.jspm.io](https://generator.jspm.io) para generar el `importmap` con las dependencias que necesites\n"
   }
 }

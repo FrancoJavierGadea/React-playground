@@ -187,14 +187,49 @@ var disposeJsxText=function(o){var s=o.node,i=o.lines,t=o.classifications,n=calc
 var disposeNode=function(e){var s=e.node,i=e.index;[Typescript.SyntaxKind.JsxFragment,Typescript.SyntaxKind.JsxElement,Typescript.SyntaxKind.JsxSelfClosingElement].includes(s.kind)&&disposeJsxElementOrFragment(e),s.parent&&s.parent.kind===Typescript.SyntaxKind.JsxAttribute&&s.kind===Typescript.SyntaxKind.Identifier&&0===i&&disposeJsxAttributeKey(e),s.kind===Typescript.SyntaxKind.JsxExpression&&disposeJsxExpression(e),s.kind===Typescript.SyntaxKind.JsxText&&disposeJsxText(e);},walkAST=function(e){disposeNode(e);var s=0;Typescript.forEachChild(e.node,(function(i){return walkAST(__assign(__assign({},e),{node:i,index:s++}))}));},withDefaultConfig=function(e){var s=(e||{}).jsxTagCycle;return {jsxTagCycle:void 0===s?3:s}};var analysis=function(e,s,i){try{var t=[],n=Typescript.createSourceFile(e,s,Typescript.ScriptTarget.ES2020,!0),r=s.split("\\n").map((function(e){return e.length+1}));return walkAST({node:n,lines:r,context:{jsxTagOrder:1},classifications:t,config:withDefaultConfig(i),index:0}),t}catch(e){return (null==i?void 0:i.enableConsole)&&console.error(e),[]}};
 
 self.addEventListener("message",(function(s){var a=s.data,e=a.code,i=a.filePath,n=a.version,o=a.config;try{var l=analysis(i,e,o);self.postMessage({classifications:l,version:n,filePath:i});}catch(s){(null==o?void 0:o.enableConsole)&&console.error(s);}}));
-`,F1t={worker:y1t},E1t=function(){return F1t},C1t=function(){function r(o,l,f){var D=this;this.createWorkerFromPureString=function(p,h){window.URL=window.URL||window.webkitURL;var y;p=p.replace("__TYPESCRIPT_CUSTOM_URL__",h!=null&&h.customTypescriptUrl?"'".concat(h==null?void 0:h.customTypescriptUrl,"'"):"undefined");try{y=new Blob([p],{type:"application/javascript"})}catch{window.BlobBuilder=window.BlobBuilder||window.WebKitBlobBuilder||window.MozBlobBuilder,y=new window.BlobBuilder,y.append(p),y=y.getBlob()}var E=new Worker(URL.createObjectURL(y));return URL.revokeObjectURL(y),E},this.highlighterBuilder=function(p){var h=p.editor,y=p.filePath,E=y===void 0?h.getModel().uri.toString():y,A={current:[]},S=function(I){var K=I.data,z=K.classifications,$=K.version,V=K.filePath;requestAnimationFrame(function(){if(V===E&&$===h.getModel().getVersionId()){var ne=A.current;A.current=h.deltaDecorations(ne,z.map(function(q){return{range:new D.monaco.Range(q.start.row,q.start.column,q.end.row,q.end.column+1),options:{inlineClassName:q.tokens.join(" ")}}}))}})};return D.worker.addEventListener("message",S),{highlighter:function(I){requestAnimationFrame(function(){var K=I||h.getModel().getValue();D.worker.postMessage({code:K,filePath:E,version:h.getModel().getVersionId()})})},dispose:function(){D.worker.removeEventListener("message",S)}}},this.monaco=l,typeof o=="string"?this.worker=new Worker(o):o.worker&&typeof o.worker=="string"?this.worker=this.createWorkerFromPureString(o.worker,f):this.worker=o}return r}();function v1t(r,o){r.languages.typescript.typescriptDefaults.setCompilerOptions({jsx:r.languages.typescript.JsxEmit.React,target:r.languages.typescript.ScriptTarget.ES2020,esModuleInterop:!0});const l=new C1t(E1t(),r),{highlighter:f,dispose:D}=l.highlighterBuilder({editor:o}),p=()=>{const h=o.getModel().getLanguageId();(h==="javascript"||h==="typescript")&&f()};return p(),o.onDidChangeModelContent(h=>{p()}),o.onDidChangeModel(h=>{p()}),{highlighter:f,dispose:D}}const A1t="/React-playground/assets/css-06801e28.svg",b1t="/React-playground/assets/html-0ebf61b6.svg",R1t="/React-playground/assets/js-4fc5a469.png",B1t="/React-playground/assets/ts-7c8c91c7.png",_pe="/React-playground/assets/react-1e2e4368.svg",w1t="/React-playground/assets/react_ts-b4b396e4.svg",S1t="/React-playground/assets/markdown-64e95881.svg",T1t="/React-playground/assets/document-96088696.svg",Npe={".css":A1t,".html":b1t,".js":R1t,".ts":B1t,".jsx":_pe,".tsx":w1t,".md":S1t,".txt":T1t};function YD(r=""){let[o]=r.match(/[\w\. ]*\./g);return o.replace(/\.$/g,"")}function bI(r=""){const[o]=r.match(/\.[\w]*$/g);return o}function yk(r=""){const o=bI(r);return{".css":"css",".html":"html",".js":"javascript",".jsx":"javascript",".ts":"typescript",".tsx":"typescript",".md":"markdown",".txt":"plaintext"}[o]}const im={"/App.js":{name:"/App.js",language:"javascript",value:`function App(){
+`,F1t={worker:y1t},E1t=function(){return F1t},C1t=function(){function r(o,l,f){var D=this;this.createWorkerFromPureString=function(p,h){window.URL=window.URL||window.webkitURL;var y;p=p.replace("__TYPESCRIPT_CUSTOM_URL__",h!=null&&h.customTypescriptUrl?"'".concat(h==null?void 0:h.customTypescriptUrl,"'"):"undefined");try{y=new Blob([p],{type:"application/javascript"})}catch{window.BlobBuilder=window.BlobBuilder||window.WebKitBlobBuilder||window.MozBlobBuilder,y=new window.BlobBuilder,y.append(p),y=y.getBlob()}var E=new Worker(URL.createObjectURL(y));return URL.revokeObjectURL(y),E},this.highlighterBuilder=function(p){var h=p.editor,y=p.filePath,E=y===void 0?h.getModel().uri.toString():y,A={current:[]},S=function(I){var K=I.data,z=K.classifications,$=K.version,V=K.filePath;requestAnimationFrame(function(){if(V===E&&$===h.getModel().getVersionId()){var ne=A.current;A.current=h.deltaDecorations(ne,z.map(function(q){return{range:new D.monaco.Range(q.start.row,q.start.column,q.end.row,q.end.column+1),options:{inlineClassName:q.tokens.join(" ")}}}))}})};return D.worker.addEventListener("message",S),{highlighter:function(I){requestAnimationFrame(function(){var K=I||h.getModel().getValue();D.worker.postMessage({code:K,filePath:E,version:h.getModel().getVersionId()})})},dispose:function(){D.worker.removeEventListener("message",S)}}},this.monaco=l,typeof o=="string"?this.worker=new Worker(o):o.worker&&typeof o.worker=="string"?this.worker=this.createWorkerFromPureString(o.worker,f):this.worker=o}return r}();function v1t(r,o){r.languages.typescript.typescriptDefaults.setCompilerOptions({jsx:r.languages.typescript.JsxEmit.React,target:r.languages.typescript.ScriptTarget.ES2020,esModuleInterop:!0});const l=new C1t(E1t(),r),{highlighter:f,dispose:D}=l.highlighterBuilder({editor:o}),p=()=>{const h=o.getModel().getLanguageId();(h==="javascript"||h==="typescript")&&f()};return p(),o.onDidChangeModelContent(h=>{p()}),o.onDidChangeModel(h=>{p()}),{highlighter:f,dispose:D}}const A1t="/React-playground/assets/css-06801e28.svg",b1t="/React-playground/assets/html-0ebf61b6.svg",R1t="/React-playground/assets/js-4fc5a469.png",B1t="/React-playground/assets/ts-7c8c91c7.png",_pe="/React-playground/assets/react-1e2e4368.svg",w1t="/React-playground/assets/react_ts-b4b396e4.svg",S1t="/React-playground/assets/markdown-64e95881.svg",T1t="/React-playground/assets/document-96088696.svg",Npe={".css":A1t,".html":b1t,".js":R1t,".ts":B1t,".jsx":_pe,".tsx":w1t,".md":S1t,".txt":T1t};function YD(r=""){let[o]=r.match(/[\w\. ]*\./g);return o.replace(/\.$/g,"")}function bI(r=""){const[o]=r.match(/\.[\w]*$/g);return o}function yk(r=""){const o=bI(r);return{".css":"css",".html":"html",".js":"javascript",".jsx":"javascript",".ts":"typescript",".tsx":"typescript",".md":"markdown",".txt":"plaintext"}[o]}const im={"/readme.md":{name:"/readme.md",language:"markdown",value:`# React playground
+
+Aprende y experimenta **React**.
+Prueba diferentes funcionalidades y componentes en tiempo real.
+Explora y crea asombrosos ejemplos.
+
+## Proyectos
+
+Puedes crear un nuevo proyecto a partir de un \`ejemplo\` o \`template\` disponible, incluso de otro \`proyecto guardado\`
+
+![preview](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview.gif)
+
+* **Usa nombre unicos para cada proyecto**
+
+* Todos los proyectos se guardan de manera local con \`indexedDB\`
+
+
+## Agregar dependencias:
+
+Para gestionar las dependencias se usa [\`import maps\`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap)
+
+Para agregar mas dependencias actualiza el \`json\` dentro de \`<script type="importmap">\` en el \`index.html\`
+
+![Como agregar dependencias con JSPM](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview-jspm.gif)
+
+Entra en [https://generator.jspm.io](https://generator.jspm.io) para generar el \`importmap\` con las dependencias que necesites
+`},"/App.js":{name:"/App.js",language:"javascript",value:`function App(){
     
     return (<div>
 
         <h1>Hello React</h1>
 
     </div>);
-}`},"/index.html":{name:"/index.html",language:"html",value:`<!DOCTYPE html>
+}`},"/main.js":{name:"/main.js",language:"javascript",value:`import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+const root = document.getElementById('root');
+
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);`},"/index.html":{name:"/index.html",language:"html",value:`<!DOCTYPE html>
 
 <html lang="es">
     <head>
@@ -224,44 +259,9 @@ self.addEventListener("message",(function(s){var a=s.data,e=a.code,i=a.filePath,
         }
         <\/script>
     </body>
-</html>`},"/main.js":{name:"/main.js",language:"javascript",value:`import React from 'react';
-import ReactDOM from 'react-dom/client';
-
-const root = document.getElementById('root');
-
-ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);`},"/style.css":{name:"/style.css",language:"css",value:`h1 {
+</html>`},"/style.css":{name:"/style.css",language:"css",value:`h1 {
   	color: #2052d1;
-}`},"/readme.md":{name:"/readme.md",language:"markdown",value:`# React playground
-
-Aprende y experimenta **React**.
-Prueba diferentes funcionalidades y componentes en tiempo real.
-Explora y crea asombrosos ejemplos.
-
-## Proyectos
-
-Puedes crear un nuevo proyecto a partir de un \`ejemplo\` o \`template\` disponible, incluso de otro \`proyecto guardado\`
-
-![preview](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview.gif)
-
-* **Usa nombre unicos para cada proyecto**
-
-* Todos los proyectos se guardan de manera local con \`indexedDB\`
-
-
-## Agregar dependencias:
-
-Para gestionar las dependencias se usa [\`import maps\`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap)
-
-Para agregar mas dependencias actualiza el \`json\` dentro de \`<script type="importmap">\` en el \`index.html\`
-
-![Como agregar dependencias con JSPM](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview-jspm.gif)
-
-Entra en [https://generator.jspm.io](https://generator.jspm.io) para generar el \`importmap\` con las dependencias que necesites
-`}},Lpe=Oe.createContext(),NT=["/readme.md","/App.js","/App.jsx","/App.ts","/App.tsx","/index.html"];function j1t({children:r}){const o=Oe.useRef(),[l,f]=Oe.useState(im),[D,p]=Oe.useState(NT.find($=>{var V;return(V=im[$])==null?void 0:V.name}));Oe.useEffect(()=>{o.current=l},[l]);const z={files:l,currentFile:D,filesRef:o,setCurrentFile:p,updateFileName:($,V)=>{f(ne=>{const q={...ne};return q[V]=q[$],q[V].name=V,delete q[$],q})},addFile:($,V)=>{if(!YD($))throw new Error("Ingresa un nombre valido");if(Object.keys(l).some(q=>{const Q=YD(q),re=YD($);return Q===re}))throw new Error("Ya existe un archivo con ese nombre");f(q=>{const Q={...q};return Q[$]=V,Q})},removeFile:$=>{f(V=>{const ne={...V};return delete ne[$],ne})},changeFiles:$=>{f($),p(NT.find(V=>{var ne;return(ne=$[V])==null?void 0:ne.name}))},updateFile:($,V)=>{f(ne=>{const q={...ne};return q[$].value=V,q})},changeFileOrder:($,V)=>{f(ne=>{const q={...ne};return $.order===V.order&&($.index>V.index?$.order++:V.order++),q[$.name].order=V.order,q[V.name].order=$.order,q})},reset:()=>{f(im),p(NT.find($=>{var V;return(V=im[$])==null?void 0:V.name}))}};return Xe(Lpe.Provider,{value:z,children:r})}function go(){return Oe.useContext(Lpe)}const k1t=cn(Qa)`
+}`}},Lpe=Oe.createContext(),NT=["/readme.md","/App.js","/App.jsx","/App.ts","/App.tsx","/index.html"];function j1t({children:r}){const o=Oe.useRef(),[l,f]=Oe.useState(im),[D,p]=Oe.useState(NT.find($=>{var V;return(V=im[$])==null?void 0:V.name}));Oe.useEffect(()=>{o.current=l},[l]);const z={files:l,currentFile:D,filesRef:o,setCurrentFile:p,updateFileName:($,V)=>{f(ne=>{const q={...ne};return q[V]=q[$],q[V].name=V,delete q[$],q})},addFile:($,V)=>{if(!YD($))throw new Error("Ingresa un nombre valido");if(Object.keys(l).some(q=>{const Q=YD(q),re=YD($);return Q===re}))throw new Error("Ya existe un archivo con ese nombre");f(q=>{const Q={...q};return Q[$]=V,Q})},removeFile:$=>{f(V=>{const ne={...V};return delete ne[$],ne})},changeFiles:$=>{f($),p(NT.find(V=>{var ne;return(ne=$[V])==null?void 0:ne.name}))},updateFile:($,V)=>{f(ne=>{const q={...ne};return q[$].value=V,q})},changeFileOrder:($,V)=>{f(ne=>{const q={...ne};return $.order===V.order&&($.index>V.index?$.order++:V.order++),q[$.name].order=V.order,q[V.name].order=$.order,q})},reset:()=>{f(im),p(NT.find($=>{var V;return(V=im[$])==null?void 0:V.name}))}};return Xe(Lpe.Provider,{value:z,children:r})}function go(){return Oe.useContext(Lpe)}const k1t=cn(Qa)`
 
     z-index: 5000;
 

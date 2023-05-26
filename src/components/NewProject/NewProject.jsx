@@ -91,7 +91,7 @@ function NewProject({}) {
 
                         value={MODE.PROJECT} checked= {mode === MODE.PROJECT} onChange={(e) => setMode(e.currentTarget.value)}
 
-                        variant={mode === MODE.PROJECT ? 'primary' : 'outline-primary'} title="Guardar como Proyecto"
+                        variant={mode === MODE.PROJECT ? 'secondary' : 'outline-secondary'} title="Guardar como Proyecto"
                     >
                         Proyecto
                     </ToggleButton>
@@ -100,7 +100,7 @@ function NewProject({}) {
 
                         value={MODE.TEMPLATE} checked= {mode === MODE.TEMPLATE} onChange={(e) => setMode(e.currentTarget.value)}
 
-                        variant={mode === MODE.TEMPLATE ? 'primary' : 'outline-primary'} title="Guardar como Template"
+                        variant={mode === MODE.TEMPLATE ?  'secondary' : 'outline-secondary'} title="Guardar como Template"
                     >
                         Template
                     </ToggleButton>

@@ -1,10 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Accordion, Button, NavLink, Offcanvas } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Offcanvas, Tab, Tabs } from "react-bootstrap";
 import styled from "styled-components";
-import { downloadExample, downloadTemplate, getExamples, getTemplates } from "../../utils/github";
-import ListItem from "./ListItem";
 import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
-import { useFiles } from "../../context/FilesContext/FilesContext";
 import Footer from "./Fotter";
 import logo from "../../assets/icons/react.svg";
 import Projects from "./Projects";
@@ -25,7 +22,12 @@ const StyledOffcanvas = styled(Offcanvas)`
         width: 50px;
     }
 
-    .offcanvas-body {
+    .tab-content {
+
+        padding: 0 10px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 90%;
 
         --sb-track-color: ${props => props.theme.isDark ? '#232E33' : '#8e8989'};
         --sb-thumb-color: ${props => props.theme.isDark ? '#6BAF8D' : '#4a4a4b'};
@@ -34,25 +36,18 @@ const StyledOffcanvas = styled(Offcanvas)`
         scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
     }
     
-    .offcanvas-body::-webkit-scrollbar {
+    .tab-content::-webkit-scrollbar {
         width: var(--sb-size) 
     }
 
-    .offcanvas-body::-webkit-scrollbar-track {
+    .tab-content::-webkit-scrollbar-track {
         background: var(--sb-track-color);
         border-radius: 1px;
     }
 
-    .offcanvas-body::-webkit-scrollbar-thumb {
+    .tab-content::-webkit-scrollbar-thumb {
         background: var(--sb-thumb-color);
         border-radius: 1px;   
-    }
-
-    .offcanvas-body .accordion {
-        --bs-accordion-border-radius: 0;
-        --bs-accordion-border-width: 0;
-        --bs-accordion-active-bg: transparent;
-        --bs-accordion-btn-focus-box-shadow: transparent;
     }
 `;
 
@@ -66,13 +61,7 @@ function ProjectsList({}) {
 
     const open = () => setShow(true);
 
-
-    const [accordionOpenItems, setAccordionOpenItems] = useState([]);
-
-    const accordionHandlerSelect = (openItems) => {
-
-        setAccordionOpenItems(openItems);
-    }
+    const [tabSelected, settabSelected] = useState('examples');
 
 	const { currentProject } = useProjects();
 
@@ -93,36 +82,24 @@ function ProjectsList({}) {
 
             <Offcanvas.Body className="p-0">
 
-                <Accordion activeKey={accordionOpenItems} onSelect={accordionHandlerSelect} alwaysOpen>
+                <Tabs className="mb-1" activeKey={tabSelected} onSelect={(key) => settabSelected(key)} fill>
 
-                    <Accordion.Item className="mb-2" eventKey="examples">
-                        <Accordion.Header className="">Ejemplos</Accordion.Header>
-                        <Accordion.Body className="pt-0 pb-3 px-3">
-                        
-                            <Examples onSelect={close} onLoad={() => setAccordionOpenItems(old => [...old, 'examples'])} />
+                    <Tab eventKey="examples" title="Ejemplos">
 
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    
-                    <Accordion.Item className="mb-2" eventKey="templates">
-                        <Accordion.Header className="">Templates</Accordion.Header>
-                        <Accordion.Body className="pt-0 pb-3 px-3">
+                        <Examples onSelect={close} />
+                    </Tab>
 
-                            <Templates onSelect={close} />
+                    <Tab eventKey="template" title="Templates">
 
-                        </Accordion.Body>
-                    </Accordion.Item>
+                        <Templates onSelect={close} />
+                    </Tab>
 
-                    <Accordion.Item className="mb-2" eventKey="projects">
-                        <Accordion.Header className="">Guardados</Accordion.Header>
-                        <Accordion.Body className="pt-0 pb-3 px-3">
+                    <Tab eventKey="projects" title="Guardados">
 
-                            <Projects onSelect={close} />
+                        <Projects onSelect={close} />
+                    </Tab>
 
-                        </Accordion.Body>
-                    </Accordion.Item>
-
-                </Accordion>
+                </Tabs>
 
             </Offcanvas.Body>
 

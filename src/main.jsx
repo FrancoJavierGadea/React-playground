@@ -6,15 +6,22 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ProjectProvider from './context/ProjectsContext/ProjectsContext';
 import FilesProvider from './context/FilesContext/FilesContext';
+import { TemplatesProvider } from './context/TemplatesContext/TemplatesContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
     <ProjectProvider>
 
-      <FilesProvider>
-        <App />
-      </FilesProvider>
+      <TemplatesProvider>
+
+        <FilesProvider>
+          
+          <App />
+
+        </FilesProvider>
+
+      </TemplatesProvider>
 
     </ProjectProvider>
     

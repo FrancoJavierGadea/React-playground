@@ -7,6 +7,9 @@ import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 import { useFiles } from "../../context/FilesContext/FilesContext";
 import Footer from "./Fotter";
 import logo from "../../assets/icons/react.svg";
+import Projects from "./Projects";
+import Examples from "./Examples";
+import Templates from "./Templates";
 
 
 const StyledOffcanvas = styled(Offcanvas)`
@@ -57,8 +60,6 @@ const StyledOffcanvas = styled(Offcanvas)`
 
 function ProjectsList({}) {
 
-    const {changeFiles, reset} = useFiles();
-
     const [show, setShow] = useState(true);
 
     const close = () => setShow(false);
@@ -73,71 +74,9 @@ function ProjectsList({}) {
         setAccordionOpenItems(openItems);
     }
 
-	const {projects, currentProject, setCurrentProject, getProject, removeProject} = useProjects();
-
-    const selectProject = (name) => {
-
-        close();
-
-        getProject(name)
-		.then(project => {
-
-            setCurrentProject(name);
-            changeFiles(project);
-		});
-    }
+	const { currentProject } = useProjects();
 
 
-    const [templates, setTemplates] = useState([]);
-
-    useEffect(() => {
-        
-        getTemplates()
-        .then(templates => {
-
-            setTemplates(templates);
-            setAccordionOpenItems(old => [...old, 'examples']);
-        });
-
-    }, []);
-
-    const selectTemplate = (name) => {
-
-        close();
-
-        downloadTemplate(name)
-        .then(template => {
-
-            setCurrentProject(name);
-            changeFiles(template);
-        });
-    }
-
-
-    const [examples, setExamples] = useState([]);
-    
-    useEffect(() => {
-        
-        getExamples()
-        .then(examples => {
-
-            setExamples(examples);
-            setAccordionOpenItems(old => [...old, 'templates']);
-        });
-
-    }, []);
-
-    const selectExample = (name) => {
-
-        close();
-
-        downloadExample(name)
-        .then(example => {
-
-            setCurrentProject(name);
-            changeFiles(example);
-        });
-    }
 
     return (<>
     
@@ -159,12 +98,9 @@ function ProjectsList({}) {
                     <Accordion.Item className="mb-2" eventKey="examples">
                         <Accordion.Header className="">Ejemplos</Accordion.Header>
                         <Accordion.Body className="pt-0 pb-3 px-3">
-                        {
-                            examples.map(({name, source}, i) => {
+                        
+                            <Examples onSelect={close} onLoad={() => setAccordionOpenItems(old => [...old, 'examples'])} />
 
-                                return <ListItem name={name} onClick={() => selectExample(name)} key={`example-${i}`} github={source}/>
-                            })
-                        }
                         </Accordion.Body>
                     </Accordion.Item>
                     
@@ -172,29 +108,17 @@ function ProjectsList({}) {
                         <Accordion.Header className="">Templates</Accordion.Header>
                         <Accordion.Body className="pt-0 pb-3 px-3">
 
-                            <ListItem name="Default" onClick={() => {close(); reset();}} />
+                            <Templates onSelect={close} />
 
-                            {
-                                templates.map(({name, source}, i) => {
-
-                                    return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`} github={source}/>
-                                })
-                            }
                         </Accordion.Body>
                     </Accordion.Item>
 
                     <Accordion.Item className="mb-2" eventKey="projects">
                         <Accordion.Header className="">Guardados</Accordion.Header>
                         <Accordion.Body className="pt-0 pb-3 px-3">
-                        {
-                            projects.map((name, i) => {
 
-                                return <ListItem name={name} onClick={() => selectProject(name)} key={name} 
+                            <Projects onSelect={close} />
 
-                                    del onDelete={() => removeProject(name)}
-                                />
-                            })
-                        }
                         </Accordion.Body>
                     </Accordion.Item>
 

@@ -6,25 +6,29 @@ export const DATABASE = "react-playground";
 export const STORE = "projects";
 
 export const STORES = {
-    PROJECTS: "projects"
+    PROJECTS: "projects",
+    TEMPLATES: "templates"
 }
 
-export function initDatabase(storeName){
+export function initDatabase(){
 
     return new Promise((resolve, reject) => {
 
-        const request = indexedDB.open(DATABASE);
+        const request = indexedDB.open(DATABASE, 2);
 
         request.onupgradeneeded = () => {
 
             const db = request.result;
 
-            if(!db.objectStoreNames.contains(storeName)){
+            Object.values(STORES).forEach(storeName => {
 
-                console.log('Creating Store');
-
-                db.createObjectStore(storeName, { autoIncrement: true });
-            }
+                if(!db.objectStoreNames.contains(storeName)){
+    
+                    console.log('Creating Store');
+    
+                    db.createObjectStore(storeName, { autoIncrement: true });
+                }
+            });
         }
 
         request.onsuccess = () => {
@@ -67,11 +71,10 @@ export function useDatabase(storeName){
     if(!storeName) throw new Error('store name not exist');
 
     useEffect(() => {
-        
-        initDatabase(storeName)
+
+        initDatabase()
         .then(db => {
-
-
+            
         })
         .catch(err => {
 

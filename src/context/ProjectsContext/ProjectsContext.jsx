@@ -10,6 +10,8 @@ function ProjectProvider({children}) {
 
     const [currentProject, setCurrentProject] = useState('default');
 
+    const [isProject, setIsProject] = useState(false);
+
     const database = useDatabase(STORES.PROJECTS);
 
     useEffect(() => {
@@ -38,17 +40,23 @@ function ProjectProvider({children}) {
 
 			setCurrentProject(name);
 
+            setIsProject(true);
+
 			setProjects(old => [...old, name]);
 		});
     }
 
-    const updateProject = (name, project) => {
+    const updateProject = async (name, project) => {
 
-        database.update(project, name)
-		.then(() => {
+        try {
+            
+            await database.update(project, name);
 
-			console.log('Guardado');
-		});
+            console.log('Proyecto guardado');
+        }
+        catch (error) {
+            
+        }	
     }
 
     const removeProject = (name) => {
@@ -65,12 +73,6 @@ function ProjectProvider({children}) {
         return database.get(name);
     }
 
-    const isProject = useMemo(() => {
-
-        return projects.includes(currentProject);
-
-    }, [currentProject]);
-
     const value = {
         projects,
         addProject,
@@ -79,7 +81,8 @@ function ProjectProvider({children}) {
         updateProject,
         currentProject,
         setCurrentProject,
-        isProject
+        isProject,
+        setIsProject
     };
 
     return (<ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>);

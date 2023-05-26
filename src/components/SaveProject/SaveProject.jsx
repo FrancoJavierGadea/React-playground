@@ -13,6 +13,8 @@ function SaveProject({}) {
 
     const [autoSave, setAutoSave] = useState(false);
 
+    const [saved, setSaved] = useState(false);
+
 
     useEffect(() => {
 
@@ -22,7 +24,13 @@ function SaveProject({}) {
 
             console.log('Auto Guardado');
 
-            updateProject(currentProject, filesRef.current);
+            updateProject(currentProject, filesRef.current)
+            .then(() => {
+
+                setSaved(true);
+    
+                setTimeout(() => setSaved(false), 1000);
+            });;
 
         }, 1000*60);
 
@@ -36,7 +44,13 @@ function SaveProject({}) {
 
     const save = () => {
 
-        updateProject(currentProject, files);
+        updateProject(currentProject, files)
+        .then(() => {
+
+            setSaved(true);
+
+            setTimeout(() => setSaved(false), 1000);
+        });
     }
 
     const [isMD] = useBreakPoints(MAX_WIDTH.md);
@@ -46,8 +60,18 @@ function SaveProject({}) {
         {
             isProject && <>
             
-                <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Guardar" onClick={save}>    
-                    <i className="bi bi-archive mx-1" /> {!isMD && 'Guardar'}
+                <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Guardar" onClick={save}>
+
+                    {!saved ?
+                        <>
+                            <i className="bi bi-archive mx-1" /> {!isMD && 'Guardar'}
+                        </>
+                    : 
+                        <>
+                            <i className="bi bi-check2" /> {!isMD && 'Guardado'}
+                        </>
+                    }  
+
                 </Button>
         
                 <Button className="border-0 rounded-0" size="sm" 

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export const DATABASE = "react-playground";
 
-export const STORE = "projects";
+export const DATABASE_VERSION = 3;
 
 export const STORES = {
     PROJECTS: "projects",
@@ -14,7 +14,7 @@ export function initDatabase(){
 
     return new Promise((resolve, reject) => {
 
-        const request = indexedDB.open(DATABASE, 2);
+        const request = indexedDB.open(DATABASE, DATABASE_VERSION);
 
         request.onupgradeneeded = () => {
 
@@ -28,6 +28,8 @@ export function initDatabase(){
     
                     db.createObjectStore(storeName, { autoIncrement: true });
                 }
+
+                updateDatabase(storeName);
             });
         }
 
@@ -66,208 +68,209 @@ export function openDatabase(){
 }
 
 
-export function useDatabase(storeName){
+export function addItem(storeName, value, key){
 
-    if(!storeName) throw new Error('store name not exist');
+    return new Promise((resolve, reject) => {
 
-    useEffect(() => {
+        openDatabase()
+        .then(database => {
 
-        initDatabase()
-        .then(db => {
-            
+            const transaction = database.transaction(storeName, 'readwrite');
+
+            const store = transaction.objectStore(storeName);
+
+            store.add(value, key);
+
+            transaction.oncomplete = () => {
+
+                resolve();
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
         })
         .catch(err => {
 
-            console.log(err);
-        });
+            reject(err);
+        })
+    }); 
+}
 
-    }, []);
+export function updateItem(storeName, value, key){
 
+    return new Promise((resolve, reject) => {
+
+        openDatabase()
+        .then(database => {
+
+            const transaction = database.transaction(storeName, 'readwrite');
+
+            const store = transaction.objectStore(storeName);
+
+            store.put(value, key);
+
+            transaction.oncomplete = () => {
+
+                resolve();
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
+        })
+        .catch(err => {
+
+            reject(err);
+        })
+    }); 
+}
+
+export function getAllItems(storeName){
     
-    const add = (value, key) => {
+    return new Promise((resolve, reject) => {
 
-        return new Promise((resolve, reject) => {
+        openDatabase()
+        .then(database => {
 
-            openDatabase()
-            .then(database => {
+            const transaction = database.transaction(storeName, 'readwrite');
 
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                store.add(value, key);
+            const store = transaction.objectStore(storeName);
 
-                transaction.oncomplete = () => {
-    
-                    resolve();
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
+            const values = store.getAll();
 
-                reject(err);
-            })
-        });   
+            transaction.oncomplete = () => {
+
+                resolve(values.result);
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
+        })
+        .catch(err => {
+
+            reject(err);
+        })
+
+    });
+}
+
+export function getAllItemsKeys(storeName){
+
+    return new Promise((resolve, reject) => {
+
+        openDatabase()
+        .then(database => {
+
+            const transaction = database.transaction(storeName, 'readwrite');
+
+            const store = transaction.objectStore(storeName);
+
+            const values = store.getAllKeys();
+
+            transaction.oncomplete = () => {
+
+                resolve(values.result);
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
+        })
+        .catch(err => {
+
+            reject(err);
+        })
+
+    });
+}
+
+export function getItem(storeName, key){
+
+    return new Promise((resolve, reject) => {
+
+        openDatabase()
+        .then(database => {
+
+            const transaction = database.transaction(storeName, 'readwrite');
+
+            const store = transaction.objectStore(storeName);
+
+            const values = store.get(key);
+
+            transaction.oncomplete = () => {
+
+                resolve(values.result);
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
+        })
+        .catch(err => {
+
+            reject(err);
+        })
+
+    });
+}
+
+export function removeItem(storeName, key){
+
+    return new Promise((resolve, reject) => {
+
+        openDatabase()
+        .then(database => {
+
+            const transaction = database.transaction(storeName, 'readwrite');
+
+            const store = transaction.objectStore(storeName);
+
+            const values = store.delete(key);
+
+            transaction.oncomplete = () => {
+
+                resolve(values.result);
+            }
+
+            transaction.onerror = () => {
+                
+                reject(new Error("Error to complete transaction"));
+            }
+        })
+        .catch(err => {
+
+            reject(err);
+        })
+
+    });
+}
+
+
+//------> update project store to support folders
+async function updateDatabase(storeName){
+
+    try {
+
+        const keys = await getAllItemsKeys(storeName);
+
+        for (const key of keys) {
+
+            const item = await getItem(storeName, key);
+
+            await updateItem(storeName, {name: key, files: item}, key);
+        }
+
+        console.log('update database complete');
     }
+    catch (error) {
 
-    const update = (value, key) => {
-
-        return new Promise((resolve, reject) => {
-
-            openDatabase()
-            .then(database => {
-
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                store.put(value, key);
-
-                transaction.oncomplete = () => {
-    
-                    resolve();
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
-
-                reject(err);
-            })
-        });   
+        console.log('error updating database', error);
     }
-
-    const getAll = () => {
-
-
-        return new Promise((resolve, reject) => {
-
-            openDatabase()
-            .then(database => {
-
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                const values = store.getAll();
-    
-                transaction.oncomplete = () => {
-    
-                    resolve(values.result);
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
-
-                reject(err);
-            })
-
-        });
-    }
-
-    const getAllKeys = () => {
-
-        return new Promise((resolve, reject) => {
-
-            openDatabase()
-            .then(database => {
-
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                const values = store.getAllKeys();
-    
-                transaction.oncomplete = () => {
-    
-                    resolve(values.result);
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
-
-                reject(err);
-            })
-
-        });
-    }
-
-    const get = (key) => {
-
-        return new Promise((resolve, reject) => {
-
-            openDatabase()
-            .then(database => {
-
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                const values = store.get(key);
-    
-                transaction.oncomplete = () => {
-    
-                    resolve(values.result);
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
-
-                reject(err);
-            })
-
-        });
-    }
-
-    const remove = (key) => {
-
-        return new Promise((resolve, reject) => {
-
-            openDatabase()
-            .then(database => {
-
-                const transaction = database.transaction(storeName, 'readwrite');
-    
-                const store = transaction.objectStore(storeName);
-    
-                const values = store.delete(key);
-    
-                transaction.oncomplete = () => {
-    
-                    resolve(values.result);
-                }
-    
-                transaction.onerror = () => {
-                    
-                    reject(new Error("Error to complete transaction"));
-                }
-            })
-            .catch(err => {
-
-                reject(err);
-            })
-
-        });
-    }
-
-    return {add, getAll, getAllKeys, update, get, remove, name: DATABASE, stores: [STORE]};
 }

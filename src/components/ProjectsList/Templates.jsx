@@ -30,23 +30,15 @@ function Templates({onSelect = () => {}}) {
 
     const {setCurrentProject, setIsProject} = useProjects();
 
-    const {templates, getTemplate, removeTemplate} = useTemplates();
-
-    const [githubTemplates, setGithubTemplates] = useState([]);
+    const {templates, getTemplate, removeTemplate, githubTemplates} = useTemplates();
 
     const [accordionKeys, setAccordionKeys] = useState(['local-templates']);
 
     useEffect(() => {
         
-        getTemplates()
-        .then(githubTemplates => {
+        if(githubTemplates.length > 0) setAccordionKeys(old => [...old, 'gh-templates']);
 
-            setGithubTemplates(githubTemplates);
-
-            setAccordionKeys(old => [...old, 'gh-templates']);
-        });
-
-    }, []);
+    }, [githubTemplates]);
 
     const selectGithubTemplate = (name) => {
 
@@ -79,11 +71,11 @@ function Templates({onSelect = () => {}}) {
         getTemplate(name)
         .then(template => {
 
-            setCurrentProject(name);
+            setCurrentProject(template.name);
 
             setIsProject(false);
 
-            changeFiles(template);
+            changeFiles(template.files);
 
             onSelect();
         });

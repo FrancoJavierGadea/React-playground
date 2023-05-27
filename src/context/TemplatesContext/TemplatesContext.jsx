@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { STORES, useDatabase } from "../../utils/database";
+import { STORES } from "../../utils/database";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
+import { useDatabase } from "../../hooks/useDatabase";
+import { getTemplates } from "../../utils/github";
 
 
 const TemplatesContext = createContext();
@@ -9,6 +11,18 @@ const TemplatesContext = createContext();
 export function TemplatesProvider({children}){
 
     const [templates, setTemplates] = useState([]);
+
+    const [githubTemplates, setGithubTemplates] = useState([]);
+
+    useEffect(() => {
+        
+        getTemplates()
+        .then(githubTemplates => {
+
+            setGithubTemplates(githubTemplates);
+        });
+
+    }, []);
 
     const database = useDatabase(STORES.TEMPLATES);
 
@@ -25,7 +39,7 @@ export function TemplatesProvider({children}){
 	}, []);
 
 
-    const addTemplate = (name, template) => {
+    const addTemplate = (name, files) => {
  
         if(!name) throw new Error('Ingresa un nombre valido');
 
@@ -33,7 +47,7 @@ export function TemplatesProvider({children}){
 
         if(exist) throw new Error('Ya existe un template con ese nombre');
 
-        database.add(template, name)
+        database.add({name, files}, name)
 		.then(() => {
 
 			console.log('Template Guardado');
@@ -46,9 +60,9 @@ export function TemplatesProvider({children}){
 		});
     }
 
-    const updateTemplate = (name, template) => {
+    const updateTemplate = (name, files) => {
 
-        database.update(template, name)
+        database.update({name, files}, name)
 		.then(() => {
 
 			console.log('Guardado');
@@ -71,6 +85,7 @@ export function TemplatesProvider({children}){
 
     const value = {
         templates,
+        githubTemplates,
         addTemplate,
         getTemplate,
         removeTemplate,

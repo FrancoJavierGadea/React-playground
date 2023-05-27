@@ -34,7 +34,7 @@ async function getList(URL){
     return Promise.reject();
 }
 
-async function download(URL, name = 'default'){
+async function download(URL, name){
 
     try {
         

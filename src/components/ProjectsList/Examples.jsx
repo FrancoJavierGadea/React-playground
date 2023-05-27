@@ -8,22 +8,9 @@ function Examples({onLoad = () => {}, onSelect = () => {}}) {
 
     const {changeFiles} = useFiles();
 
-    const {setCurrentProject, setIsProject} = useProjects();
+    const {setCurrentProject, setIsProject, examples} = useProjects();
 
-    const [examples, setExamples] = useState([]);
     
-    useEffect(() => {
-        
-        getExamples()
-        .then(examples => {
-
-            setExamples(examples);
-
-            onLoad();
-        });
-
-    }, []);
-
     const selectExample = (name) => {
 
         downloadExample(name)

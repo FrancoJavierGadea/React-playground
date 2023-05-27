@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import EditorDefaultState from "../../assets/EditorDefaultState.json";
+import DefaultState from "../../assets/DefaultState.json";
 import { getFileName } from "../../utils/files";
 
 const FilesContext = createContext();
@@ -10,9 +10,9 @@ function FilesProvider({children}){
 
     const filesRef = useRef();
     
-    const [files, setFiles] = useState(EditorDefaultState);
+    const [files, setFiles] = useState(DefaultState);
 
-    const [currentFile, setCurrentFile] = useState( defaultFile.find(fileName => EditorDefaultState[fileName]?.name) );
+    const [currentFile, setCurrentFile] = useState( defaultFile.find(fileName => DefaultState[fileName]?.name) );
 
     useEffect(() => {
         
@@ -23,8 +23,8 @@ function FilesProvider({children}){
 
     const reset = () => {
 
-        setFiles(EditorDefaultState);
-        setCurrentFile( defaultFile.find(fileName => EditorDefaultState[fileName]?.name) );
+        setFiles(DefaultState);
+        setCurrentFile( defaultFile.find(fileName => DefaultState[fileName]?.name) );
     }
 
     const changeFiles = (files) => {

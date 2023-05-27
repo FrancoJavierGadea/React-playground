@@ -94,7 +94,7 @@ function ProjectsList({}) {
                         <Templates onSelect={close} />
                     </Tab>
 
-                    <Tab eventKey="projects" title="Guardados">
+                    <Tab eventKey="projects" title="Proyectos">
 
                         <Projects onSelect={close} />
                     </Tab>

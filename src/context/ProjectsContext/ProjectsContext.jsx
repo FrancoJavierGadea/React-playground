@@ -10,7 +10,9 @@ function ProjectProvider({children}) {
 
     const [projects, setProjects] = useState([]);
 
-    const [currentProject, setCurrentProject] = useState('default');
+    const [folders, setFolders] = useState([]);
+
+    const [currentProject, setCurrentProject] = useState({name: 'default'});
 
     const [isProject, setIsProject] = useState(false);
 
@@ -31,40 +33,60 @@ function ProjectProvider({children}) {
     useEffect(() => {
 		
 		database.getAll()
-		.then((projets) => {
+		.then((projects) => {
+        
+            const aux = projects.map(({name, folder}) => {
 
-			setProjects(projets);
+                return {name, folder};
+            });
+
+			setProjects(aux);
 		})
 
 	}, []);
 
+    useEffect(() => {
 
-    const addProject = (name, files) => {
+        const folders = new Set();
+
+        projects.forEach(project => {
+
+            folders.add(project.folder);
+        });
+
+        console.log('Folders', folders);
+
+        setFolders([...folders].sort().reverse());
+
+    }, [projects]);
+
+
+    const addProject = (name, files, folder) => {
  
         if(!name) throw new Error('Ingresa un nombre valido');
 
-        const exist = projects.includes(name);
+        const exist = projects.some(p => p.name === name);
 
         if(exist) throw new Error('Ya existe un proyecto con ese nombre');
 
-        database.add({name, files}, name)
+        database.add({name, files, folder}, name)
 		.then(() => {
 
 			console.log('Guardado');
 
-			setCurrentProject(name);
+			setCurrentProject({name, folder});
 
             setIsProject(true);
 
-			setProjects(old => [...old, {name}]);
+			setProjects(old => [...old, {name, folder}]);
 		});
     }
 
-    const updateProject = async (name, files) => {
+    const updateProject = async (name, files, folder) => {
 
         try {
             
-            await database.update({name, files}, name);
+            await database.update({name, files, folder}, name);
 
             console.log('Proyecto guardado');
         }
@@ -78,7 +100,7 @@ function ProjectProvider({children}) {
         database.remove(name)
         .then(() => {
 
-            setProjects(old => old.filter(v => v !== name));
+            setProjects(old => old.filter(p => p.name !== name));
         });
     }
 
@@ -98,6 +120,7 @@ function ProjectProvider({children}) {
         removeProject,
         getProject,
         updateProject,
+        folders
     };
 
     return (<ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>);

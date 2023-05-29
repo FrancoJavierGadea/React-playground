@@ -45,7 +45,7 @@ function Templates({onSelect = () => {}}) {
         downloadTemplate(name)
         .then(template => {
 
-            setCurrentProject(name);
+            setCurrentProject({name});
 
             setIsProject(false);
 
@@ -59,7 +59,7 @@ function Templates({onSelect = () => {}}) {
 
         reset();
 
-        setCurrentProject('default');
+        setCurrentProject({name: 'default'});
 
         setIsProject(false);
 
@@ -71,7 +71,7 @@ function Templates({onSelect = () => {}}) {
         getTemplate(name)
         .then(template => {
 
-            setCurrentProject(template.name);
+            setCurrentProject({name: template.name});
 
             setIsProject(false);
 

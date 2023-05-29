@@ -52,7 +52,7 @@ export function TemplatesProvider({children}){
 
 			console.log('Template Guardado');
 
-            setCurrentProject(name);
+            setCurrentProject({name});
 
             setIsProject(false);
 

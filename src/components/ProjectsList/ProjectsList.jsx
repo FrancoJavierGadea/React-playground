@@ -107,7 +107,7 @@ function ProjectsList({}) {
 
         </StyledOffcanvas>
     
-        <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Cambiar de proyecto" onClick={open}>{currentProject}</Button>
+        <Button className="border-0 rounded-0" size="sm" variant="outline-light" title="Cambiar de proyecto" onClick={open}>{currentProject.name}</Button>
     </>);
 }
 

@@ -16,7 +16,7 @@ function Examples({onLoad = () => {}, onSelect = () => {}}) {
         downloadExample(name)
         .then(example => {
 
-            setCurrentProject(name);
+            setCurrentProject({name});
             
             setIsProject(false);
 

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useState } from "react";
 
 export const DATABASE = "react-playground";
 
@@ -257,6 +255,9 @@ export function removeItem(storeName, key){
 async function updateDatabase(storeName){
 
     try {
+        const items = await getAllItems(storeName);
+        
+        console.log(items)
 
         const keys = await getAllItemsKeys(storeName);
 

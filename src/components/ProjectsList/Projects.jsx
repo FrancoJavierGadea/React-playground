@@ -3,6 +3,7 @@ import { useFiles } from "../../context/FilesContext/FilesContext";
 import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 import ListItem from "./ListItem";
 import { Accordion } from "react-bootstrap";
+import { useState } from "react";
 
 const StyledAccordion = styled(Accordion)`
 
@@ -25,14 +26,16 @@ function Projects({onSelect = () => {}}) {
 
     const {changeFiles} = useFiles();
 
-    const {projects, setCurrentProject, getProject, removeProject, setIsProject} = useProjects();
+    const {folders, projects, setCurrentProject, getProject, removeProject, setIsProject} = useProjects();
+
+    const [accordionKeys, setAccordionKeys] = useState(['Root']);
 
     const selectProject = (name) => {
 
         getProject(name)
 		.then(project => {
 
-            setCurrentProject(project.name);
+            setCurrentProject({name: project.name, folder: project.folder});
 
             setIsProject(true);
 
@@ -44,43 +47,29 @@ function Projects({onSelect = () => {}}) {
 
     return (<>
 
-        <StyledAccordion alwaysOpen>
+        <StyledAccordion activeKey={accordionKeys} onSelect={(keys) => setAccordionKeys(keys)} alwaysOpen>
+            {
+                folders.map((folder) => {
 
-            <Accordion.Item eventKey="Root">
-                <Accordion.Header>Root</Accordion.Header>
+                    return <Accordion.Item data-folder={folder || 'Root'} eventKey={folder || 'Root'} key={folder || 'Root'}>
 
-                <Accordion.Body>
-                {
-                    projects.filter(project => !project.folder).map((project, i) => {
+                        <Accordion.Header>{folder || 'Root'}</Accordion.Header>
+                    
+                        <Accordion.Body>
+                        {
+                            projects.filter(project => project.folder === folder)
+                            .map(project => {
+                                
+                                return <ListItem name={project.name} onClick={() => selectProject(project.name)} key={project.name} 
 
-                        return <ListItem name={project.name} onClick={() => selectProject(project.name)} key={project.name} 
-
-                            del onDelete={() => removeProject(project.name)}
-                        />
-                    })
-                }
-                </Accordion.Body>
-            </Accordion.Item>
-
-            {/* <Accordion.Item eventKey="local-templates">
-                <Accordion.Header>Mis Templates</Accordion.Header>
-
-                <Accordion.Body>
-
-                    <ListItem name="Default" onClick={selectDefault} />
-
-                    {
-                        templates.map((name, i) => {
-                            
-                            return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`}
-                            
-                            del onDelete={() => removeTemplate(name)}
-                            />
-                        })
-                    }
-                </Accordion.Body>
-            </Accordion.Item> */}
-
+                                    del onDelete={() => removeProject(project.name)}
+                                />
+                            })
+                        }
+                        </Accordion.Body>
+                    </Accordion.Item>;
+                })
+            }
         </StyledAccordion>
         
     </>);

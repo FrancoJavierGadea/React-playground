@@ -24,7 +24,7 @@ function SaveProject({}) {
 
             console.log('Auto Guardado');
 
-            updateProject(currentProject, filesRef.current)
+            updateProject(currentProject, filesRef.current, currentProject.folder)
             .then(() => {
 
                 setSaved(true);
@@ -44,7 +44,7 @@ function SaveProject({}) {
 
     const save = () => {
 
-        updateProject(currentProject, files)
+        updateProject(currentProject.name, files, currentProject.folder)
         .then(() => {
 
             setSaved(true);

@@ -5,6 +5,7 @@ import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 import { useFiles } from "../../context/FilesContext/FilesContext";
 import useBreakPoints, { MAX_WIDTH } from "../../hooks/useBreakpoints";
 import { useTemplates } from "../../context/TemplatesContext/TemplatesContext";
+import SelectFolder from "./SelectFolder";
 
 
 const StyledModal = styled(Modal)`
@@ -27,21 +28,24 @@ function NewProject({}) {
 
     const [show, setShow] = useState(false);
 
-    const [name, setName] = useState('');
-
-    const [mode, setMode] = useState(MODE.PROJECT);
-
-    const [warning, setWarning] = useState(null);
-
     const open = () => setShow(true);
 
     const close = () => setShow(false);
+
+    const [mode, setMode] = useState(MODE.PROJECT);
+
+    const [name, setName] = useState('');
+
+    const [folder, setFolder] = useState(undefined);
+
+    const [warning, setWarning] = useState(null);
 
     const reset = () => {
         setShow(false);
         setName('');
         setWarning(null);
         setMode(MODE.PROJECT);
+        setFolder(undefined);
     }
 
     const save = () => {
@@ -50,7 +54,7 @@ function NewProject({}) {
 
             if(mode === MODE.PROJECT){
 
-                addProject(name, files);
+                addProject(name, files, folder);
             }
             else {
 
@@ -74,6 +78,13 @@ function NewProject({}) {
     }
 
     const [isMD] = useBreakPoints(MAX_WIDTH.md);
+
+    const handleChangeFolder = (value) => {
+
+        console.log(value);
+
+        setFolder(value);
+    }
 
     return (<>
         <StyledModal show={show} onHide={reset}>
@@ -106,8 +117,10 @@ function NewProject({}) {
                     </ToggleButton>
                 </ButtonGroup>
 
-                <Form.Label>Ingresa un nombre</Form.Label>
+                <Form.Label>Nombre</Form.Label>
                 <Form.Control type="text" value={name} onChange={({target}) => setName(target.value)} onKeyUp={handlerKeyUp} />
+
+                { mode === MODE.PROJECT && <SelectFolder value={folder} onChange={handleChangeFolder}/> }
 
             </Modal.Body>
 

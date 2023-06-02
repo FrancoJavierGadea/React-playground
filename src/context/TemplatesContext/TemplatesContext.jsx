@@ -65,7 +65,7 @@ export function TemplatesProvider({children}){
         database.update({name, files}, name)
 		.then(() => {
 
-			console.log('Guardado');
+			console.log('Template Guardado');
 		});
     }
 
@@ -83,6 +83,40 @@ export function TemplatesProvider({children}){
         return database.get(name);
     }
 
+    const changeTemplateName = (name, newName) => {
+
+        if(!name || !newName) throw new Error('Ingresa un nombre valido');
+
+        const exist = templates.includes(newName);
+
+        if(exist) throw new Error('Ya existe un template con ese nombre');
+
+        (async () => {
+
+            try {
+                const template = await database.get(name);
+
+                template.name = newName;
+
+                await database.add(template, newName);
+
+                await database.remove(name);
+
+                setTemplates(old => {
+
+                    const aux = old.filter(t => t !== name);
+
+                    aux.push(newName);
+
+                    return aux;
+                });
+            }
+            catch (error) {
+                
+            }
+        })();
+    }
+
     const value = {
         templates,
         githubTemplates,
@@ -90,6 +124,7 @@ export function TemplatesProvider({children}){
         getTemplate,
         removeTemplate,
         updateTemplate,
+        changeTemplateName
     }
 
     return (<TemplatesContext.Provider value={value}>{children}</TemplatesContext.Provider>)

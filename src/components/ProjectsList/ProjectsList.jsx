@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 import Footer from "./Fotter";
 import logo from "../../assets/icons/react.svg";
-import Projects from "./Projects";
+import Projects from "./Projects/Projects";
 import Examples from "./Examples";
-import Templates from "./Templates";
+import Templates from "./Templates/Templates";
 
 
 const StyledOffcanvas = styled(Offcanvas)`
@@ -24,7 +24,7 @@ const StyledOffcanvas = styled(Offcanvas)`
 
     .tab-content {
 
-        padding: 0 10px;
+        padding: 0;
         overflow-x: hidden;
         overflow-y: auto;
         max-height: 90%;

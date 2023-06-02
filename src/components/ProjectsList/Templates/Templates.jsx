@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { downloadTemplate, getTemplates } from "../../utils/github";
-import { useFiles } from "../../context/FilesContext/FilesContext";
-import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
-import ListItem from "./ListItem";
-import { useTemplates } from "../../context/TemplatesContext/TemplatesContext";
+import { downloadTemplate, getTemplates } from "../../../utils/github";
+import { useFiles } from "../../../context/FilesContext/FilesContext";
+import { useProjects } from "../../../context/ProjectsContext/ProjectsContext";
+import ListItem from "../ListItem";
+import { useTemplates } from "../../../context/TemplatesContext/TemplatesContext";
 import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
+import EditTemplate from "./EditTemplate";
 
 
 const StyledAccordion = styled(Accordion)`
@@ -14,9 +15,9 @@ const StyledAccordion = styled(Accordion)`
     --bs-accordion-border-width: 0;
     --bs-accordion-active-bg: transparent;
     --bs-accordion-btn-focus-box-shadow: transparent;
-    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-x: 10px;
     --bs-accordion-body-padding-y: 0;
-    --bs-accordion-btn-padding-x: 0;
+    --bs-accordion-btn-padding-x: 10px;
     --bs-accordion-btn-padding-y: 20px;
 
     .accordion-body {
@@ -87,7 +88,10 @@ function Templates({onSelect = () => {}}) {
         <StyledAccordion activeKey={accordionKeys} onSelect={(keys) => setAccordionKeys(keys)} alwaysOpen>
 
             <Accordion.Item eventKey="gh-templates">
-                <Accordion.Header>Templates</Accordion.Header>
+                <Accordion.Header>
+                    <i className="bi bi-braces fs-5" />
+                    <span className="ms-1">Templates</span>
+                </Accordion.Header>
 
                 <Accordion.Body>
                     {
@@ -100,7 +104,10 @@ function Templates({onSelect = () => {}}) {
             </Accordion.Item>
 
             <Accordion.Item eventKey="local-templates">
-                <Accordion.Header>Mis Templates</Accordion.Header>
+                <Accordion.Header>
+                    <i className="bi bi-code-slash fs-5" />
+                    <span className="ms-1">Mis Templates</span>
+                </Accordion.Header>
 
                 <Accordion.Body>
 
@@ -109,10 +116,12 @@ function Templates({onSelect = () => {}}) {
                     {
                         templates.map((name, i) => {
                             
-                            return <ListItem name={name} onClick={() => selectTemplate(name)} key={`template-${i}`}
+                            return <ListItem name={name} onClick={() => selectTemplate(name)} key={name}
                             
-                            del onDelete={() => removeTemplate(name)}
-                            />
+                                onDelete={() => removeTemplate(name)}
+                            >
+                                <EditTemplate name={name} />
+                            </ListItem>
                         })
                     }
                 </Accordion.Body>

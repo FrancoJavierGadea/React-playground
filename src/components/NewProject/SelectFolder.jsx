@@ -39,11 +39,9 @@ function SelectFolder({value, onChange = () => {}}) {
             { !newFolder ? 
                 <Form.Select onChange={handleChange} title="Selecciona una carpeta"> 
                     {   
-                        folders.length === 0 ? <option value={'Root'} key={`opt-root`}>Root</option> :
-
                         folders.map((name, i) => {
 
-                            return <option value={name || 'Root'} key={`opt-${i}`}>{name || 'Root'}</option>
+                            return <option value={name} key={`opt-${i}`}>{name}</option>
 
                         }) 
                     }

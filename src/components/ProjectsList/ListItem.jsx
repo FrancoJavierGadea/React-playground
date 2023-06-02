@@ -18,11 +18,11 @@ const StyledListItem = styled.div`
     }
 `;
 
-function ListItem({name = '', onClick = () => {}, del = false, onDelete = () => {}, github}) {
+function ListItem({name, folder, onClick, onDelete, github, children}) {
 
     const {isDark} = useTheme();
 
-    return (<StyledListItem>
+    return (<StyledListItem className="List-item">
 
         <Button className="main-btn border-bottom" variant={isDark ? 'outline-light' : 'outline-dark'} 
         
@@ -31,7 +31,11 @@ function ListItem({name = '', onClick = () => {}, del = false, onDelete = () => 
         >{name}</Button>
 
         {
-            del &&
+            children
+        }
+
+        {
+            onDelete &&
             <Button className="del-btn border-bottom" variant="outline-danger" title={`Borrar ${name}`} onClick={onDelete}>
                 <i className="bi bi-trash-fill"></i>
             </Button>
@@ -39,7 +43,7 @@ function ListItem({name = '', onClick = () => {}, del = false, onDelete = () => 
 
         {
             github && 
-            <Button className="del-btn border-bottom" variant="outline-secondary" title={`Ver ${name}`} href={github} target="_blank">
+            <Button className="gh-btn border-bottom" variant="outline-secondary" title={`Ver ${name}`} href={github} target="_blank">
                 <i className="bi bi-github"></i>
             </Button>
         }

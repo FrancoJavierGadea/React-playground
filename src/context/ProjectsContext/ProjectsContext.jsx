@@ -35,7 +35,7 @@ function ProjectProvider({children}) {
 		database.getAll()
 		.then((projects) => {
         
-            const aux = projects.map(({name, folder}) => {
+            const aux = projects.map(({name, folder = 'Root'}) => {
 
                 return {name, folder};
             });
@@ -49,14 +49,14 @@ function ProjectProvider({children}) {
 
         const folders = new Set();
 
+        folders.add('Root');
+
         projects.forEach(project => {
 
-            folders.add(project.folder);
+            if(project.folder) folders.add(project.folder);
         });
 
-        console.log('Folders', folders);
-
-        setFolders([...folders].sort().reverse());
+        setFolders([...folders]);
 
     }, [projects]);
 
@@ -72,7 +72,7 @@ function ProjectProvider({children}) {
         database.add({name, files, folder}, name)
 		.then(() => {
 
-			console.log('Guardado');
+			console.log('Proyecto guardado');
 
 			setCurrentProject({name, folder});
 
@@ -109,6 +109,71 @@ function ProjectProvider({children}) {
         return database.get(name);
     }
 
+    const changeFolder = async (name, newFolder = 'Root') => {
+
+        try {
+
+            const project = await database.get(name);
+
+            project.folder = newFolder;
+
+            await database.update(project, name);
+
+            setProjects(old => {
+
+                const aux = [...old];
+
+                aux.find(p => p.name === name).folder = newFolder;
+
+                return aux;
+            });
+            
+        }
+        catch (error) {
+            
+        }
+    }
+
+    const changeProjectName = (name, newName, newFolder) => {
+
+        if(!name || !newName) throw new Error('Ingresa un nombre valido');
+
+        const exist = projects.some(p => p.name === newName);
+
+        if(exist) throw new Error('Ya existe un proyecto con ese nombre');
+
+        (async () => {
+
+            try {
+                const project = await database.get(name);
+
+                project.name = newName;
+
+                if(newFolder) project.folder = newFolder;
+
+                await database.add(project, newName);
+
+                await database.remove(name);
+
+                setProjects(old => {
+
+                    const aux = [...old];
+    
+                    const project = aux.find(p => p.name === name);
+
+                    project.name = newName;
+
+                    if(newFolder) project.folder = newFolder;
+    
+                    return aux;
+                });
+            }
+            catch (error) {
+                
+            }
+        })();
+    }
+
     const value = {
         projects,
         currentProject,
@@ -120,7 +185,9 @@ function ProjectProvider({children}) {
         removeProject,
         getProject,
         updateProject,
-        folders
+        folders,
+        changeFolder,
+        changeProjectName
     };
 
     return (<ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>);

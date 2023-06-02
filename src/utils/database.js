@@ -26,8 +26,6 @@ export function initDatabase(){
     
                     db.createObjectStore(storeName, { autoIncrement: true });
                 }
-
-                updateDatabase(storeName);
             });
         }
 
@@ -251,6 +249,8 @@ export function removeItem(storeName, key){
 }
 
 
+
+//! update complete
 //------> update project store to support folders
 async function updateDatabase(storeName){
 

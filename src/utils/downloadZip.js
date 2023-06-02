@@ -13,7 +13,7 @@ function virtualAnchor({href, download, target} = {}){
 }
 
 
-export async function downloadZip(zipName = '', files = {}){
+export async function downloadFiles(name = '', files = {}){
 
     const zip = new JSZip();
 
@@ -34,7 +34,7 @@ export async function downloadZip(zipName = '', files = {}){
 
 
 
-    const anchor = virtualAnchor({href: url, download: `${zipName}.zip`});
+    const anchor = virtualAnchor({href: url, download: `${name}.zip`});
 
 
     setTimeout(() => {
@@ -50,4 +50,48 @@ export async function downloadZip(zipName = '', files = {}){
 
     }, 1000 * 60);
 };
+
+
+export async function downloadProjects(name, projects = []){
+
+    const zip = new JSZip();
+
+    console.log(projects);
+
+    projects.forEach(project => {
+
+        const folder = zip.folder(project.name);
+        
+        Object.values(project.files).forEach(file => {
+
+            let {name, value} = file;
+
+            name = name.replace('/', '');
+
+            folder.file(name, value);
+        });
+    });
+
+    const blob = await zip.generateAsync({ type:"blob" });
+
+    const file = new Blob([blob]);
+
+    const url = URL.createObjectURL(file);
+
+
+    const anchor = virtualAnchor({href: url, download: `${name}.zip`});
+
+    setTimeout(() => {
+
+        anchor.dispatchEvent(new MouseEvent('click'));
+
+    }, 0);
+
+    setTimeout(() => {
+
+        URL.revokeObjectURL(url);
+        console.log('clear url');
+
+    }, 1000 * 60);
+}
 

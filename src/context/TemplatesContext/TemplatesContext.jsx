@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { STORES } from "../../utils/database";
 import { useProjects } from "../ProjectsContext/ProjectsContext";
 import { useDatabase } from "../../hooks/useDatabase";
-import { getTemplates } from "../../utils/github";
+import { GITHUB } from "../../utils/github";
 
 
 const TemplatesContext = createContext();
@@ -16,7 +16,7 @@ export function TemplatesProvider({children}){
 
     useEffect(() => {
         
-        getTemplates()
+        GITHUB.getTemplates()
         .then(githubTemplates => {
 
             setGithubTemplates(githubTemplates);
@@ -83,6 +83,11 @@ export function TemplatesProvider({children}){
         return database.get(name);
     }
 
+    const getTemplates = () => {
+
+        return database.getAll();
+    }
+
     const changeTemplateName = (name, newName) => {
 
         if(!name || !newName) throw new Error('Ingresa un nombre valido');
@@ -122,6 +127,7 @@ export function TemplatesProvider({children}){
         githubTemplates,
         addTemplate,
         getTemplate,
+        getTemplates,
         removeTemplate,
         updateTemplate,
         changeTemplateName

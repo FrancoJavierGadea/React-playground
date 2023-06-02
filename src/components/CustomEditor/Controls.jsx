@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { useFiles } from "../../context/FilesContext/FilesContext";
-import { downloadZip } from "../../utils/downloadZip";
+import { downloadFiles } from "../../utils/downloadZip";
 import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 
 const StyledControls = styled.div`
@@ -55,7 +55,7 @@ function Controls({}) {
 
     const download = () => {
 
-        downloadZip(currentProject, files)
+        downloadFiles(currentProject.name, files)
         .then(() => {
 
             console.log('Descarga iniciada');

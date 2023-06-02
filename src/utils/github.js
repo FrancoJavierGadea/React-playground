@@ -72,11 +72,14 @@ async function download(URL, name){
 }
 
 
-export const getTemplates = () => getList(TEMPLATES);
 
-export const downloadTemplate = (name) => download(TEMPLATES, name);
+export const GITHUB = {
 
+    getTemplates: () => getList(TEMPLATES),
 
-export const getExamples = () => getList(EXAMPLES);
+    downloadTemplate: (name) => download(TEMPLATES, name),
+    
+    getExamples: () => getList(EXAMPLES),
 
-export const downloadExample = (name) => download(EXAMPLES, name);
+    downloadExample: (name) => download(EXAMPLES, name)
+}

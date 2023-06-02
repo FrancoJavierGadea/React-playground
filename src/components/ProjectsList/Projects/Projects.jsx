@@ -5,6 +5,7 @@ import ListItem from "../ListItem";
 import { Accordion, Button } from "react-bootstrap";
 import { useRef, useState } from "react";
 import EditProject from "./EditProject";
+import { downloadProjects } from "../../../utils/downloadZip";
 
 const StyledAccordion = styled(Accordion)`
 
@@ -18,8 +19,25 @@ const StyledAccordion = styled(Accordion)`
     --bs-accordion-btn-padding-x: 10px;
     --bs-accordion-btn-padding-y: 20px;
 
+    .accordion-header {
+        flex-grow: 1;
+    }
     .accordion-body {
         padding-bottom: 10px;
+    }
+
+    .download-btn {
+        --bs-btn-border-width: 0;
+        --bs-btn-hover-bg: transparent;
+        --bs-btn-hover-color: var(--bs-btn-color);
+        --bs-btn-active-bg: tranparent;
+        --bs-btn-active-color: var(--bs-btn-color);
+    }
+    .download-btn:hover {
+        opacity: .6;
+    }
+    .download-btn:active {
+        opacity: 1;
     }
 
     .drag-over {
@@ -37,7 +55,7 @@ function Projects({onSelect = () => {}}) {
 
     const {changeFiles} = useFiles();
 
-    const {folders, projects, setCurrentProject, getProject, removeProject, setIsProject, changeFolder} = useProjects();
+    const {folders, projects, setCurrentProject, getProject, removeProject, setIsProject, changeFolder, getProjects} = useProjects();
 
     const [accordionKeys, setAccordionKeys] = useState(['Root']);
 
@@ -108,6 +126,17 @@ function Projects({onSelect = () => {}}) {
         item.classList.add('drag-over');
     }
 
+
+    //
+    const download = (folder) => {
+
+        getProjects().then(projects => {
+
+            downloadProjects(folder, projects.filter(({folder:f = 'Root'}) => f === folder));
+        })
+
+    }
+
     return (<>
 
         <StyledAccordion activeKey={accordionKeys} onSelect={(keys) => setAccordionKeys(keys)} alwaysOpen ref={accordionRef}>
@@ -118,14 +147,19 @@ function Projects({onSelect = () => {}}) {
                     
                         data-folder={folder} onDragOver={dragOver} onDragEnter={dragEnter}
                     >
+                        <div className="d-flex align-items-center">
+                            <Accordion.Header>
+                                { accordionKeys.includes(folder) 
+                                    ? <i className="bi bi-folder2-open fs-5" />
+                                    : <i className="bi bi-folder fs-5" />
+                                }
+                                <span className="ms-1">{folder}</span>
+                            </Accordion.Header>
 
-                        <Accordion.Header>
-                            { accordionKeys.includes(folder) 
-                                ? <i className="bi bi-folder2-open fs-5" />
-                                : <i className="bi bi-folder fs-5" />
-                            }
-                            <span className="ms-1">{folder}</span>
-                        </Accordion.Header>
+                            <Button className="download-btn" variant="outline-success" onClick={() => download(folder)}>
+                                <i className="bi bi-download" title={`Descargar ${folder}`}/>
+                            </Button>
+                        </div>
                     
                         <Accordion.Body>
                         {

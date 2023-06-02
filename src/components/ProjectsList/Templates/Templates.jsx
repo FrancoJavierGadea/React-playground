@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { downloadTemplate, getTemplates } from "../../../utils/github";
+import { GITHUB } from "../../../utils/github";
 import { useFiles } from "../../../context/FilesContext/FilesContext";
 import { useProjects } from "../../../context/ProjectsContext/ProjectsContext";
 import ListItem from "../ListItem";
 import { useTemplates } from "../../../context/TemplatesContext/TemplatesContext";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Button } from "react-bootstrap";
 import styled from "styled-components";
 import EditTemplate from "./EditTemplate";
+import { downloadProjects } from "../../../utils/downloadZip";
 
 
 const StyledAccordion = styled(Accordion)`
@@ -23,6 +24,24 @@ const StyledAccordion = styled(Accordion)`
     .accordion-body {
         padding-bottom: 10px;
     }
+
+    .accordion-header {
+        flex-grow: 1;
+    }
+
+    .download-btn {
+        --bs-btn-border-width: 0;
+        --bs-btn-hover-bg: transparent;
+        --bs-btn-hover-color: var(--bs-btn-color);
+        --bs-btn-active-bg: tranparent;
+        --bs-btn-active-color: var(--bs-btn-color);
+    }
+    .download-btn:hover {
+        opacity: .6;
+    }
+    .download-btn:active {
+        opacity: 1;
+    }
 `;
 
 function Templates({onSelect = () => {}}) {
@@ -31,7 +50,7 @@ function Templates({onSelect = () => {}}) {
 
     const {setCurrentProject, setIsProject} = useProjects();
 
-    const {templates, getTemplate, removeTemplate, githubTemplates} = useTemplates();
+    const {templates, getTemplate, removeTemplate, githubTemplates, getTemplates} = useTemplates();
 
     const [accordionKeys, setAccordionKeys] = useState(['local-templates']);
 
@@ -43,7 +62,7 @@ function Templates({onSelect = () => {}}) {
 
     const selectGithubTemplate = (name) => {
 
-        downloadTemplate(name)
+        GITHUB.downloadTemplate(name)
         .then(template => {
 
             setCurrentProject({name});
@@ -82,6 +101,14 @@ function Templates({onSelect = () => {}}) {
         });
     }
 
+    const download = () => {
+
+        getTemplates().then(templates => {
+
+            downloadProjects('templates', templates);
+        });
+    }
+
     return (<>
 
 
@@ -104,10 +131,17 @@ function Templates({onSelect = () => {}}) {
             </Accordion.Item>
 
             <Accordion.Item eventKey="local-templates">
-                <Accordion.Header>
-                    <i className="bi bi-code-slash fs-5" />
-                    <span className="ms-1">Mis Templates</span>
-                </Accordion.Header>
+
+                <div className="d-flex align-items-center">
+                    <Accordion.Header>
+                        <i className="bi bi-code-slash fs-5" />
+                        <span className="ms-1">Mis Templates</span>
+                    </Accordion.Header>
+
+                    <Button className="download-btn" variant="outline-success" onClick={() => download()}>
+                        <i className="bi bi-download" title={`Descargar templates`}/>
+                    </Button>
+                </div>    
 
                 <Accordion.Body>
 

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { STORES } from "../../utils/database";
 import { useDatabase } from "../../hooks/useDatabase";
-import { getExamples } from "../../utils/github";
+import { GITHUB } from "../../utils/github";
 
 
 const ProjectContext = createContext();
@@ -20,7 +20,7 @@ function ProjectProvider({children}) {
     
     useEffect(() => {
         
-        getExamples()
+        GITHUB.getExamples()
         .then(examples => {
 
             setExamples(examples);
@@ -109,6 +109,11 @@ function ProjectProvider({children}) {
         return database.get(name);
     }
 
+    const getProjects = () => {
+
+        return database.getAll();
+    }
+
     const changeFolder = async (name, newFolder = 'Root') => {
 
         try {
@@ -184,6 +189,7 @@ function ProjectProvider({children}) {
         addProject,
         removeProject,
         getProject,
+        getProjects,
         updateProject,
         folders,
         changeFolder,

@@ -1,5 +1,5 @@
 import ListItem from "./ListItem";
-import { downloadExample, getExamples } from "../../utils/github";
+import { GITHUB } from "../../utils/github";
 import { useFiles } from "../../context/FilesContext/FilesContext";
 import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 
@@ -12,7 +12,7 @@ function Examples({onSelect = () => {}}) {
     
     const selectExample = (name) => {
 
-        downloadExample(name)
+        GITHUB.downloadExample(name)
         .then(example => {
 
             setCurrentProject({name});

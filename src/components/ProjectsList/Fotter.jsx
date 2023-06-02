@@ -4,7 +4,9 @@ import { REPO_URL } from "../../utils/github";
 
 
 const StyledFooter = styled.footer`
-    height: 70px;
+
+    height: 50px;
+    min-height: 50px;
     display: flex;
     justify-content: center;
     align-items: end;

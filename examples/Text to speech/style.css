@@ -1,0 +1,12 @@
+body {
+	padding: 10px;
+}
+
+select,
+textarea:not([cols]) {
+
+	width: 500px;
+	display: block;
+
+	margin: 10px auto;
+}

@@ -1,0 +1,14 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: rgb(0, 0, 0);
+}
+
+.main-canvas {
+	display: block;
+	border: 1px dashed gray;
+	margin: 20px auto;
+}

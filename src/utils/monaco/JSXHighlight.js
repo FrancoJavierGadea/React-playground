@@ -23,6 +23,8 @@ export function JSXSyntaxHighlighter(monaco, editor){
 
     const highlight = () => {
 
+        if(!editor.getModel()) return;
+
         const lang = editor.getModel().getLanguageId();
 
         if(lang === 'javascript' || lang === 'typescript'){
@@ -45,7 +47,15 @@ export function JSXSyntaxHighlighter(monaco, editor){
         highlight();
     })
 
-    return { highlighter, dispose };
+    return { 
+        highlighter,
+        
+        dispose(){
+
+            //console.log('dispose highlight');
+            dispose();
+        }
+    };
 }
 
 /*//! Issues

@@ -80,7 +80,7 @@ function ProjectsList({}) {
 
             </Offcanvas.Header>
 
-            <Offcanvas.Body className="p-0">
+            <Offcanvas.Body className="pt-2 p-0">
 
                 <Tabs className="mb-1" activeKey={tabSelected} onSelect={(key) => settabSelected(key)} fill>
 

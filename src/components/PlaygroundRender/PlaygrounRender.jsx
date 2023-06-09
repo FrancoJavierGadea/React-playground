@@ -7,6 +7,7 @@ import { Alert } from "react-bootstrap";
 import { useFiles } from "../../context/FilesContext/FilesContext";
 import Controls from "./Controls";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 
 export const MODES = {
     RENDER: 'render',
@@ -50,6 +51,8 @@ const StyledPlaygroundRender = styled.div`
 function PlaygroundRender({}) {
 
     const {files} = useFiles();
+
+    const {currentProject} = useProjects();
 
     const [renderDocument, setRenderDocument] = useState({html: '', javascript: '', css: ''});
 
@@ -174,7 +177,7 @@ function PlaygroundRender({}) {
 
                     path={editorCode.path} 
                 
-                options={editorOptions} />
+                options={editorOptions} key={currentProject.name}/>
 
                 <Controls mode={mode} onChangeMode={changeMode} url={url} onReload={reload}/>
             </>

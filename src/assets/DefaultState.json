@@ -2,30 +2,35 @@
   "/readme.md": {
     "name": "/readme.md",
     "language": "markdown",
-    "value": "# React playground\n\nAprende y experimenta **React**.\nPrueba diferentes funcionalidades y componentes en tiempo real.\nExplora y crea asombrosos ejemplos.\n\n## Proyectos\n\nPuedes crear un nuevo proyecto a partir de un `ejemplo` o `template` disponible, incluso de otro `proyecto guardado`\n\n![preview](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview.gif)\n\n* **Usa nombre unicos para cada proyecto**\n\n* Todos los proyectos se guardan de manera local con `indexedDB`\n\n\n## Agregar dependencias:\n\nPara gestionar las dependencias se usa [`import maps`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap)\n\nPara agregar mas dependencias actualiza el `json` dentro de `<script type=\"importmap\">` en el `index.html`\n\n![Como agregar dependencias con JSPM](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview-jspm.gif)\n\nEntra en [https://generator.jspm.io](https://generator.jspm.io) para generar el `importmap` con las dependencias que necesites\n"
+    "value": "# React playground\n\nAprende y experimenta **React**.\nPrueba diferentes funcionalidades y componentes en tiempo real.\nExplora y crea asombrosos ejemplos.\n\n## Proyectos\n\nPuedes crear un nuevo proyecto a partir de un `ejemplo` o `template` disponible, incluso de otro `proyecto guardado`\n\n![preview](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview.gif)\n\n* **Usa nombre unicos para cada proyecto**\n\n* Todos los proyectos se guardan de manera local con `indexedDB`\n\n\n## Agregar dependencias:\n\nPara gestionar las dependencias se usa [`import maps`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap)\n\nPara agregar mas dependencias actualiza el `json` dentro de `<script type=\"importmap\">` en el `index.html`\n\n![Como agregar dependencias con JSPM](https://github.com/FrancoJavierGadea/React-playground/raw/main/preview-jspm.gif)\n\nEntra en [https://generator.jspm.io](https://generator.jspm.io) para generar el `importmap` con las dependencias que necesites\n",
+    "order": 1
   },
 
   "/App.js": {
     "name": "/App.js",
     "language": "javascript",
-    "value": "function App(){\n    \n    return (<div>\n\n        <h1>Hello React</h1>\n\n    </div>);\n}"
+    "value": "function App(){\n    \n    return (<div>\n\n        <h1>Hello React</h1>\n\n    </div>);\n}",
+    "order": 2
   },
 
   "/main.js": {
     "name": "/main.js",
     "language": "javascript",
-    "value": "import React from 'react';\nimport ReactDOM from 'react-dom/client';\n\nconst root = document.getElementById('root');\n\nReactDOM.createRoot(root).render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>,\n);"
+    "value": "import React from 'react';\nimport ReactDOM from 'react-dom/client';\n\nconst root = document.getElementById('root');\n\nReactDOM.createRoot(root).render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>,\n);",
+    "order": 3
   },
 
   "/index.html": {
     "name": "/index.html",
     "language": "html",
-    "value": "<!DOCTYPE html>\n\n<html lang=\"es\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n        <title>React App</title>\n    </head>\n    <body>\n        <div id=\"root\"></div>\n\n        <!--Visita: https://generator.jspm.io para agregar mas dependencias-->\n        <script type=\"importmap\">\n        {\n            \"imports\": {\n                \"react\": \"https://ga.jspm.io/npm:react@18.2.0/dev.index.js\",\n                \"react-dom\": \"https://ga.jspm.io/npm:react-dom@18.2.0/dev.index.js\",\n                \"react-dom/client\": \"https://ga.jspm.io/npm:react-dom@18.2.0/dev.client.js\",\n                \"react/jsx-runtime\": \"https://ga.jspm.io/npm:react@18.2.0/dev.jsx-runtime.js\"\n            },\n            \"scopes\": {\n                \"https://ga.jspm.io/\": {\n                \"scheduler\": \"https://ga.jspm.io/npm:scheduler@0.23.0/dev.index.js\"\n                }\n            }\n        }\n        </script>\n    </body>\n</html>"
+    "value": "<!DOCTYPE html>\n\n<html lang=\"es\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n        <title>React App</title>\n    </head>\n    <body>\n        <div id=\"root\"></div>\n\n        <!--Visita: https://generator.jspm.io para agregar mas dependencias-->\n        <script type=\"importmap\">\n        {\n            \"imports\": {\n                \"react\": \"https://ga.jspm.io/npm:react@18.2.0/dev.index.js\",\n                \"react-dom\": \"https://ga.jspm.io/npm:react-dom@18.2.0/dev.index.js\",\n                \"react-dom/client\": \"https://ga.jspm.io/npm:react-dom@18.2.0/dev.client.js\",\n                \"react/jsx-runtime\": \"https://ga.jspm.io/npm:react@18.2.0/dev.jsx-runtime.js\"\n            },\n            \"scopes\": {\n                \"https://ga.jspm.io/\": {\n                \"scheduler\": \"https://ga.jspm.io/npm:scheduler@0.23.0/dev.index.js\"\n                }\n            }\n        }\n        </script>\n    </body>\n</html>",
+    "order": 4
   },
   
   "/style.css": {
     "name": "/style.css",
     "language": "css",
-    "value": "h1 {\n  \tcolor: #2052d1;\n}"
+    "value": "h1 {\n  \tcolor: #2052d1;\n}",
+    "order": 5
   }
 }

@@ -10,10 +10,35 @@ import NewProject from "./components/NewProject/NewProject";
 import SaveProject from "./components/SaveProject/SaveProject";
 import ThemeSwitch from "./components/ThemeSwitch/ThemeSwitch";
 import ThemeProvider from "./context/ThemeContext/ThemeContext";
+import { useFiles } from "./context/FilesContext/FilesContext";
+import { useProjects } from "./context/ProjectsContext/ProjectsContext";
+import { useEffect } from "react";
+import { GITHUB } from "./utils/github";
 
 
 
 function App() {
+
+	const {changeFiles} = useFiles();
+	const {setCurrentProject, setIsProject} = useProjects();
+
+	useEffect(() => {
+
+		GITHUB.downloadTemplate('Welcome')
+		.then(template => {
+
+			setTimeout(() => {
+				
+				setCurrentProject({name: 'Welcome'});
+	
+				setIsProject(false);
+	
+				changeFiles(template);
+
+			}, 1000);
+		});
+		
+	}, []);
 
 	return (<div className="App">
 

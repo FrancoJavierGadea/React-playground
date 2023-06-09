@@ -101,6 +101,15 @@ export function javascriptSnippets(monaco){
         }
     };
 
-    monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
-    monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+    const disponse1 = monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
+    const disponse2 = monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+
+    return {
+        dispose(){
+
+            //console.log('dispose javascript snippets');
+            disponse1.dispose();
+            disponse2.dispose();
+        }
+    }
 }

@@ -66,7 +66,7 @@ function EditFile({fileName, className}) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={save}>Guardar</Button>
+                <Button variant="primary" onClick={save} disabled={name === getFileName(fileName)}>Guardar</Button>
             </Modal.Footer>
 
         </Modal>

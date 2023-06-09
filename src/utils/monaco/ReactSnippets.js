@@ -149,6 +149,15 @@ export function reactSnippets(monaco){
         }
     };
 
-    monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
-    monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+    const dispose1 = monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
+    const dispose2 = monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+
+    return {
+        dispose(){
+
+            //console.log('dispose react snippets');
+            dispose1.dispose();
+            dispose2.dispose();
+        }
+    }
 }

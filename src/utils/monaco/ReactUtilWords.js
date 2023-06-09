@@ -16,7 +16,9 @@ const REACT_EVENTS =  [
 
     'onDragStart', 'onDragEnd', 'onDragEnter', 'onDragLeave', 'onDragOver', 'onDrop',
 
-    'onFocus', 'onBlur', 'onCopy', 'onCut', 'onPaste',
+    'onFocus', 'onBlur',
+    
+    'onCopy', 'onCut', 'onPaste',
 
     'onInvalid', 'onSubmit', 'onReset',
 
@@ -98,6 +100,15 @@ export function reactUtilWords(monaco){
         }
     };
 
-    monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
-    monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+    const dispose1 = monaco.languages.registerCompletionItemProvider('javascript', completionItemProvider);
+    const dispose2 = monaco.languages.registerCompletionItemProvider('typescript', completionItemProvider);
+
+    return {
+        dispose(){
+
+            //console.log('dispose react utils words');
+            dispose1.dispose();
+            dispose2.dispose();
+        }
+    }
 }

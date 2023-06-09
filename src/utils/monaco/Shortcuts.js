@@ -2,7 +2,7 @@
 
 export function addCustomShortcuts(monaco){
 
-    monaco.editor.addKeybindingRules([
+    const dispose = monaco.editor.addKeybindingRules([
 
         {
             keybinding: monaco.KeyMod.CtrlCmd | monaco.KeyCode.NumpadMultiply,//ctrl + *
@@ -16,4 +16,14 @@ export function addCustomShortcuts(monaco){
             when: "editorTextFocus && !editorReadonly",
         },
     ]);
+
+    return {
+
+        dispose(){
+
+            //console.log('dispose shortcuts');
+
+            dispose.dispose();
+        }
+    }
 }

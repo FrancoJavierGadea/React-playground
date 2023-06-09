@@ -1,5 +1,5 @@
 import { Editor } from "@monaco-editor/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
 import styled, { useTheme } from "styled-components";
 import { BAR_OPTIONS_HEIGHT } from "../OptionsBar/OptionsBar";
@@ -16,6 +16,7 @@ import { markdownSnippets } from "../../utils/monaco/MarkdownSnippets";
 import { reactUtilWords } from "../../utils/monaco/ReactUtilWords";
 import { typescriptDiagnostic } from "../../utils/monaco/Typescript";
 import TypescriptChecking from "./TypescriptChecking";
+import { useProjects } from "../../context/ProjectsContext/ProjectsContext";
 
 
 const StyledEditor = styled.div`
@@ -65,6 +66,8 @@ function CustomEditor() {
 
     const [typescriptCheck, setTypescriptCheck] = useState(false);
 
+    const {currentProject} = useProjects();
+
     const editorOptions = {
         padding: {
             top: "20px",
@@ -77,28 +80,60 @@ function CustomEditor() {
         mouseWheelZoom: true,
     }
 
+    const pluginsRef = useRef([]);
+
+    useEffect(() => {
+        
+        return () => {
+
+            //Dispose plugins
+            pluginsRef.current.forEach(plugin => {
+
+                plugin.dispose();
+            });    
+        }
+
+    }, []);
+
     const handleEditorWillMount = useCallback((monaco) => {
 
-        //shortcuts
-        addCustomShortcuts(monaco);
+        //Dispose previous plugins
+        pluginsRef.current.forEach(plugin => {
 
-        //Add Snippets
-        javascriptSnippets(monaco);
-        reactSnippets(monaco);
-        markdownSnippets(monaco);
+            plugin.dispose();
+        });
 
-        //Util words
-        reactUtilWords(monaco);
+        //Dispose previous models
+        monaco.editor.getModels().forEach(model => {
 
-        //Add Emmet
-        Emmet(monaco);
+            model.dispose();
+        });
 
+        //console.log(monaco.editor.getModels());
+
+        const plugins = [
+
+            //Add Snippets
+            javascriptSnippets(monaco),
+            reactSnippets(monaco),
+            markdownSnippets(monaco),
+ 
+            //Util words
+            reactUtilWords(monaco),
+
+            //Add Emmet
+            Emmet(monaco),
+
+            //shortcuts
+            addCustomShortcuts(monaco),
+        ];
+
+        pluginsRef.current = plugins;
+        
         //Typescript Diagnostic
         typescriptDiagnostic(monaco).disabled();
 
     }, []);
-
-    const HighlighterRef = useRef(null);
 
     const handleEditorDidMount = useCallback((editor, monaco) => {
 
@@ -106,16 +141,10 @@ function CustomEditor() {
 
         monacoRef.current = monaco;
 
-        HighlighterRef.current = JSXSyntaxHighlighter(monaco, editor);
+        pluginsRef.current.push(
 
-    }, []);
-
-    useEffect(() => {
-        
-        return () => {
-
-            HighlighterRef.current?.dispose();
-        }
+            JSXSyntaxHighlighter(monaco, editor)
+        );
 
     }, []);
 
@@ -157,7 +186,10 @@ function CustomEditor() {
 
             options={editorOptions}
 
-        beforeMount={handleEditorWillMount} onMount={handleEditorDidMount} onChange={handlerChange} />
+            beforeMount={handleEditorWillMount} onMount={handleEditorDidMount} onChange={handlerChange} 
+
+            saveViewState={false} key={`Editor-${currentProject.name}`}
+        />
 
         <Controls />
 

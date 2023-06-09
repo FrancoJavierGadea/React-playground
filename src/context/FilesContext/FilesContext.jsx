@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import DefaultState from "../../assets/DefaultState.json";
 import { getFileName } from "../../utils/files";
 
+const getDefaultState = () => JSON.parse(JSON.stringify(DefaultState));
+
 const FilesContext = createContext();
 
 const defaultFile = ['/App.js', '/App.jsx', '/App.ts', '/App.tsx', '/index.html', '/readme.md'];
@@ -10,7 +12,7 @@ function FilesProvider({children}){
 
     const filesRef = useRef();
     
-    const [files, setFiles] = useState(DefaultState);
+    const [files, setFiles] = useState(getDefaultState());
 
     const [currentFile, setCurrentFile] = useState( defaultFile.find(fileName => DefaultState[fileName]?.name) );
 
@@ -23,11 +25,22 @@ function FilesProvider({children}){
 
     const reset = () => {
 
-        setFiles(DefaultState);
+        setFiles(getDefaultState());
         setCurrentFile( defaultFile.find(fileName => DefaultState[fileName]?.name) );
     }
 
     const changeFiles = (files) => {
+
+        //Setting order if not setting
+        Object.keys(files).forEach((key, i) => {
+
+            if(!files[key].order){
+
+                files[key].order = i + 1;
+            } 
+        });
+
+        //console.log(files);
 
         setFiles(files);
 
@@ -85,6 +98,8 @@ function FilesProvider({children}){
 
     const updateFileName = (fileName, newName) => {
 
+        if(fileName === newName) return;
+
         setFiles(old => {
 
 			const aux = {...old};
@@ -97,6 +112,11 @@ function FilesProvider({children}){
 
 			return aux;
 		});
+
+        if(fileName === currentFile){
+
+            setCurrentFile(newName);
+        }
     }
 
     const changeFileOrder = (fileA, fileB) => {

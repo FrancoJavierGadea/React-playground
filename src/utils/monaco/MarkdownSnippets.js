@@ -140,5 +140,13 @@ export function markdownSnippets(monaco){
         }
     };
 
-    monaco.languages.registerCompletionItemProvider('markdown', completionItemProvider);
+    const dispose = monaco.languages.registerCompletionItemProvider('markdown', completionItemProvider);
+
+    return {
+        dispose(){
+
+            //console.log('dispose markdown snippets');
+            dispose.dispose();
+        }
+    }
 }

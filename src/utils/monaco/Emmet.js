@@ -8,11 +8,15 @@ export function Emmet(monaco){
     const disposeJSX = emmetJSX(monaco, ['javascript', 'typescript']);
 
 
-    return () => {
+    return {
 
-        disposeHTML();
-        disposeCSS();
-        disposeJSX();
+        dispose(){
+
+            //console.log('dispose emmet');
+            disposeHTML();
+            disposeCSS();
+            disposeJSX();
+        }
     }
 }
 
